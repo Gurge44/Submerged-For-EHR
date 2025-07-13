@@ -3,6 +3,7 @@ using HarmonyLib;
 using Submerged.Enums;
 using Submerged.Extensions;
 using Submerged.Floors;
+using Submerged.Map;
 using UnityEngine;
 using static Submerged.Vents.VentPatchData;
 
@@ -11,7 +12,7 @@ namespace Submerged.Vents.Patches;
 [HarmonyPatch]
 public static class EngineVentPatches
 {
-    private static VentilationSystem VentSystem => ShipStatus.Instance ? ShipStatus.Instance.Systems[SystemTypes.Ventilation].Cast<VentilationSystem>() : null;
+    private static VentilationSystem VentSystem => ShipStatus.Instance ? SubmarineStatus.systems[SystemTypes.Ventilation].Cast<VentilationSystem>() : null;
 
     [HarmonyPatch(typeof(VentilationSystem), nameof(VentilationSystem.IsVentCurrentlyBeingCleaned))]
     [HarmonyPostfix]

@@ -24,7 +24,7 @@ public static class RpcPatches
                 bool state = reader.ReadBoolean();
                 int sid = reader.ReadInt32();
 
-                if (!floorSystem.playerFloorSids.ContainsKey(__instance.myPlayer.PlayerId) || floorSystem.playerFloorSids[__instance.myPlayer.PlayerId] <= sid)
+                if (!floorSystem.playerFloorSids.TryGetValue(__instance.myPlayer.PlayerId, out int oldSid) || oldSid <= sid)
                 {
                     floorSystem.playerFloorSids[__instance.myPlayer.PlayerId] = sid;
                     floorSystem!.ChangePlayerFloorState(__instance.myPlayer.PlayerId, state);

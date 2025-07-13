@@ -42,6 +42,8 @@ public sealed class SubmarineSpawnInSystem(nint ptr) : CppObject(ptr), AU.ISyste
             return;
         }
 
+        if (currentState == SpawnInState.Done) return;
+
         currentState++;
         players.Clear();
         timer = 10;
@@ -53,6 +55,11 @@ public sealed class SubmarineSpawnInSystem(nint ptr) : CppObject(ptr), AU.ISyste
         currentState = (SpawnInState) reader.ReadByte();
         players = reader.ReadBytesAndSize().ToHashSet();
         timer = reader.ReadSingle();
+    }
+
+    public void MarkClean()
+    {
+        IsDirty = false;
     }
 
     public void Serialize(MessageWriter writer, bool initialState)

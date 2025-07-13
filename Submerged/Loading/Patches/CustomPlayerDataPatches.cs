@@ -29,9 +29,9 @@ public class CustomPlayerDataPatches
             data.HasMap = mapLoaded;
         }
 
-        MessageWriter messageWriter = AmongUsClient.Instance.StartRpc(playerControl.NetId, CustomRpcCalls.SetCustomData);
+        MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(playerControl.NetId, CustomRpcCalls.SetCustomData, SendOption.Reliable);
         messageWriter.Write(mapLoaded);
-        messageWriter.EndMessage();
+        AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
     }
 
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.HandleRpc))]

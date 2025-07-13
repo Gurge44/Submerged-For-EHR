@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 using BepInEx.Unity.IL2CPP.Utils;
+using HarmonyLib;
 using Il2CppInterop.Runtime.Attributes;
 using Il2CppInterop.Runtime.InteropTypes;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
@@ -30,6 +31,8 @@ namespace Submerged.Map;
 public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
 {
     public static SubmarineStatus instance;
+
+    public static ICG.Dictionary<SystemTypes, ISystemType> systems { get; set; } = new();
 
     public ShipStatus normalShip;
     public List<SubmarineElevator> elevators = [];
@@ -142,6 +145,9 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
     private void Start()
     {
         this.StartCoroutine(CoAddShadows());
+
+        foreach (DeconSystem componentsInChild in normalShip.GetComponentsInChildren<DeconSystem>())
+            systems.Add(componentsInChild.TargetSystem, componentsInChild.Cast<ISystemType>());
     }
 
     private void Update()
@@ -182,35 +188,35 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
         FollowerCamera followerCam = Camera.main!.GetComponent<FollowerCamera>();
         if (followerCam) followerCam.shakeAmount = followerCam.shakePeriod = 0;
 
-        normalShip.Systems = new ICG.Dictionary<SystemTypes, ISystemType>(ShipStatus.SystemTypeComparer.Instance.Cast<ICG.IEqualityComparer<SystemTypes>>());
+        systems = new ICG.Dictionary<SystemTypes, ISystemType>(ShipStatus.SystemTypeComparer.Instance.Cast<ICG.IEqualityComparer<SystemTypes>>());
 
-        normalShip.Systems.Add(SystemTypes.Comms, new HudOverrideSystemType().Cast<ISystemType>());
-        normalShip.Systems.Add(SystemTypes.Doors, new DoorsSystemType().Cast<ISystemType>());
-        normalShip.Systems.Add(SystemTypes.Electrical, (switchSystem = new SwitchSystem()).Cast<ISystemType>());
-        normalShip.Systems.Add(SystemTypes.MedBay, new MedScanSystem().Cast<ISystemType>());
-        normalShip.Systems.Add(SystemTypes.Reactor, new ReactorSystemType(45f, SystemTypes.Reactor).Cast<ISystemType>());
-        normalShip.Systems.Add(SystemTypes.Security, new SecurityCameraSystemType().Cast<ISystemType>());
-        normalShip.Systems.Add(SystemTypes.Ventilation, new VentilationSystem().Cast<ISystemType>());
+        systems.Add(SystemTypes.Comms, new HudOverrideSystemType().Cast<ISystemType>());
+        systems.Add(SystemTypes.Doors, new DoorsSystemType().Cast<ISystemType>());
+        systems.Add(SystemTypes.Electrical, (switchSystem = new SwitchSystem()).Cast<ISystemType>());
+        systems.Add(SystemTypes.MedBay, new MedScanSystem().Cast<ISystemType>());
+        systems.Add(SystemTypes.Reactor, new ReactorSystemType(45f, SystemTypes.Reactor).Cast<ISystemType>());
+        systems.Add(SystemTypes.Security, new SecurityCameraSystemType().Cast<ISystemType>());
+        systems.Add(SystemTypes.Ventilation, new VentilationSystem().Cast<ISystemType>());
 
-        normalShip.Systems.Add(CustomSystemTypes.UpperCentral, new SubmarineOxygenSystem(30f).Cast<ISystemType>());
+        systems.Add(CustomSystemTypes.UpperCentral, new SubmarineOxygenSystem(30f).Cast<ISystemType>());
 
-        normalShip.Systems.Add(CustomSystemTypes.ElevatorHallwayLeft,
+        systems.Add(CustomSystemTypes.ElevatorHallwayLeft,
                                      new SubmarineElevatorSystem(CustomSystemTypes.ElevatorHallwayLeft, false, CustomSystemTypes.ElevatorHallwayRight).Cast<ISystemType>());
-        normalShip.Systems.Add(CustomSystemTypes.ElevatorHallwayRight,
+        systems.Add(CustomSystemTypes.ElevatorHallwayRight,
                                      new SubmarineElevatorSystem(CustomSystemTypes.ElevatorHallwayRight, true, CustomSystemTypes.ElevatorHallwayLeft).Cast<ISystemType>());
-        normalShip.Systems.Add(CustomSystemTypes.ElevatorLobbyLeft,
+        systems.Add(CustomSystemTypes.ElevatorLobbyLeft,
                                      new SubmarineElevatorSystem(CustomSystemTypes.ElevatorLobbyLeft, true, CustomSystemTypes.ElevatorLobbyRight).Cast<ISystemType>());
-        normalShip.Systems.Add(CustomSystemTypes.ElevatorLobbyRight,
+        systems.Add(CustomSystemTypes.ElevatorLobbyRight,
                                      new SubmarineElevatorSystem(CustomSystemTypes.ElevatorLobbyRight, false, CustomSystemTypes.ElevatorLobbyLeft).Cast<ISystemType>());
-        normalShip.Systems.Add(CustomSystemTypes.ElevatorService,
+        systems.Add(CustomSystemTypes.ElevatorService,
                                      new SubmarineElevatorSystem(CustomSystemTypes.ElevatorService, false).Cast<ISystemType>());
 
-        normalShip.Systems.Add(CustomSystemTypes.SubmarineFloor, new SubmarinePlayerFloorSystem().Cast<ISystemType>());
-        normalShip.Systems.Add(CustomSystemTypes.SecuritySabotage, new SubmarineSecuritySabotageSystem().Cast<ISystemType>());
-        normalShip.Systems.Add(CustomSystemTypes.SpawnIn, new SubmarineSpawnInSystem().Cast<ISystemType>());
-        normalShip.Systems.Add(CustomSystemTypes.BoxCat, new SubmarineBoxCatSystem().Cast<ISystemType>());
+        systems.Add(CustomSystemTypes.SubmarineFloor, new SubmarinePlayerFloorSystem().Cast<ISystemType>());
+        systems.Add(CustomSystemTypes.SecuritySabotage, new SubmarineSecuritySabotageSystem().Cast<ISystemType>());
+        systems.Add(CustomSystemTypes.SpawnIn, new SubmarineSpawnInSystem().Cast<ISystemType>());
+        systems.Add(CustomSystemTypes.BoxCat, new SubmarineBoxCatSystem().Cast<ISystemType>());
 
-        normalShip.Systems.Add(SystemTypes.Sabotage, new SabotageSystemType(GetActivatableSystems(normalShip.Systems)).Cast<ISystemType>());
+        systems.Add(SystemTypes.Sabotage, new SabotageSystemType(GetActivatableSystems(systems)).Cast<ISystemType>());
 
         normalShip.SystemNames = new[]
         {
@@ -227,7 +233,8 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
     {
         IEnumerable<IActivatable> enumerator()
         {
-            foreach (ISystemType system in systems.values ??= new ICG.Dictionary<SystemTypes, ISystemType>.ValueCollection(systems))
+            if (systems == null || systems.Count == 0) yield break;
+            foreach (ISystemType system in systems.Values)
             {
                 if (system is Il2CppObjectBase iObj && iObj.TryCast<IActivatable>() is { } activatable)
                 {
@@ -596,4 +603,18 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
 
     private static IEnumerable<PlayerTask> GetAllTasks(ShipStatus ship)
         => ship.ShortTasks.Concat(ship.CommonTasks).Concat(ship.LongTasks).Concat(ship.SpecialTasks);
+}
+
+[HarmonyPatch]
+public static class SubmarineStatusPatches
+{
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.FixedUpdate))]
+    [HarmonyPostfix]
+    public static void AddSubmarineStatusComponentPatch(ShipStatus __instance)
+    {
+        if (!__instance.IsSubmerged()) return;
+
+        if (SubmarineSpawnInSystem.Instance != null)
+            SubmarineSpawnInSystem.Instance.Deteriorate(Time.fixedDeltaTime);
+    }
 }

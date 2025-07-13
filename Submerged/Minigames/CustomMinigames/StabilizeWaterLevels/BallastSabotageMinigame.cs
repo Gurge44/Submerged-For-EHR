@@ -1,5 +1,6 @@
 ﻿using Reactor.Utilities.Attributes;
 using Submerged.BaseGame.Extensions;
+using Submerged.Map;
 using UnityEngine;
 
 namespace Submerged.Minigames.CustomMinigames.StabilizeWaterLevels;
@@ -22,7 +23,7 @@ public sealed class BallastSabotageMinigame(nint ptr) : Minigame(ptr)
 
     private void Start()
     {
-        _reactor = ShipStatus.Instance.Systems[MyTask.StartAt].Cast<ReactorSystemType>();
+        _reactor = SubmarineStatus.systems[MyTask.StartAt].Cast<ReactorSystemType>();
         gauge = transform.Find("Background/Bar").GetComponent<SpriteRenderer>();
         _elapsed = 0f;
         SetToValue(UnityRandom.Range(0, 1f));

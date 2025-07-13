@@ -1,6 +1,7 @@
 using HarmonyLib;
 using Submerged.Extensions;
 using Submerged.Floors;
+using Submerged.Map;
 using UnityEngine;
 using static Submerged.Vents.VentPatchData;
 
@@ -26,7 +27,7 @@ public static class CrossFloorVentPatches
                 ? Color.yellow
                 : Color.white;
 
-            __instance.UpdateArrows(ShipStatus.Instance.Systems[SystemTypes.Ventilation].Cast<VentilationSystem>());
+            __instance.UpdateArrows(SubmarineStatus.systems[SystemTypes.Ventilation].Cast<VentilationSystem>());
         }
     }
 

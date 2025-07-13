@@ -8,6 +8,7 @@ using Submerged.BaseGame.Extensions;
 using Submerged.Enums;
 using Submerged.Floors;
 using Submerged.Localization.Strings;
+using Submerged.Map;
 using Submerged.SpawnIn.Enums;
 using TMPro;
 using UnityEngine;
@@ -284,6 +285,12 @@ public class SubmarineSelectSpawn(nint ptr) : Minigame(ptr)
         yield return null;
 
         Cleanup(GameManager.Instance.IsNormal());
+
+
+        ShipStatus.Instance.Systems.Clear();
+
+        foreach (ICG.KeyValuePair<SystemTypes, ISystemType> keyValuePair in SubmarineStatus.systems)
+            ShipStatus.Instance.Systems.Add(keyValuePair.Key, keyValuePair.Value);
     }
 
     [HideFromIl2Cpp]
@@ -407,16 +414,21 @@ public class SubmarineSelectSpawn(nint ptr) : Minigame(ptr)
         yield break;
     }
 
-    [BaseGameCode(LastChecked.v2024_8_13, "Part of this method is from ExileController.ReEnableGameplay")]
+    [BaseGameCode(LastChecked.v2025_5_20, "Part of this method is from ExileController.ReEnableGameplay")]
     private void Cleanup(bool unfade = true)
     {
-        if (unfade) HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.black, Color.clear));
+        if (unfade)
+        {
+            HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.black, Color.clear));
+        }
 
         PlayerControl.LocalPlayer.moveable = true;
         PlayerControl.LocalPlayer.SetKillTimer(GameManager.Instance.LogicOptions.GetKillCooldown());
         ShipStatus.Instance.EmergencyCooldown = GameManager.Instance.LogicOptions.GetEmergencyCooldown();
         HudManager.Instance.PlayerCam.Locked = false;
+        HudManager.Instance.SetMapButtonEnabled(true);
         HudManager.Instance.SetHudActive(true);
+        ControllerManager.Instance.CloseAndResetAll();
 
         int emergencyCooldown = GameManager.Instance.LogicOptions.GetEmergencyCooldown();
         SetSabotageTimers(Math.Clamp(emergencyCooldown - 5, 0, 15));
@@ -429,13 +441,13 @@ public class SubmarineSelectSpawn(nint ptr) : Minigame(ptr)
         // Base game maps don't have any sabotage cooldown after meetings
         // Apparently submerged does. Idk why
 
-        SabotageSystemType saboSystem = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
+        SabotageSystemType saboSystem = SubmarineStatus.systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
         saboSystem.IsDirty = true;
         // AccessTools.PropertySetter(typeof(SabotageSystemType), nameof(ISystemType.IsDirty)).Invoke(saboSystem, new object[] { true });
         // saboSystem.ForceSabTime(0);
         saboSystem.Timer = timer;
 
-        DoorsSystemType doorSystem = ShipStatus.Instance.Systems[SystemTypes.Doors].Cast<DoorsSystemType>();
+        DoorsSystemType doorSystem = SubmarineStatus.systems[SystemTypes.Doors].Cast<DoorsSystemType>();
         doorSystem.IsDirty = true;
         // AccessTools.PropertySetter(typeof(DoorsSystemType), nameof(ISystemType.IsDirty)).Invoke(doorSystem, new object[] { true });
         doorSystem.timers[CustomSystemTypes.Observatory] = timer;
