@@ -65,6 +65,9 @@ public sealed class ResetBreakersMinigame(nint ptr) : Minigame(ptr)
         {
             circutBreakers[i].targetChar = chars[i];
             circutBreakers[i].character.sprite = letters.FirstOrDefault(l => l.name.Contains($"_{chars[i].ToString().ToUpper()}"));
+
+            // Hide the character due to the bug in CircuitBreaker.cs
+            circutBreakers[i].character.enabled = false;
         }
     }
 

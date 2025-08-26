@@ -1,4 +1,7 @@
-﻿using Reactor.Utilities.Attributes;
+﻿using System;
+using BepInEx.Unity.IL2CPP.Utils.Collections;
+using Il2CppInterop.Runtime.Attributes;
+using Reactor.Utilities.Attributes;
 using UnityEngine;
 
 namespace Submerged.Minigames.CustomMinigames.ResetBreakers.MonoBehaviours;
@@ -18,7 +21,7 @@ public sealed class CircuitBreaker(nint ptr) : MonoBehaviour(ptr)
 
     public void Awake()
     {
-        complete = UnityRandom.Range(0, 1f) > 0.5f;
+        complete = false /*UnityRandom.Range(0, 1f) > 0.5f*/;
 
         on = transform.Find("On").gameObject;
         off = transform.Find("Off").gameObject;
@@ -26,16 +29,25 @@ public sealed class CircuitBreaker(nint ptr) : MonoBehaviour(ptr)
 
         on.SetActive(complete);
         off.SetActive(!complete);
+
+        StartCoroutine(CompleteAfterDelay(UnityRandom.Range(1f, 5f)).WrapToIl2Cpp());
     }
 
-    public void Update()
+    private IEnumerator CompleteAfterDelay(float delay)
     {
-        if (Input.GetKeyDown(targetChar.ToString().ToLower()))
-        {
-            SoundManager.Instance.PlaySound(breakerClick, false);
-            SetState(!complete);
-        }
+        yield return new WaitForSeconds(delay);
+        SetState(true);
     }
+
+    // For some reason, Input.GetKeyDown always returns true, causing every breaker to flicker uncontrollably.
+    // public void Update()
+    // {
+    //     if (Input.GetKeyDown(targetChar.ToString().ToLower()))
+    //     {
+    //         SoundManager.Instance.PlaySound(breakerClick, false);
+    //         SetState(!complete);
+    //     }
+    // }
 
     public void SetState(bool state)
     {
