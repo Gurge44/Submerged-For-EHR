@@ -9,8 +9,8 @@
 
 namespace Submerged.Localization.Strings {
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,15 +22,15 @@ namespace Submerged.Localization.Strings {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Locations {
-        
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal Locations() {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
@@ -44,7 +44,7 @@ namespace Submerged.Localization.Strings {
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
@@ -58,7 +58,7 @@ namespace Submerged.Localization.Strings {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Ballast.
         /// </summary>
@@ -67,7 +67,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("Ballast", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Central.
         /// </summary>
@@ -76,7 +76,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("Central", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Lower Central.
         /// </summary>
@@ -85,7 +85,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("Central.Lower", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Upper Central.
         /// </summary>
@@ -94,7 +94,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("Central.Upper", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Lower Deck.
         /// </summary>
@@ -103,7 +103,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("Deck.Lower", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Upper Deck.
         /// </summary>
@@ -112,7 +112,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("Deck.Upper", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Elevator.
         /// </summary>
@@ -121,7 +121,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("Elevator", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Service Elevator.
         /// </summary>
@@ -130,7 +130,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("Elevator.Service", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Filtration.
         /// </summary>
@@ -139,7 +139,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("Filtration", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Lobby.
         /// </summary>
@@ -148,7 +148,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("Lobby", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Lower Lobby.
         /// </summary>
@@ -157,7 +157,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("Lobby.Lower", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Upper Lobby.
         /// </summary>
@@ -166,7 +166,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("Lobby.Upper", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Observatory.
         /// </summary>
@@ -175,7 +175,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("Observatory", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Research.
         /// </summary>

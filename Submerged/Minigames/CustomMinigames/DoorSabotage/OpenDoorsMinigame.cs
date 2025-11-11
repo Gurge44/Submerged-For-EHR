@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel;
+using System.Linq;
 using Reactor.Utilities.Attributes;
+using Reactor.Utilities.Extensions;
 using Submerged.BaseGame.Interfaces;
-using Submerged.Extensions;
 using TMPro;
 using UnityEngine;
 
@@ -30,7 +31,7 @@ public class OpenDoorsMinigameNoInterface(nint ptr) : Minigame(ptr)
     private Collider2D _handleCollider;
     private bool _letterSelected;
 
-    private char _targetLetter;
+    private KeyCode _targetKey;
     private float _timer;
 
     protected OpenableDoor myDoor;
@@ -42,8 +43,8 @@ public class OpenDoorsMinigameNoInterface(nint ptr) : Minigame(ptr)
         errorScreen = transform.Find("Error Screen").gameObject;
         handle = transform.Find("Rotated/Handle").gameObject;
 
-        _targetLetter = SetRandomChar();
-        character.text = _targetLetter.ToString();
+        _targetKey = GetRandomKey();
+        character.text = _targetKey.ToString()[^1..];
         _handleCollider = handle.GetComponent<Collider2D>();
     }
 
@@ -66,7 +67,7 @@ public class OpenDoorsMinigameNoInterface(nint ptr) : Minigame(ptr)
 
         _controller.Update();
 
-        if (Input.GetKeyDown(_targetLetter.ToString().ToLower()))
+        if (Input.GetKeyDown(_targetKey))
         {
             finishedScreen.SetActive(true);
             _letterSelected = true;
@@ -75,11 +76,12 @@ public class OpenDoorsMinigameNoInterface(nint ptr) : Minigame(ptr)
         CheckHandle();
     }
 
-    public char SetRandomChar()
+    private KeyCode GetRandomKey()
     {
-        char[] chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".ToCharArray();
-
-        return chars.Random();
+        return Enumerable.Range((int) KeyCode.A, 26)
+            .Concat(Enumerable.Range((int) KeyCode.Alpha0, 10))
+            .Select(k => (KeyCode) k)
+            .Random();
     }
 
     public void Finish()

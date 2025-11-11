@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Submerged.Enums;
 
-public readonly struct CustomSystemTypes
+public readonly struct CustomSystemTypes : IEquatable<CustomSystemTypes>
 {
     internal static void Initialize()
     {
@@ -97,4 +98,14 @@ public readonly struct CustomSystemTypes
     // ReSharper restore InconsistentNaming
 
     #endregion
+
+    public bool Equals(CustomSystemTypes other) => systemType == other.systemType;
+
+    public override bool Equals(object obj) => obj is CustomSystemTypes other && Equals(other);
+
+    public override int GetHashCode() => (int)systemType;
+
+    public static bool operator ==(CustomSystemTypes left, CustomSystemTypes right) => left.Equals(right);
+
+    public static bool operator !=(CustomSystemTypes left, CustomSystemTypes right) => !left.Equals(right);
 }

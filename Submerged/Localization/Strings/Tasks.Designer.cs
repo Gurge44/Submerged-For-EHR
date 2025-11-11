@@ -9,8 +9,8 @@
 
 namespace Submerged.Localization.Strings {
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,15 +22,15 @@ namespace Submerged.Localization.Strings {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Tasks {
-        
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal Tasks() {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
@@ -44,7 +44,7 @@ namespace Submerged.Localization.Strings {
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
@@ -58,7 +58,7 @@ namespace Submerged.Localization.Strings {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to ACTIVE.
         /// </summary>
@@ -67,7 +67,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("CamsSabotage.Active", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to DISABLED.
         /// </summary>
@@ -76,7 +76,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("CamsSabotage.Disabled", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to REPAIRING.
         /// </summary>
@@ -85,7 +85,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("CamsSabotage.Repairing", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Clean Glass.
         /// </summary>
@@ -94,7 +94,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("CleanGlass", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Clear Urchins.
         /// </summary>
@@ -103,7 +103,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("ClearUrchins", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Cycle Reactor.
         /// </summary>
@@ -112,7 +112,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("CycleReactor", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to RPM:{0}.
         /// </summary>
@@ -121,7 +121,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("CycleReactor.RPM", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Diagnose Elevators.
         /// </summary>
@@ -130,7 +130,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("DiagnoseElevators", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to DIAGNOSE.
         /// </summary>
@@ -139,7 +139,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("DiagnoseElevators.Diagnose", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Dispense Water.
         /// </summary>
@@ -148,7 +148,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("DispenseWater", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Feed Pet Fish.
         /// </summary>
@@ -157,7 +157,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("FeedPetFish", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Identify Specimen.
         /// </summary>
@@ -166,7 +166,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("IdentifySpecimen", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Moral support puffer.
         /// </summary>
@@ -175,7 +175,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("IdentifySpecimen.Pufferfish", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Locate Volcanic Activity.
         /// </summary>
@@ -184,7 +184,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("LocateVolcanicActivity", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Conical Stratovolcano
         ///Height: 7,800 feet
@@ -196,7 +196,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("LocateVolcanicActivity.Complete", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Conical Stratovolcano
         ///Height: 7,800 feet
@@ -208,7 +208,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("LocateVolcanicActivity.Incomplete", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Microwave Lunch.
         /// </summary>
@@ -217,7 +217,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("MicrowaveLunch", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Cook: {0}s
         ///Note to self:
@@ -230,7 +230,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("MicrowaveLunch.CookTime", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Remember to clean after use.
         ///
@@ -242,7 +242,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("MicrowaveLunch.PostItGreen", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Please don&apos;t eat my slice of pizza!
         ///        - Pink.
@@ -252,7 +252,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("MicrowaveLunch.PostItPink", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to {0}:{1}.
         /// </summary>
@@ -261,7 +261,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("MicrowaveLunch.TaskTimer", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Mop Puddles.
         /// </summary>
@@ -270,7 +270,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("MopPuddles", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Oxygenate Sea Plants.
         /// </summary>
@@ -279,7 +279,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("OxygenateSeaPlants", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Plug Leaks.
         /// </summary>
@@ -288,7 +288,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("PlugLeaks", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Purchase Breakfast.
         /// </summary>
@@ -297,7 +297,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("PurchaseBreakfast", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to OFFERS:.
         /// </summary>
@@ -306,7 +306,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("PurchaseBreakfast.Offers", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Reconnect Piping.
         /// </summary>
@@ -315,7 +315,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("ReconnectPiping", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;b&gt;&lt;size=125%&gt;HIGH&lt;/size&gt;
         ///PRESSURE&lt;/b&gt;.
@@ -325,7 +325,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("ReconnectPiping.HighPressure", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Record Nav Beacon Data.
         /// </summary>
@@ -334,7 +334,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("RecordNavBeaconData", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Message received..
         /// </summary>
@@ -343,7 +343,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("RecordNavBeaconData.Done", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Enter Navigation
         ///Beacon Coordinates.
@@ -353,7 +353,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("RecordNavBeaconData.Enter", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Incoming message....
         /// </summary>
@@ -362,7 +362,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("RecordNavBeaconData.Wait", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Reset Breakers.
         /// </summary>
@@ -371,7 +371,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("ResetBreakers", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Reshelve Books.
         /// </summary>
@@ -380,7 +380,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("ReshelveBooks", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;size=125%&gt;A&lt;/size&gt;quarium Care.
         /// </summary>
@@ -389,7 +389,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("ReshelveBooks.Book01", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;size=125%&gt;B&lt;/size&gt;enthic Beasts.
         /// </summary>
@@ -398,7 +398,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("ReshelveBooks.Book02-Lounge", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;size=125%&gt;C&lt;/size&gt;avern Critters.
         /// </summary>
@@ -407,7 +407,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("ReshelveBooks.Book03", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;size=125%&gt;E&lt;/size&gt;xotic Sea Life.
         /// </summary>
@@ -416,7 +416,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("ReshelveBooks.Book04", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;size=125%&gt;F&lt;/size&gt;inding Grimo.
         /// </summary>
@@ -425,7 +425,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("ReshelveBooks.Book05", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;size=125%&gt;I&lt;/size&gt;chthyology 101.
         /// </summary>
@@ -434,7 +434,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("ReshelveBooks.Book06-Lounge", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;size=125%&gt;J&lt;/size&gt;immy The Sail Fish.
         /// </summary>
@@ -443,7 +443,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("ReshelveBooks.Book07", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;size=125%&gt;K&lt;/size&gt;epler Worms.
         /// </summary>
@@ -452,7 +452,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("ReshelveBooks.Book08-Medical", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;size=125%&gt;M&lt;/size&gt;angrove
         ///Monday.
@@ -462,7 +462,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("ReshelveBooks.Book09", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;size=125%&gt;N&lt;/size&gt;autical Nonsense.
         /// </summary>
@@ -471,7 +471,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("ReshelveBooks.Book10-Medical", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;size=125%&gt;O&lt;/size&gt;ctopus Digest.
         /// </summary>
@@ -480,7 +480,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("ReshelveBooks.Book11-Lounge", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;size=125%&gt;P&lt;/size&gt;incer Danger!.
         /// </summary>
@@ -489,7 +489,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("ReshelveBooks.Book12", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;size=125%&gt;S&lt;/size&gt;ea Slugs &amp; You!.
         /// </summary>
@@ -498,7 +498,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("ReshelveBooks.Book13-Medical", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;size=125%&gt;V&lt;/size&gt;enomous
         ///Floaters.
@@ -508,7 +508,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("ReshelveBooks.Book14", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;size=125%&gt;W&lt;/size&gt;ailing Waters.
         /// </summary>
@@ -517,7 +517,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("ReshelveBooks.Book15", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Retrieve Oxygen Mask.
         /// </summary>
@@ -526,7 +526,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("RetrieveOxygenMask", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Shoot Depth Charges.
         /// </summary>
@@ -535,7 +535,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("ShootDepthCharges", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Charges Remaining: {0}.
         /// </summary>
@@ -544,7 +544,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("ShootDepthCharges.Remaining", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sort Scuba Gear.
         /// </summary>
@@ -553,7 +553,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("SortScubaGear", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Loading... ({0}/{1}).
         /// </summary>
@@ -562,7 +562,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("SpawnIn.Bottom.Loading", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Ready Players: {0}/{1}.
         /// </summary>
@@ -571,7 +571,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("SpawnIn.Bottom.Spawning", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Waiting for Other Players....
         /// </summary>
@@ -580,7 +580,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("SpawnIn.Top.LoadingClicked", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Waiting for Other Players... ({0}s).
         /// </summary>
@@ -589,7 +589,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("SpawnIn.Top.SpawningClicked", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Waiting for the Impostor... ({0}s).
         /// </summary>
@@ -598,7 +598,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("SpawnIn.Top.SpawningHnS", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Time Remaining: {0}s.
         /// </summary>
@@ -607,7 +607,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("SpawnIn.Top.SpawningNotClicked", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Spot Whale Shark.
         /// </summary>
@@ -616,7 +616,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("SpotWhaleShark", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to In Range {0}s.
         /// </summary>
@@ -625,7 +625,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("SpotWhaleShark.InRange", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Not Visible {0}s.
         /// </summary>
@@ -634,7 +634,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("SpotWhaleShark.NotVisible", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Stabilize Water Levels.
         /// </summary>
@@ -643,7 +643,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("StabilizeWaterLevels", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Start Submersible.
         /// </summary>
@@ -652,7 +652,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("StartSubmersible", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to AUX ENGINES.
         /// </summary>
@@ -661,7 +661,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("StartSubmersible.AuxEngines", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to EXT. SYSTEMS.
         /// </summary>
@@ -670,7 +670,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("StartSubmersible.ExternalSystems", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to MAIN ENGINES.
         /// </summary>
@@ -679,7 +679,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("StartSubmersible.MainEngines", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to SHIELDS.
         /// </summary>
@@ -688,7 +688,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("StartSubmersible.Shields", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Status: Active.
         /// </summary>
@@ -697,7 +697,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("StartSubmersible.Status.Active", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Status: Inactive.
         /// </summary>
@@ -706,7 +706,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("StartSubmersible.Status.Inactive", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Status: Starting....
         /// </summary>
@@ -715,7 +715,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("StartSubmersible.Status.Starting", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to WEAPONS.
         /// </summary>
@@ -724,7 +724,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("StartSubmersible.Weapons", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Steady Heartbeat.
         /// </summary>
@@ -733,7 +733,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("SteadyHeartbeat", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Heart
         ///Rate.
@@ -743,7 +743,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("SteadyHeartbeat.BPMLeft", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to {0}
         ///BPM.
@@ -753,7 +753,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("SteadyHeartbeat.BPMRight", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Status: {0}.
         /// </summary>
@@ -762,7 +762,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("SteadyHeartbeat.Status", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Irregular.
         /// </summary>
@@ -771,7 +771,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("SteadyHeartbeat.Status.Irregular", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Stabilizing.
         /// </summary>
@@ -780,7 +780,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("SteadyHeartbeat.Status.Stabilizing", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Stable.
         /// </summary>
@@ -789,7 +789,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("SteadyHeartbeat.Status.Stable", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;u&gt;Patient Notes&lt;/u&gt;
         ///
@@ -802,7 +802,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("SteadyHeartbeat.Target", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Track Manta Ray.
         /// </summary>
@@ -811,7 +811,7 @@ namespace Submerged.Localization.Strings {
                 return ResourceManager.GetString("TrackMantaRay", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Tracking: {0}%.
         /// </summary>

@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using Hazel;
 using Il2CppInterop.Runtime.Injection;
-using InnerNet;
 using Reactor.Utilities.Attributes;
-using Submerged.Enums;
 using Submerged.Extensions;
 using AU = Submerged.BaseGame.Interfaces.AU;
 
@@ -72,13 +70,5 @@ public sealed class SubmarinePlayerFloorSystem(nint ptr) : CppObject(ptr), AU.IS
     {
         IsDirty = true;
         playerFloorStates[playerId] = state;
-    }
-
-    public static void RespondToFloorChange(PlayerPhysics physics, int sid)
-    {
-        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, CustomRpcCalls.AcknowledgeChangeFloor, SendOption.Reliable);
-        writer.WriteNetObject(physics);
-        writer.Write(sid);
-        AmongUsClient.Instance.FinishRpcImmediately(writer);
     }
 }
