@@ -36,11 +36,13 @@ public sealed class ReshelveBooksMinigame(nint ptr) : Minigame(ptr)
                 loungeTask.minigame = this;
 
                 break;
+
             case 1:
                 ReshelvePart1 medicalTask = medical.AddComponent<ReshelvePart1>();
                 medicalTask.minigame = this;
 
                 break;
+
             case 2:
                 ReshelvePart2 part2Task = part2.AddComponent<ReshelvePart2>();
                 part2Task.minigame = this;

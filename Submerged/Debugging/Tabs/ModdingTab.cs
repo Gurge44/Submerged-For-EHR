@@ -30,8 +30,10 @@ public class ModdingTab : IDebugTab
 
         if (GUILayout.Button("Load Unity Explorer"))
         {
-            Assembly unityExplorerAssembly = Assembly.LoadFile(Path.Combine(Paths.PluginPath, "sinai-dev-UnityExplorer", "UnityExplorer.plugin"));
-            ((BasePlugin) Activator.CreateInstance(unityExplorerAssembly.GetType("UnityExplorer.ExplorerBepInPlugin")!))!.Load();
+            Assembly unityExplorerAssembly =
+                Assembly.LoadFile(Path.Combine(Paths.PluginPath, "sinai-dev-UnityExplorer", "UnityExplorer.plugin"));
+            ((BasePlugin) Activator.CreateInstance(unityExplorerAssembly.GetType("UnityExplorer.ExplorerBepInPlugin")!))
+                !.Load();
         }
 
         if (GUILayout.Button("Hide Loading"))
@@ -43,14 +45,18 @@ public class ModdingTab : IDebugTab
 
         if (GUILayout.Button("Open Task Picker"))
         {
-            Minigame minigamePrefab = MapLoader.Skeld.transform.GetComponentsInChildren<SystemConsole>().First(c => c.FreeplayOnly).MinigamePrefab;
+            Minigame minigamePrefab = MapLoader.Skeld.transform.GetComponentsInChildren<SystemConsole>()
+                .First(c => c.FreeplayOnly)
+                .MinigamePrefab;
             PlayerControl.LocalPlayer.NetTransform.Halt();
             Minigame minigame = UnityObject.Instantiate(minigamePrefab, Camera.main!.transform, false);
-            minigame.transform.localPosition = new Vector3(0f, 0f, -50f);
+            minigame.transform.localPosition = new(0f, 0f, -50f);
             minigame.Begin(null);
         }
 
-        PlayerControl.LocalPlayer.Collider.enabled = GUILayout.Toggle(PlayerControl.LocalPlayer.Collider.enabled, "Enable Collision", new GUIStyle(GUI.skin.button));
+        PlayerControl.LocalPlayer.Collider.enabled = GUILayout.Toggle(PlayerControl.LocalPlayer.Collider.enabled,
+            "Enable Collision",
+            new GUIStyle(GUI.skin.button));
 
         if (GUILayout.Button("Murder Self (O2)"))
         {
@@ -71,7 +77,9 @@ public class ModdingTab : IDebugTab
             PlayerControl.AllPlayerControls.ToArray().First(p => !p.Data.IsDead).CmdReportDeadBody(null);
         }
 
-        if (GUILayout.Button("Teleport Dummy")) PlayerControl.AllPlayerControls.ToArray().First(p => p.isDummy).transform.position = PlayerControl.LocalPlayer.transform.position;
+        if (GUILayout.Button("Teleport Dummy"))
+            PlayerControl.AllPlayerControls.ToArray().First(p => p.isDummy).transform.position =
+                PlayerControl.LocalPlayer.transform.position;
 
         if (GUILayout.Button("Customise Dummy"))
         {
@@ -79,8 +87,13 @@ public class ModdingTab : IDebugTab
             dummy.SetHat(PlayerControl.LocalPlayer.Data.Outfits[PlayerOutfitType.Default].HatId, 0);
         }
 
-        if (GUILayout.Button("Kill Dummy")) PlayerControl.LocalPlayer.RpcMurderPlayer(PlayerControl.AllPlayerControls.ToArray().First(p => p.isDummy), true);
-        if (GUILayout.Button("Dummy Kill Me")) PlayerControl.AllPlayerControls.ToArray().First(p => p.isDummy).RpcMurderPlayer(PlayerControl.LocalPlayer, true);
+        if (GUILayout.Button("Kill Dummy"))
+            PlayerControl.LocalPlayer.RpcMurderPlayer(PlayerControl.AllPlayerControls.ToArray().First(p => p.isDummy),
+                true);
+        if (GUILayout.Button("Dummy Kill Me"))
+            PlayerControl.AllPlayerControls.ToArray()
+                .First(p => p.isDummy)
+                .RpcMurderPlayer(PlayerControl.LocalPlayer, true);
 
         if (GUILayout.Button("Extract Map Sprites"))
         {

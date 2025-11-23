@@ -28,7 +28,8 @@ public static class ForceElevatorScreenShakePatches
     [HarmonyPatch(typeof(ResolutionSlider), nameof(ResolutionSlider.OnEnable))]
     public static class DisableScreenShakeSettingPatch
     {
-        [HarmonyPrefix, UsedImplicitly]
+        [HarmonyPrefix]
+        [UsedImplicitly]
         public static void Prefix(ref bool __state)
         {
             if (!ShipStatus.Instance.IsSubmerged()) return;
@@ -37,7 +38,8 @@ public static class ForceElevatorScreenShakePatches
             DataManager.Settings.Gameplay.screenShake = true;
         }
 
-        [HarmonyPostfix, UsedImplicitly]
+        [HarmonyPostfix]
+        [UsedImplicitly]
         public static void Postfix(bool __state)
         {
             if (!ShipStatus.Instance.IsSubmerged()) return;
@@ -49,7 +51,8 @@ public static class ForceElevatorScreenShakePatches
     [HarmonyPatch(typeof(FollowerCamera), nameof(FollowerCamera.Update))]
     public static class AlwaysShakeScreenPatch
     {
-        [HarmonyPrefix, UsedImplicitly]
+        [HarmonyPrefix]
+        [UsedImplicitly]
         public static void Prefix(ref bool __state)
         {
             if (!ShipStatus.Instance.IsSubmerged()) return;
@@ -58,7 +61,8 @@ public static class ForceElevatorScreenShakePatches
             DataManager.Settings.Gameplay.screenShake = true;
         }
 
-        [HarmonyPostfix, UsedImplicitly]
+        [HarmonyPostfix]
+        [UsedImplicitly]
         public static void Postfix(bool __state)
         {
             if (!ShipStatus.Instance.IsSubmerged()) return;

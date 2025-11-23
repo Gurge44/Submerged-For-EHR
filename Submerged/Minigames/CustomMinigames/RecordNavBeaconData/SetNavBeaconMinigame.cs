@@ -21,7 +21,10 @@ public sealed class SetNavBeaconMinigame(nint ptr) : Minigame(ptr)
     {
         if (MyNormTask.taskStep == 0 && MyNormTask.Data.Length == 0)
         {
-            code = "" + _letters[UnityRandom.Range(0, _letters.Length)] + _letters[UnityRandom.Range(0, _letters.Length)] + _numbers[UnityRandom.Range(0, _numbers.Length)];
+            code = "" +
+                _letters[UnityRandom.Range(0, _letters.Length)] +
+                _letters[UnityRandom.Range(0, _letters.Length)] +
+                _numbers[UnityRandom.Range(0, _numbers.Length)];
             MyNormTask.Data = Encoding.ASCII.GetBytes(code);
         }
         else

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -33,18 +32,23 @@ public static class InteropPatches
         return args;
     }
 
-    [HarmonyPatch(typeof(ClassInjector), nameof(ClassInjector.RegisterTypeInIl2Cpp), typeof(Type), typeof(RegisterTypeOptions))]
+    [HarmonyPatch(typeof(ClassInjector),
+        nameof(ClassInjector.RegisterTypeInIl2Cpp),
+        typeof(Type),
+        typeof(RegisterTypeOptions))]
     [HarmonyTranspiler]
-    public static IEnumerable<CodeInstruction> ForceInjectedFieldToBeUnityObjectPatch(IEnumerable<CodeInstruction> instructions)
+    public static SCG.IEnumerable<CodeInstruction> ForceInjectedFieldToBeUnityObjectPatch(
+        SCG.IEnumerable<CodeInstruction> instructions)
     {
         CodeMatcher matcher = new(instructions);
         matcher.MatchEndForward(new CodeMatch(OpCodes.Ldloc_S),
-                                new CodeMatch(OpCodes.Ldloc_S),
-                                new CodeMatch(OpCodes.Ldelem_Ref),
-                                new CodeMatch(OpCodes.Callvirt, AccessTools.Method(typeof(FieldInfo), "get_FieldType")),
-                                new CodeMatch(OpCodes.Callvirt, AccessTools.Method(typeof(Type), "get_GenericTypeArguments")));
+            new CodeMatch(OpCodes.Ldloc_S),
+            new CodeMatch(OpCodes.Ldelem_Ref),
+            new CodeMatch(OpCodes.Callvirt, AccessTools.Method(typeof(FieldInfo), "get_FieldType")),
+            new CodeMatch(OpCodes.Callvirt, AccessTools.Method(typeof(Type), "get_GenericTypeArguments")));
 
-        matcher.MatchStartBackwards(new CodeMatch(OpCodes.Callvirt, AccessTools.Method(typeof(Type), "get_GenericTypeArguments")));
+        matcher.MatchStartBackwards(new CodeMatch(OpCodes.Callvirt,
+            AccessTools.Method(typeof(Type), "get_GenericTypeArguments")));
         matcher.Set(OpCodes.Call, AccessTools.Method(typeof(InteropPatches), nameof(GetGenericTypeArgumentsPatch)));
 
         return matcher.InstructionEnumeration();

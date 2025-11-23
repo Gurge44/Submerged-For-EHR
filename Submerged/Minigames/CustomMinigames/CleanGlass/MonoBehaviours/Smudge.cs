@@ -63,7 +63,7 @@ public sealed class Smudge(nint ptr) : MonoBehaviour(ptr)
             SoundManager.Instance.PlaySound(squeakSounds.Random(), false, 0.33f);
         }
 
-        _spriteRenderer.color = new Color(1, 1, 1, Mathf.Clamp(health / 100f + 0.3f, 0, 1));
+        _spriteRenderer.color = new(1, 1, 1, Mathf.Clamp(health / 100f + 0.3f, 0, 1));
     }
 
     [HideFromIl2Cpp]
@@ -71,6 +71,7 @@ public sealed class Smudge(nint ptr) : MonoBehaviour(ptr)
     {
         const float DURATION = 0.3f;
 
-        yield return new WaitForLerp(DURATION, (Action<float>) (f => { _spriteRenderer.color = new Color(1, 1, 1, (DURATION - f) / DURATION * 0.3f); }));
+        yield return new WaitForLerp(DURATION,
+            (Action<float>) (f => { _spriteRenderer.color = new(1, 1, 1, (DURATION - f) / DURATION * 0.3f); }));
     }
 }

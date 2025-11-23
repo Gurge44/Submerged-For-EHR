@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Hazel;
 using Il2CppInterop.Runtime.Injection;
 using Reactor.Utilities.Attributes;
@@ -10,7 +9,7 @@ namespace Submerged.Systems.SecuritySabotage;
 [RegisterInIl2Cpp(typeof(ISystemType))]
 public sealed class SubmarineSecuritySabotageSystem(nint ptr) : CppObject(ptr), AU.ISystemType
 {
-    public List<byte> fixedCams =
+    public SCG.List<byte> fixedCams =
     [
         0,
         1,
@@ -21,7 +20,8 @@ public sealed class SubmarineSecuritySabotageSystem(nint ptr) : CppObject(ptr), 
         6
     ];
 
-    public SubmarineSecuritySabotageSystem() : this(ClassInjector.DerivedConstructorPointer<SubmarineSecuritySabotageSystem>())
+    public SubmarineSecuritySabotageSystem() : this(ClassInjector
+        .DerivedConstructorPointer<SubmarineSecuritySabotageSystem>())
     {
         ClassInjector.DerivedConstructorBody(this);
         Instance = this;
@@ -61,6 +61,7 @@ public sealed class SubmarineSecuritySabotageSystem(nint ptr) : CppObject(ptr), 
                 fixedCams.RemoveAll(c => c == camId);
 
                 break;
+
             case 1:
                 if (!fixedCams.Contains(camId)) fixedCams.Add(camId);
 

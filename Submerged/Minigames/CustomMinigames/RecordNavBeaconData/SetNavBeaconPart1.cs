@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using BepInEx.Unity.IL2CPP.Utils;
 using Il2CppInterop.Runtime.Attributes;
 using Reactor.Utilities.Attributes;
@@ -12,8 +11,8 @@ namespace Submerged.Minigames.CustomMinigames.RecordNavBeaconData;
 [RegisterInIl2Cpp]
 public sealed class SetNavBeaconPart1(nint ptr) : MonoBehaviour(ptr)
 {
-    private List<TextMeshPro> _bottomTexts;
-    private List<TextMeshPro> _codeTexts;
+    private SCG.List<TextMeshPro> _bottomTexts;
+    private SCG.List<TextMeshPro> _codeTexts;
 
     private SetNavBeaconMinigame _parent;
     private Transform _speechBubble;
@@ -68,7 +67,9 @@ public sealed class SetNavBeaconPart1(nint ptr) : MonoBehaviour(ptr)
         while (_speechBubble.localScale.x < 1)
         {
             yield return null;
-            _speechBubble.localScale = new Vector3(_speechBubble.localScale.x + 0.15f, _speechBubble.localScale.y + 0.15f, _speechBubble.localScale.z);
+            _speechBubble.localScale = new(_speechBubble.localScale.x + 0.15f,
+                _speechBubble.localScale.y + 0.15f,
+                _speechBubble.localScale.z);
         }
 
         _speechBubble.localScale = Vector3.one;

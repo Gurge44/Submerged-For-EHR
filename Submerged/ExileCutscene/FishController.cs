@@ -70,10 +70,12 @@ public sealed class FishController(nint ptr) : MonoBehaviour(ptr)
         {
             targetObj.gameObject.SetActive(false);
         }
+
         if (bubbles != null)
         {
             bubbles.Stop();
         }
+
         this.StartCoroutine(LerpSpeed(0.5f, _speed, 25f));
     }
 

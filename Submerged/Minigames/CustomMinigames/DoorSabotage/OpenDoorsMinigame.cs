@@ -18,7 +18,8 @@ public sealed class OpenDoorsMinigame(nint ptr) : OpenDoorsMinigameNoInterface(p
 }
 
 [RegisterInIl2Cpp]
-[Description("Yes, this is a bug with Unhollower. No, we are not going to report it as it would be hard to reproduce and we are busy people.")]
+[Description(
+    "Yes, this is a bug with Unhollower. No, we are not going to report it as it would be hard to reproduce and we are busy people.")]
 public class OpenDoorsMinigameNoInterface(nint ptr) : Minigame(ptr)
 {
     public TextMeshPro character;
@@ -53,7 +54,7 @@ public class OpenDoorsMinigameNoInterface(nint ptr) : Minigame(ptr)
         _timer += Time.deltaTime * 0.25f;
         if (_timer >= 0.65f) _timer = 0;
 
-        character.color = Color.LerpUnclamped(Color.white, new Color(1, 1, 1, 0.5f), Mathf.Sin(_timer * 10f));
+        character.color = Color.LerpUnclamped(Color.white, new(1, 1, 1, 0.5f), Mathf.Sin(_timer * 10f));
 
         if (_complete) return;
 
@@ -104,11 +105,13 @@ public class OpenDoorsMinigameNoInterface(nint ptr) : Minigame(ptr)
                 if (!_letterSelected) return;
 
                 Vector2 vector = handle.transform.position;
-                float num = Vector2.SignedAngle(_controller.DragStartPosition - vector, _controller.DragPosition - vector);
-                handle.transform.localEulerAngles = new Vector3(0f, 0f, Mathf.Clamp(num, -90f, 0));
+                float num = Vector2.SignedAngle(_controller.DragStartPosition - vector,
+                    _controller.DragPosition - vector);
+                handle.transform.localEulerAngles = new(0f, 0f, Mathf.Clamp(num, -90f, 0));
 
                 return;
             }
+
             case DragState.Released:
             {
                 if (!_letterSelected) return;
@@ -129,7 +132,7 @@ public class OpenDoorsMinigameNoInterface(nint ptr) : Minigame(ptr)
                     return;
                 }
 
-                handle.transform.localEulerAngles = new Vector3(0f, 0f, 0f);
+                handle.transform.localEulerAngles = new(0f, 0f, 0f);
 
                 break;
             }

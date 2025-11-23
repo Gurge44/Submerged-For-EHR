@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Hazel;
+﻿using Hazel;
 using Il2CppInterop.Runtime.Injection;
 using Reactor.Utilities.Attributes;
 using Submerged.Floors;
@@ -12,7 +11,7 @@ namespace Submerged.Elevators;
 [RegisterInIl2Cpp(typeof(ISystemType))]
 public sealed class SubmarineElevatorSystem(nint ptr) : CppObject(ptr), AU.ISystemType
 {
-    private readonly List<PlayerControl> _inElevatorPlayers = [];
+    private readonly SCG.List<PlayerControl> _inElevatorPlayers = [];
     private readonly SubmarineElevator _myElevator;
 
     public readonly SystemTypes systemTypes;
@@ -28,11 +27,14 @@ public sealed class SubmarineElevatorSystem(nint ptr) : CppObject(ptr), AU.ISyst
     // This is also the floor it is currently on if not moving
     public bool upperDeckIsTargetFloor;
 
-    public SubmarineElevatorSystem(SystemTypes systemType, bool startsOnUpper, SystemTypes tandemElevator = SystemTypes.Hallway) : this(ClassInjector.DerivedConstructorPointer<SubmarineElevatorSystem>())
+    public SubmarineElevatorSystem(SystemTypes systemType, bool startsOnUpper,
+        SystemTypes tandemElevator = SystemTypes.Hallway) : this(ClassInjector
+        .DerivedConstructorPointer<SubmarineElevatorSystem>())
     {
         ClassInjector.DerivedConstructorBody(this);
 
-        SubmarineElevator elevator = ShipStatus.Instance.FastRooms[systemType].gameObject.GetComponent<SubmarineElevator>();
+        SubmarineElevator elevator =
+            ShipStatus.Instance.FastRooms[systemType].gameObject.GetComponent<SubmarineElevator>();
         elevator.system = this;
         SubmarineStatus.instance.elevators.Add(elevator);
         _myElevator = elevator;
@@ -41,7 +43,8 @@ public sealed class SubmarineElevatorSystem(nint ptr) : CppObject(ptr), AU.ISyst
         tandemSystemType = tandemElevator;
     }
 
-    private SubmarineElevatorSystem Tandem => _tandem ??= SubmarineStatus.systems[tandemSystemType].Cast<SubmarineElevatorSystem>();
+    private SubmarineElevatorSystem Tandem =>
+        _tandem ??= SubmarineStatus.systems[tandemSystemType].Cast<SubmarineElevatorSystem>();
 
     public bool IsDirty { get; private set; }
 

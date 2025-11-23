@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using BepInEx.Unity.IL2CPP.Utils;
@@ -52,10 +51,10 @@ public sealed class OxygenateCoralMinigame(nint ptr) : Minigame(ptr)
         _bubbleBody = _bubbleTransform.GetComponent<Rigidbody2D>();
 
         slugs = transform.Find("Slugs/1x1")
-                         .GetChildren()
-                         .Select(t =>
-                                     (t.GetComponent<SpriteRenderer>().sprite, t.GetComponent<PolygonCollider2D>()))
-                         .ToArray();
+            .GetChildren()
+            .Select(t =>
+                (t.GetComponent<SpriteRenderer>().sprite, t.GetComponent<PolygonCollider2D>()))
+            .ToArray();
 
         SetupColors();
         cells = GetDefaultCells();
@@ -63,59 +62,59 @@ public sealed class OxygenateCoralMinigame(nint ptr) : Minigame(ptr)
 
         int randomStartX = UnityRandom.Range(0, 9);
         int randomEndX = UnityRandom.Range(0, 9);
-        List<(int xPos, int yPos)> path = PathfindBfs(randomEndX, 1, randomStartX, 11);
+        SCG.List<(int xPos, int yPos)> path = PathfindBfs(randomEndX, 1, randomStartX, 11);
 
         int[,] active = new int[9, 12];
 
         for (int y = 0; y < 12; y++)
-            for (int x = 0; x < 9; x++)
-            {
-                GameObject cell = mazeCells.Find($"Row {y}/Column {x}").gameObject;
-                bool shouldBeActive = UnityRandom.Range(0f, 1f) < 0.90f;
-                cell.SetActive(shouldBeActive);
-                active[x, y] = shouldBeActive ? 1 : 0;
+        for (int x = 0; x < 9; x++)
+        {
+            GameObject cell = mazeCells.Find($"Row {y}/Column {x}").gameObject;
+            bool shouldBeActive = UnityRandom.Range(0f, 1f) < 0.90f;
+            cell.SetActive(shouldBeActive);
+            active[x, y] = shouldBeActive ? 1 : 0;
 
-                if (path.Contains((x, y)))
-                {
-                    cell.SetActive(false);
-                }
-                else if (UnityRandom.Range(0f, 1f) < 0.25f && y < 7)
-                {
-                    (Sprite sprite, PolygonCollider2D collider) = slugs.Random();
-                    cell.GetComponent<SpriteRenderer>().sprite = sprite;
-                    DestroyImmediate(cell.GetComponent<PolygonCollider2D>());
-                    CopyComponent(cell.gameObject, collider);
-                    cell.AddComponent<SlugBehaviour>().minigame = this;
-                }
+            if (path.Contains((x, y)))
+            {
+                cell.SetActive(false);
             }
+            else if (UnityRandom.Range(0f, 1f) < 0.25f && y < 7)
+            {
+                (Sprite sprite, PolygonCollider2D collider) = slugs.Random();
+                cell.GetComponent<SpriteRenderer>().sprite = sprite;
+                DestroyImmediate(cell.GetComponent<PolygonCollider2D>());
+                CopyComponent(cell.gameObject, collider);
+                cell.AddComponent<SlugBehaviour>().minigame = this;
+            }
+        }
 
         foreach ((int xPos, int yPos) cell in path)
         {
             int around = 0;
             DoAroundPoint(active,
-                          cell,
-                          (x, y) =>
-                          {
-                              if (!path.Contains((x, y)))
-                              {
-                                  if (UnityRandom.Range(0f, 1f) < 0.05f && y < 7)
-                                  {
-                                      GameObject mazecell = mazeCells.Find($"Row {y}/Column {x}").gameObject;
+                cell,
+                (x, y) =>
+                {
+                    if (!path.Contains((x, y)))
+                    {
+                        if (UnityRandom.Range(0f, 1f) < 0.05f && y < 7)
+                        {
+                            GameObject mazecell = mazeCells.Find($"Row {y}/Column {x}").gameObject;
 
-                                      if (mazecell.GetComponent<SlugBehaviour>()) return;
+                            if (mazecell.GetComponent<SlugBehaviour>()) return;
 
-                                      (Sprite sprite, PolygonCollider2D collider) = slugs.Random();
-                                      mazecell.GetComponent<SpriteRenderer>().sprite = sprite;
-                                      DestroyImmediate(mazecell.GetComponent<PolygonCollider2D>());
-                                      CopyComponent(mazecell.gameObject, collider);
-                                      mazecell.AddComponent<SlugBehaviour>().minigame = this;
-                                  }
-                              }
-                              else
-                              {
-                                  around++;
-                              }
-                          });
+                            (Sprite sprite, PolygonCollider2D collider) = slugs.Random();
+                            mazecell.GetComponent<SpriteRenderer>().sprite = sprite;
+                            DestroyImmediate(mazecell.GetComponent<PolygonCollider2D>());
+                            CopyComponent(mazecell.gameObject, collider);
+                            mazecell.AddComponent<SlugBehaviour>().minigame = this;
+                        }
+                    }
+                    else
+                    {
+                        around++;
+                    }
+                });
 
             if (around > 7 && cell.yPos < 7)
             {
@@ -173,15 +172,15 @@ public sealed class OxygenateCoralMinigame(nint ptr) : Minigame(ptr)
         _colorMap = new int[9, 12];
 
         for (int x = 0; x < _colorMap.GetLength(0); x++)
-            for (int y = 0; y < _colorMap.GetLength(1); y++)
-            {
-                _colorMap[x, y] = 8;
-            }
+        for (int y = 0; y < _colorMap.GetLength(1); y++)
+        {
+            _colorMap[x, y] = 8;
+        }
 
         int[] randomXs = Enumerable.Range(0, 9).ToArray().ShuffleCopy().Take(colorSpriteSets.Length).ToArray();
         int[] randomYs = Enumerable.Range(0, 12).ToArray().ShuffleCopy().Take(colorSpriteSets.Length).ToArray();
 
-        List<(int x, int y)> pointsToVisit = [];
+        SCG.List<(int x, int y)> pointsToVisit = [];
 
         for (int i = 0; i < randomXs.Length; i++)
         {
@@ -218,29 +217,29 @@ public sealed class OxygenateCoralMinigame(nint ptr) : Minigame(ptr)
             int currentColor = _colorMap[currentPoint.x, currentPoint.y];
 
             DoAroundPoint(_colorMap,
-                          currentPoint,
-                          (x, y) =>
-                          {
-                              if (_colorMap[x, y] != 8) return;
-                              if (UnityRandom.Range(0f, 1f) >= PROBABILITY) return;
-                              pointsToVisit.Add((x, y));
-                              _colorMap[x, y] = currentColor;
-                              visitedPoints++;
-                          });
+                currentPoint,
+                (x, y) =>
+                {
+                    if (_colorMap[x, y] != 8) return;
+                    if (UnityRandom.Range(0f, 1f) >= PROBABILITY) return;
+                    pointsToVisit.Add((x, y));
+                    _colorMap[x, y] = currentColor;
+                    visitedPoints++;
+                });
         }
 
         int[] amounts = new int[5];
 
         for (int y = 0; y < 12; y++)
-            for (int x = 0; x < 9; x++)
-            {
-                amounts[_colorMap[x, y]]++;
-            }
+        for (int x = 0; x < 9; x++)
+        {
+            amounts[_colorMap[x, y]]++;
+        }
 
-        List<int> sortedAmounts = amounts.ToList();
+        SCG.List<int> sortedAmounts = amounts.ToList();
         sortedAmounts.Sort();
 
-        List<Transform>[] spriteChildren = new List<Transform>[5];
+        SCG.List<Transform>[] spriteChildren = new SCG.List<Transform>[5];
 
         for (int y = 0; y < 12; y++)
         {
@@ -272,7 +271,7 @@ public sealed class OxygenateCoralMinigame(nint ptr) : Minigame(ptr)
 
         for (float t = 0; t < DURATION; t += Time.deltaTime)
         {
-            _bubbleTransform.localScale = Vector3.Lerp(originalScale, new Vector3(0, 0, 1), t / DURATION);
+            _bubbleTransform.localScale = Vector3.Lerp(originalScale, new(0, 0, 1), t / DURATION);
 
             yield return null;
         }
@@ -281,7 +280,7 @@ public sealed class OxygenateCoralMinigame(nint ptr) : Minigame(ptr)
 
         for (float t = 0; t < DURATION; t += Time.deltaTime)
         {
-            _bubbleTransform.localScale = Vector3.Lerp(new Vector3(0, 0, 1), originalScale, t / DURATION);
+            _bubbleTransform.localScale = Vector3.Lerp(new(0, 0, 1), originalScale, t / DURATION);
 
             yield return null;
         }
@@ -295,10 +294,12 @@ public sealed class OxygenateCoralMinigame(nint ptr) : Minigame(ptr)
     public IEnumerator Oxygenate()
     {
         if (amClosing != CloseState.None) yield break;
+
         if (MyNormTask != null)
         {
             MyNormTask.NextStep();
         }
+
         StartCoroutine(CoStartClose());
 
         _bubbleTransform.gameObject.SetActive(false);
@@ -318,7 +319,11 @@ public sealed class OxygenateCoralMinigame(nint ptr) : Minigame(ptr)
 
     public static T CopyFrom<T>(Component comp, T other) where T : Component
     {
-        const BindingFlags FLAGS = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Default | BindingFlags.DeclaredOnly;
+        const BindingFlags FLAGS = BindingFlags.Public |
+            BindingFlags.NonPublic |
+            BindingFlags.Instance |
+            BindingFlags.Default |
+            BindingFlags.DeclaredOnly;
 
         Type type = comp.GetType();
 
@@ -350,7 +355,8 @@ public sealed class OxygenateCoralMinigame(nint ptr) : Minigame(ptr)
         return comp as T;
     }
 
-    public static T CopyComponent<T>(GameObject go, T copyFrom) where T : Component => CopyFrom(go.AddComponent<T>(), copyFrom);
+    public static T CopyComponent<T>(GameObject go, T copyFrom) where T : Component =>
+        CopyFrom(go.AddComponent<T>(), copyFrom);
 
     private static bool ValidIndex<T>(T[,] arr, (int xPos, int yPos) pos)
     {
@@ -394,12 +400,12 @@ public sealed class OxygenateCoralMinigame(nint ptr) : Minigame(ptr)
         {
             for (int y = 0; y < 12; y++)
             {
-                def[x, y] = new CoralCell
+                def[x, y] = new()
                 {
-                    leftWall = x == 0 ? new CoralWall() : def[x - 1, y].rightWall,
-                    rightWall = new CoralWall(),
-                    topWall = y == 0 ? new CoralWall() : def[x, y - 1].bottomWall,
-                    bottomWall = new CoralWall()
+                    leftWall = x == 0 ? new() : def[x - 1, y].rightWall,
+                    rightWall = new(),
+                    topWall = y == 0 ? new() : def[x, y - 1].bottomWall,
+                    bottomWall = new()
                 };
             }
         }
@@ -409,12 +415,12 @@ public sealed class OxygenateCoralMinigame(nint ptr) : Minigame(ptr)
 
     public void GenerateMazeDfsNonRecursive()
     {
-        List<(int xPos, int yPos)> stack = [];
+        SCG.List<(int xPos, int yPos)> stack = [];
 
         [HideFromIl2Cpp]
-        List<(int xPos, int yPos)> getNeighbours((int xPos, int yPos) position)
+        SCG.List<(int xPos, int yPos)> getNeighbours((int xPos, int yPos) position)
         {
-            List<(int xPos, int yPos)> neighbours = [];
+            SCG.List<(int xPos, int yPos)> neighbours = [];
             CoralCell northCell = position.yPos == 0 ? null : cells[position.xPos, position.yPos - 1];
             CoralCell eastCell = position.xPos == 8 ? null : cells[position.xPos + 1, position.yPos];
             CoralCell southCell = position.yPos == 11 ? null : cells[position.xPos, position.yPos + 1];
@@ -440,7 +446,7 @@ public sealed class OxygenateCoralMinigame(nint ptr) : Minigame(ptr)
         while (stack.Count != 0)
         {
             currentPosition = stack[^1];
-            List<(int xPos, int yPos)> neighbours = getNeighbours(currentPosition);
+            SCG.List<(int xPos, int yPos)> neighbours = getNeighbours(currentPosition);
 
             if (neighbours.Count == 0)
             {
@@ -464,10 +470,10 @@ public sealed class OxygenateCoralMinigame(nint ptr) : Minigame(ptr)
     }
 
     [HideFromIl2Cpp]
-    public List<(int xPos, int yPos)> PathfindBfs(int xStart, int yStart, int xEnd, int yEnd)
+    public SCG.List<(int xPos, int yPos)> PathfindBfs(int xStart, int yStart, int xEnd, int yEnd)
     {
-        List<(int xPos, int yPos)> stack = [];
-        Dictionary<(int xPos, int yPos), (int xPos, int yPos)> visitedCells = new();
+        SCG.List<(int xPos, int yPos)> stack = [];
+        SCG.Dictionary<(int xPos, int yPos), (int xPos, int yPos)> visitedCells = new();
 
         (int xStart, int yStart) startCell = (xStart, yStart);
         (int xEnd, int yEnd) endCell = (xEnd, yEnd);
@@ -529,7 +535,7 @@ public sealed class OxygenateCoralMinigame(nint ptr) : Minigame(ptr)
                 }
             }
 
-            List<Action> wallChecks =
+            SCG.List<Action> wallChecks =
             [
                 checkNorth,
                 checkEast,
@@ -546,7 +552,7 @@ public sealed class OxygenateCoralMinigame(nint ptr) : Minigame(ptr)
         }
 
         (int xEnd, int yEnd) tracingCell = endCell;
-        List<(int xPos, int yPos)> pathPoints = [];
+        SCG.List<(int xPos, int yPos)> pathPoints = [];
 
         while (visitedCells[tracingCell] != tracingCell)
         {

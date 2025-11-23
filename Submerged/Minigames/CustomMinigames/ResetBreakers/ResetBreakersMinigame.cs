@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Reactor.Utilities.Attributes;
 using Submerged.Extensions;
 using Submerged.Minigames.CustomMinigames.ResetBreakers.MonoBehaviours;
@@ -13,12 +12,12 @@ public sealed class ResetBreakersMinigame(nint ptr) : Minigame(ptr)
 {
     public MinigameProperties minigameProperties;
 
-    public List<Sprite> letters;
+    public SCG.List<Sprite> letters;
     public GameObject switches;
 
     public AudioClip breakerClick;
 
-    public List<CircuitBreaker> circutBreakers = [];
+    public SCG.List<CircuitBreaker> circutBreakers = [];
 
     private void Start()
     {
@@ -48,10 +47,12 @@ public sealed class ResetBreakersMinigame(nint ptr) : Minigame(ptr)
             {
                 circutBreaker.enabled = false;
             }
+
             if (MyNormTask != null)
             {
                 MyNormTask.NextStep();
             }
+
             StartCoroutine(CoStartClose());
         }
     }
@@ -69,7 +70,8 @@ public sealed class ResetBreakersMinigame(nint ptr) : Minigame(ptr)
         for (int i = 0; i < circutBreakers.Count; i++)
         {
             circutBreakers[i].targetKey = keys[i];
-            circutBreakers[i].character.sprite = letters.FirstOrDefault(l => l.name.Contains($"_{keys[i].ToString()[^1..].ToUpper()}"));
+            circutBreakers[i].character.sprite =
+                letters.FirstOrDefault(l => l.name.Contains($"_{keys[i].ToString()[^1..].ToUpper()}"));
         }
     }
 

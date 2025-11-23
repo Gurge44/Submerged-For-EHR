@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Reactor.Utilities.Attributes;
-using Submerged.Minigames.MonoBehaviours;
 using Submerged.Localization.Strings;
+using Submerged.Minigames.MonoBehaviours;
 using TMPro;
 using UnityEngine;
 
@@ -17,7 +16,7 @@ public sealed class SteadyHeartbeatMinigame(nint ptr) : Minigame(ptr)
 
     private LineRenderer _beatLine;
 
-    private List<float> _beats = [];
+    private SCG.List<float> _beats = [];
     private float _beatTimer;
 
     private int _bpmTarget;
@@ -28,7 +27,7 @@ public sealed class SteadyHeartbeatMinigame(nint ptr) : Minigame(ptr)
 
     private MinigameProperties _minigameProperties;
 
-    private List<Vector3> _points;
+    private SCG.List<Vector3> _points;
     private FloatRange _range;
     private TextMeshPro _statusText;
     private TextMeshPro _targetText;
@@ -57,7 +56,7 @@ public sealed class SteadyHeartbeatMinigame(nint ptr) : Minigame(ptr)
         // TimeDeltas = Enumerable.Repeat(60f / (BPMTarget + Random.Range(40, 67)), 5).ToList();
         _timer = 0;
 
-        _range = new FloatRange(-4.65f, 4.65f);
+        _range = new(-4.65f, 4.65f);
         _points = [];
     }
 
@@ -68,11 +67,14 @@ public sealed class SteadyHeartbeatMinigame(nint ptr) : Minigame(ptr)
         if (_inRangeTimer >= IN_RANGE_TARGET && amClosing == CloseState.None)
         {
             Color32 col = new(30, 150, 0, 255);
-            _statusText.text = string.Format(Tasks.SteadyHeartbeat_Status, $"<color=#{col.r:X2}{col.g:X2}{col.b:X2}{col.a:X2}>{Tasks.SteadyHeartbeat_Status_Stable}</color>");
+            _statusText.text = string.Format(Tasks.SteadyHeartbeat_Status,
+                $"<color=#{col.r:X2}{col.g:X2}{col.b:X2}{col.a:X2}>{Tasks.SteadyHeartbeat_Status_Stable}</color>");
+
             if (MyNormTask != null)
             {
                 MyNormTask.NextStep();
             }
+
             StartCoroutine(CoStartClose());
         }
 
@@ -91,15 +93,16 @@ public sealed class SteadyHeartbeatMinigame(nint ptr) : Minigame(ptr)
             _inRangeTimer += Time.deltaTime;
 
             Color32 col = _inRangeTimer / IN_RANGE_TARGET < 0.5
-                ? Color32.Lerp(new Color32(255, 0, 0, 255), new Color32(255, 242, 0, 255), _inRangeTimer / IN_RANGE_TARGET * 2)
-                : Color32.Lerp(new Color32(255, 242, 0, 255), new Color32(30, 150, 0, 255), _inRangeTimer / IN_RANGE_TARGET - 0.5f * 2);
+                ? Color32.Lerp(new(255, 0, 0, 255), new(255, 242, 0, 255), _inRangeTimer / IN_RANGE_TARGET * 2)
+                : Color32.Lerp(new(255, 242, 0, 255), new(30, 150, 0, 255), _inRangeTimer / IN_RANGE_TARGET - 0.5f * 2);
 
-            _statusText.text = string.Format(Tasks.SteadyHeartbeat_Status, $"<color=#{col.r:X2}{col.g:X2}{col.b:X2}{col.a:X2}>{Tasks.SteadyHeartbeat_Status_Stabilizing}</color>");
+            _statusText.text = string.Format(Tasks.SteadyHeartbeat_Status,
+                $"<color=#{col.r:X2}{col.g:X2}{col.b:X2}{col.a:X2}>{Tasks.SteadyHeartbeat_Status_Stabilizing}</color>");
         }
         else
         {
             _statusText.text = string.Format(Tasks.SteadyHeartbeat_Status,
-                                             $"<color=red>{Tasks.SteadyHeartbeat_Status_Irregular}</color>");
+                $"<color=red>{Tasks.SteadyHeartbeat_Status_Irregular}</color>");
         }
     }
 
@@ -124,8 +127,8 @@ public sealed class SteadyHeartbeatMinigame(nint ptr) : Minigame(ptr)
         }
         else
         {
-            endFiltered[0] = new Vector3(-4.65f, 0, 0);
-            endFiltered[^1] = new Vector3(4.65f, 0, 0);
+            endFiltered[0] = new(-4.65f, 0, 0);
+            endFiltered[^1] = new(4.65f, 0, 0);
         }
 
         _beatTimer += Time.deltaTime;

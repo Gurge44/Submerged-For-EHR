@@ -16,6 +16,7 @@ public static class CameraTeleportPatches
         if (!__instance.Target) return;
 
         Vector3 targetPos = __instance.Target.transform.position;
-        if (Vector2.Distance(__instance.centerPosition, __instance.Target.transform.position) > 40f) __instance.centerPosition = targetPos;
+        if (Vector2.Distance(__instance.centerPosition, __instance.Target.transform.position) > 40f)
+            __instance.centerPosition = targetPos;
     }
 }

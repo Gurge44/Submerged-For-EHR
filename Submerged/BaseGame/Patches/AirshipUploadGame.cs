@@ -87,7 +87,12 @@ public static class AirshipUploadGameUpdatePatches
 
         if (Constants.ShouldPlaySfx())
         {
-            __instance.beepTimer += (10f - Vector2.Distance(__instance.Hotspot.transform.localPosition, __instance.Phone.transform.localPosition)) * num / __instance.BeepPeriod;
+            __instance.beepTimer +=
+                (10f -
+                    Vector2.Distance(__instance.Hotspot.transform.localPosition,
+                        __instance.Phone.transform.localPosition)) *
+                num /
+                __instance.BeepPeriod;
 
             if (__instance.beepTimer >= 1f)
             {

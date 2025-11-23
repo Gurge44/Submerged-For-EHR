@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using BepInEx.Unity.IL2CPP.Utils;
 using Il2CppInterop.Runtime.Attributes;
 using Reactor.Utilities.Attributes;
@@ -48,7 +47,7 @@ public class SubmarineSelectSpawn(nint ptr) : Minigame(ptr)
     {
         Instance = this;
 
-        transform.Find("Scale").localScale = new Vector3(0.85f, 0.85f, 1);
+        transform.Find("Scale").localScale = new(0.85f, 0.85f, 1);
 
         timerText = transform.Find("Scale/Timer").GetComponentInChildren<TextMeshPro>();
         playersText = transform.Find("Scale/TimerPlayers").GetComponentInChildren<TextMeshPro>();
@@ -72,7 +71,8 @@ public class SubmarineSelectSpawn(nint ptr) : Minigame(ptr)
         upperDeckText.SetText(Locations.Deck_Upper);
         lowerDeckText.SetText(Locations.Deck_Lower);
 
-        transform.Find("Scale/DontOpenSettings").position = new Vector3(0, 0, HudManager.Instance.FullScreen.transform.position.z - 1);
+        transform.Find("Scale/DontOpenSettings").position =
+            new(0, 0, HudManager.Instance.FullScreen.transform.position.z - 1);
 
         // This fixes meeting called during venting animation making the player stuck and unable to vent for the rest of the game
         FloorHandler.LocalPlayer.ClearOverrides();
@@ -95,10 +95,10 @@ public class SubmarineSelectSpawn(nint ptr) : Minigame(ptr)
         if (PlayerControl.LocalPlayer.Data.IsDead && !clicked)
         {
             clicked = true;
-            SetColors(upperDeckRenderers, new Color(1, 1, 1, 0.2f));
-            SetColors(lowerDeckRenderers, new Color(1, 1, 1, 0.2f));
-            upperDeckText.color = new Color(1, 1, 1, 0.2f);
-            lowerDeckText.color = new Color(1, 1, 1, 0.2f);
+            SetColors(upperDeckRenderers, new(1, 1, 1, 0.2f));
+            SetColors(lowerDeckRenderers, new(1, 1, 1, 0.2f));
+            upperDeckText.color = new(1, 1, 1, 0.2f);
+            lowerDeckText.color = new(1, 1, 1, 0.2f);
             this.StartCoroutine(CoWaitForOthers());
         }
 
@@ -107,24 +107,25 @@ public class SubmarineSelectSpawn(nint ptr) : Minigame(ptr)
             case SpawnInState.Loading when !clicked:
                 timerText.text = "";
                 playersText.text = string.Format(Tasks.SpawnIn_Bottom_Loading,
-                                                 SubmarineSpawnInSystem.Instance.GetReadyPlayerAmount(),
-                                                 SubmarineSpawnInSystem.Instance.GetTotalPlayerAmount());
+                    SubmarineSpawnInSystem.Instance.GetReadyPlayerAmount(),
+                    SubmarineSpawnInSystem.Instance.GetTotalPlayerAmount());
 
                 break;
 
             case SpawnInState.Loading when clicked:
                 timerText.text = Tasks.SpawnIn_Top_LoadingClicked;
                 playersText.text = string.Format(Tasks.SpawnIn_Bottom_Loading,
-                                                 SubmarineSpawnInSystem.Instance.GetReadyPlayerAmount(),
-                                                 SubmarineSpawnInSystem.Instance.GetTotalPlayerAmount());
+                    SubmarineSpawnInSystem.Instance.GetReadyPlayerAmount(),
+                    SubmarineSpawnInSystem.Instance.GetTotalPlayerAmount());
 
                 break;
 
             case SpawnInState.Spawning when !clicked && SubmarineSpawnInSystem.Instance.timer > 0:
-                timerText.text = string.Format(Tasks.SpawnIn_Top_SpawningNotClicked, Mathf.RoundToInt(SubmarineSpawnInSystem.Instance.timer));
+                timerText.text = string.Format(Tasks.SpawnIn_Top_SpawningNotClicked,
+                    Mathf.RoundToInt(SubmarineSpawnInSystem.Instance.timer));
                 playersText.text = string.Format(Tasks.SpawnIn_Bottom_Spawning,
-                                                 SubmarineSpawnInSystem.Instance.GetReadyPlayerAmount(),
-                                                 SubmarineSpawnInSystem.Instance.GetTotalPlayerAmount());
+                    SubmarineSpawnInSystem.Instance.GetReadyPlayerAmount(),
+                    SubmarineSpawnInSystem.Instance.GetTotalPlayerAmount());
 
                 break;
 
@@ -138,10 +139,11 @@ public class SubmarineSelectSpawn(nint ptr) : Minigame(ptr)
                 break;
 
             case SpawnInState.Spawning when clicked && SubmarineSpawnInSystem.Instance.timer > 0:
-                timerText.text = string.Format(Tasks.SpawnIn_Top_SpawningClicked, Mathf.RoundToInt(SubmarineSpawnInSystem.Instance.timer));
+                timerText.text = string.Format(Tasks.SpawnIn_Top_SpawningClicked,
+                    Mathf.RoundToInt(SubmarineSpawnInSystem.Instance.timer));
                 playersText.text = string.Format(Tasks.SpawnIn_Bottom_Spawning,
-                                                 SubmarineSpawnInSystem.Instance.GetReadyPlayerAmount(),
-                                                 SubmarineSpawnInSystem.Instance.GetTotalPlayerAmount());
+                    SubmarineSpawnInSystem.Instance.GetReadyPlayerAmount(),
+                    SubmarineSpawnInSystem.Instance.GetTotalPlayerAmount());
 
                 break;
 
@@ -169,6 +171,7 @@ public class SubmarineSelectSpawn(nint ptr) : Minigame(ptr)
     private void OnDestroy()
     {
         Instance = null;
+
         if (PlayerControl.LocalPlayer &&
             PlayerControl.LocalPlayer.Data &&
             PlayerControl.LocalPlayer.Data.Role &&
@@ -199,8 +202,10 @@ public class SubmarineSelectSpawn(nint ptr) : Minigame(ptr)
 
     protected void Hover(bool upperSelected)
     {
-        foreach (SpriteRenderer renderer in upperDeckRenderers) renderer.color = upperSelected ? _highlightColor : Color.white;
-        foreach (SpriteRenderer renderer in lowerDeckRenderers) renderer.color = !upperSelected ? _highlightColor : Color.white;
+        foreach (SpriteRenderer renderer in upperDeckRenderers)
+            renderer.color = upperSelected ? _highlightColor : Color.white;
+        foreach (SpriteRenderer renderer in lowerDeckRenderers)
+            renderer.color = !upperSelected ? _highlightColor : Color.white;
         upperDeckText.color = upperSelected ? _highlightColor : Color.white;
         lowerDeckText.color = !upperSelected ? _highlightColor : Color.white;
 
@@ -228,7 +233,7 @@ public class SubmarineSelectSpawn(nint ptr) : Minigame(ptr)
 
         for (float i = 0; _coroutinePlaying; i += Time.deltaTime)
         {
-            _telescope.localEulerAngles = Vector3.Lerp(Vector3.zero, new Vector3(0, 0, -10f), i / DURATION);
+            _telescope.localEulerAngles = Vector3.Lerp(Vector3.zero, new(0, 0, -10f), i / DURATION);
 
             yield return null;
         }
@@ -286,7 +291,6 @@ public class SubmarineSelectSpawn(nint ptr) : Minigame(ptr)
 
         Cleanup(GameManager.Instance.IsNormal());
 
-
         ShipStatus.Instance.Systems.Clear();
 
         foreach (ICG.KeyValuePair<SystemTypes, ISystemType> keyValuePair in SubmarineStatus.systems)
@@ -340,7 +344,10 @@ public class SubmarineSelectSpawn(nint ptr) : Minigame(ptr)
 
         for (float t = 0; t < ALPHA_DURATION; t += Time.deltaTime)
         {
-            Color color = new(baseColor.r, baseColor.g, baseColor.b, (ALPHA_DURATION - t) / ALPHA_DURATION * baseColor.a);
+            Color color = new(baseColor.r,
+                baseColor.g,
+                baseColor.b,
+                (ALPHA_DURATION - t) / ALPHA_DURATION * baseColor.a);
             SetColors(upperDeckRenderers, upperSelected ? baseColor : color);
             SetColors(lowerDeckRenderers, !upperSelected ? baseColor : color);
             upperDeckText.color = upperSelected ? baseColor : color;
@@ -386,7 +393,10 @@ public class SubmarineSelectSpawn(nint ptr) : Minigame(ptr)
 
         for (float t = 0; t < ALPHA_DURATION; t += Time.deltaTime)
         {
-            Color color = new(baseColor.r, baseColor.g, baseColor.b, (ALPHA_DURATION - t) / ALPHA_DURATION * baseColor.a);
+            Color color = new(baseColor.r,
+                baseColor.g,
+                baseColor.b,
+                (ALPHA_DURATION - t) / ALPHA_DURATION * baseColor.a);
 
             SetColors(upperDeckRenderers, upperSelected ? color : Color.clear);
             SetColors(lowerDeckRenderers, !upperSelected ? color : Color.clear);
@@ -469,7 +479,7 @@ public class SubmarineSelectSpawn(nint ptr) : Minigame(ptr)
     }
 
     [HideFromIl2Cpp]
-    protected void SetColors(IEnumerable<SpriteRenderer> renderers, Color color)
+    protected void SetColors(SCG.IEnumerable<SpriteRenderer> renderers, Color color)
     {
         foreach (SpriteRenderer renderer in renderers)
         {

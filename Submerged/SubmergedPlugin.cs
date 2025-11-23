@@ -29,7 +29,9 @@ public sealed partial class SubmergedPlugin : BasePlugin
         ReactorCredits.Register<SubmergedPlugin>(location =>
             location == ReactorCredits.Location.MainMenu ||
             ShipStatus.Instance.IsSubmerged() ||
-            (LobbyBehaviour.Instance && GameManager.Instance && GameManager.Instance.LogicOptions?.MapId == (byte) CustomMapTypes.Submerged));
+            (LobbyBehaviour.Instance &&
+                GameManager.Instance &&
+                GameManager.Instance.LogicOptions?.MapId == (byte) CustomMapTypes.Submerged));
 
         Harmony.CreateAndPatchAll(GetType().Assembly, Id);
 

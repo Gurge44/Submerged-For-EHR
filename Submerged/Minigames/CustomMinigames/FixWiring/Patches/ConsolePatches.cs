@@ -10,9 +10,13 @@ namespace Submerged.Minigames.CustomMinigames.FixWiring.Patches;
 [HarmonyPatch]
 public static class ConsolePatches
 {
-    [HarmonyPatch(typeof(NormalPlayerTask), nameof(NormalPlayerTask.PickRandomConsoles), typeof(TaskTypes), typeof(Il2CppStructArray<byte>))]
+    [HarmonyPatch(typeof(NormalPlayerTask),
+        nameof(NormalPlayerTask.PickRandomConsoles),
+        typeof(TaskTypes),
+        typeof(Il2CppStructArray<byte>))]
     [HarmonyPostfix]
-    public static void EletricalLastConsolePatch([HarmonyArgument(0)] TaskTypes taskType, [HarmonyArgument(1)] Il2CppStructArray<byte> consoleIds)
+    public static void EletricalLastConsolePatch([HarmonyArgument(0)] TaskTypes taskType,
+        [HarmonyArgument(1)] Il2CppStructArray<byte> consoleIds)
     {
         byte[] original = consoleIds.ToArray();
 
@@ -100,7 +104,7 @@ public static class ConsolePatches
             }
 
             Minigame minigame = UnityObject.Instantiate(minigamePrefab, Camera.main!.transform, false);
-            minigame.transform.localPosition = new Vector3(0f, 0f, -50f);
+            minigame.transform.localPosition = new(0f, 0f, -50f);
             minigame.Console = __instance;
             minigame.Begin(playerTask);
         }

@@ -13,7 +13,9 @@ public sealed class DraggableFeeder(nint ptr) : MonoBehaviour(ptr)
     public FeedFishMinigame owner;
 
     public Transform rotationTarget;
+
     public ParticleSystem fishFood;
+
     // public Transform fishFoodParent;
     public BoxCollider2D activatedArea;
 

@@ -32,10 +32,12 @@ public sealed class WhaleSharkMinigame(nint ptr) : Minigame(ptr)
         _button.onDown += () =>
         {
             if (!_task.visible || _finished) return;
+
             if (MyNormTask != null)
             {
                 MyNormTask.NextStep();
             }
+
             StartCoroutine(CoStartClose(1f));
             _finished = true;
         };
@@ -43,6 +45,8 @@ public sealed class WhaleSharkMinigame(nint ptr) : Minigame(ptr)
 
     private void Update()
     {
-        _whaleShark.localPosition = !_task.visible ? _originalPosition : Vector3.Lerp(_originalPosition, _targetPosition, _task.timer / _task.visibleDuration);
+        _whaleShark.localPosition = !_task.visible
+            ? _originalPosition
+            : Vector3.Lerp(_originalPosition, _targetPosition, _task.timer / _task.visibleDuration);
     }
 }

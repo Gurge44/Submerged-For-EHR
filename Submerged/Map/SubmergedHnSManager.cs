@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using Reactor.Utilities.Extensions;
 using Submerged.Enums;
@@ -39,15 +38,15 @@ public static class SubmergedHnSManager
     {
         // Warning($"Reassinging tasks for player {player.Data.PlayerName}");
 
-        List<byte> newTasks = [];
-        List<CustomTaskTypes> tasksToChooseFrom = CustomTaskTypes.All.Where(t => t.floor ==
+        SCG.List<byte> newTasks = [];
+        SCG.List<CustomTaskTypes> tasksToChooseFrom = CustomTaskTypes.All.Where(t => t.floor ==
                 (forUpper ? CustomTaskTypes.Floor.UpperDeck : CustomTaskTypes.Floor.LowerDeck))
             .ToList();
 
         foreach (NetworkedPlayerInfo.TaskInfo task in player.Data.Tasks)
         {
             NormalPlayerTask originalTask = ShipStatus.Instance.GetTaskById(task.TypeId);
-            List<CustomTaskTypes> possibleTasks = tasksToChooseFrom
+            SCG.List<CustomTaskTypes> possibleTasks = tasksToChooseFrom
                 .Where(t => t.length == originalTask.Length)
                 .ToList();
 

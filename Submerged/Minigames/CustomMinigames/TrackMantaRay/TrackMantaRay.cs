@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using Il2CppInterop.Runtime.Attributes;
+﻿using Il2CppInterop.Runtime.Attributes;
 using Reactor.Utilities.Attributes;
 using Submerged.Extensions;
-using Submerged.Minigames.MonoBehaviours;
 using Submerged.Localization.Strings;
+using Submerged.Minigames.MonoBehaviours;
 using TMPro;
 using UnityEngine;
 
@@ -18,7 +17,7 @@ public sealed class TrackMantaMinigame(nint ptr) : Minigame(ptr)
     private const float SWIM_SPEED = 2.22f * 8f;
     private const float TIME_TO_TRACK = 5f;
 
-    private readonly List<Vector2> _positions = [];
+    private readonly SCG.List<Vector2> _positions = [];
 
     private bool _amTracking;
     private Vector2 _lastPosition;
@@ -50,8 +49,8 @@ public sealed class TrackMantaMinigame(nint ptr) : Minigame(ptr)
         _textMeshPros = GetComponentsInChildren<TextMeshPro>();
 
         for (float x = -2f; x < 2f; x += 0.2f)
-            for (float y = -2f; y < 2f; y += 0.2f)
-                _positions.Add(new Vector2(x * 5f, y * 5f));
+        for (float y = -2f; y < 2f; y += 0.2f)
+            _positions.Add(new(x * 5f, y * 5f));
         GetNextWaypoint();
     }
 
@@ -79,10 +78,12 @@ public sealed class TrackMantaMinigame(nint ptr) : Minigame(ptr)
         if (percent >= 100)
         {
             if (amClosing != CloseState.None) return;
+
             if (MyNormTask != null)
             {
                 MyNormTask.NextStep();
             }
+
             StartCoroutine(CoStartClose());
 
             foreach (TextMeshPro t in _textMeshPros)
@@ -119,6 +120,6 @@ public sealed class TrackMantaMinigame(nint ptr) : Minigame(ptr)
         float angle = Mathf.Atan2(deltaY, deltaX) * Mathf.Rad2Deg + 90;
 
         float adjAngle = Mathf.MoveTowardsAngle(currentAngle, angle, MAXIMUM_ROTATION_PER_SEC * Time.deltaTime);
-        _mantaRay.eulerAngles = new Vector3(0, 0, adjAngle);
+        _mantaRay.eulerAngles = new(0, 0, adjAngle);
     }
 }

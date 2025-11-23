@@ -9,15 +9,31 @@ namespace Submerged.Systems.Oxygen.Patches;
 [HarmonyPatch]
 public static class TaskPatches
 {
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.GetSabotageTask))]
+    [HarmonyPrefix]
+    public static bool Prefix(ShipStatus __instance, ref PlayerTask __result, [HarmonyArgument(0)] SystemTypes system)
+    {
+        if (!__instance.IsSubmerged()) return true;
+
+        if (system == SystemTypes.LifeSupp)
+        {
+            __result = __instance.SpecialTasks.First(t => t.TaskType == CustomTaskTypes.RetrieveOxygenMask);
+            return false;
+        }
+
+        return true;
+    }
+
     [HarmonyPatch]
     public static class TaskIsEmergencyPatch
     {
-        private static bool _overrideFalse = false;
+        private static bool _overrideFalse;
 
         [HarmonyPatch(typeof(PlayerTask), nameof(PlayerTask.TaskIsEmergency))]
         [HarmonyPostfix]
         [HarmonyPriority(Priority.Last)]
-        public static void AllowButtonsFromOtherPlayersDuringO2Patch([HarmonyArgument(0)] PlayerTask arg, ref bool __result)
+        public static void AllowButtonsFromOtherPlayersDuringO2Patch([HarmonyArgument(0)] PlayerTask arg,
+            ref bool __result)
         {
             if (!ShipStatus.Instance.IsSubmerged()) return;
 
@@ -49,20 +65,5 @@ public static class TaskPatches
         {
             _overrideFalse = false;
         }
-    }
-
-    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.GetSabotageTask))]
-    [HarmonyPrefix]
-    public static bool Prefix(ShipStatus __instance, ref PlayerTask __result, [HarmonyArgument(0)] SystemTypes system)
-    {
-        if (!__instance.IsSubmerged()) return true;
-
-        if (system == SystemTypes.LifeSupp)
-        {
-            __result = __instance.SpecialTasks.First(t => t.TaskType == CustomTaskTypes.RetrieveOxygenMask);
-            return false;
-        }
-
-        return true;
     }
 }

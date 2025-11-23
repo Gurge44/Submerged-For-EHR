@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using static NormalPlayerTask.TaskLength;
 using static Submerged.Enums.CustomTaskTypes.Floor;
 
@@ -9,8 +8,8 @@ public readonly struct CustomTaskTypes : IEquatable<CustomTaskTypes>
 {
     #region Struct implementation
 
-    public static List<CustomTaskTypes> All { get; } = [];
-    private static readonly Dictionary<TaskTypes, CustomTaskTypes> _mapping = new();
+    public static SCG.List<CustomTaskTypes> All { get; } = [];
+    private static readonly SCG.Dictionary<TaskTypes, CustomTaskTypes> _mapping = new();
 
     public readonly TaskTypes taskType;
     public readonly StringNames stringName;
@@ -28,9 +27,13 @@ public readonly struct CustomTaskTypes : IEquatable<CustomTaskTypes>
         _mapping.Add(this.taskType, this);
     }
 
-    private CustomTaskTypes(TaskTypes taskType, Floor floor, NormalPlayerTask.TaskLength length) : this((int) taskType, 0, floor, length) { }
+    private CustomTaskTypes(TaskTypes taskType, Floor floor, NormalPlayerTask.TaskLength length) : this((int) taskType,
+        0,
+        floor,
+        length) { }
 
-    public static bool TryGetFromTaskType(TaskTypes taskTypes, out CustomTaskTypes result) => _mapping.TryGetValue(taskTypes, out result);
+    public static bool TryGetFromTaskType(TaskTypes taskTypes, out CustomTaskTypes result) =>
+        _mapping.TryGetValue(taskTypes, out result);
 
     public static implicit operator TaskTypes(CustomTaskTypes self) => self.taskType;
 
@@ -74,46 +77,56 @@ public readonly struct CustomTaskTypes : IEquatable<CustomTaskTypes>
     public static readonly CustomTaskTypes PlugLeaks = new(0x80, CustomStringNames.PlugLeaks, Both, Common);
 
     [UsedImplicitly]
-    public static readonly CustomTaskTypes SpotWhaleShark = new(0x81, CustomStringNames.SpotWhaleShark, UpperDeck, Common);
+    public static readonly CustomTaskTypes SpotWhaleShark =
+        new(0x81, CustomStringNames.SpotWhaleShark, UpperDeck, Common);
 
     [UsedImplicitly]
-    public static readonly CustomTaskTypes MicrowaveLunch = new(0x82, CustomStringNames.MicrowaveLunch, UpperDeck, Long);
+    public static readonly CustomTaskTypes
+        MicrowaveLunch = new(0x82, CustomStringNames.MicrowaveLunch, UpperDeck, Long);
 
     [UsedImplicitly]
     public static readonly CustomTaskTypes ReshelveBooks = new(0x83, CustomStringNames.ReshelveBooks, UpperDeck, Long);
 
     [UsedImplicitly]
-    public static readonly CustomTaskTypes RecordNavBeaconData = new(0x84, CustomStringNames.RecordNavBeaconData, UpperDeck, Long);
+    public static readonly CustomTaskTypes RecordNavBeaconData =
+        new(0x84, CustomStringNames.RecordNavBeaconData, UpperDeck, Long);
 
     [UsedImplicitly]
     public static readonly CustomTaskTypes MopPuddles = new(0x85, CustomStringNames.MopPuddles, LowerDeck, Long);
 
     [UsedImplicitly]
-    public static readonly CustomTaskTypes OxygenateSeaPlants = new(0x86, CustomStringNames.OxygenateSeaPlants, LowerDeck, Long);
+    public static readonly CustomTaskTypes OxygenateSeaPlants =
+        new(0x86, CustomStringNames.OxygenateSeaPlants, LowerDeck, Long);
 
     [UsedImplicitly]
     public static readonly CustomTaskTypes ClearUrchins = new(0x87, CustomStringNames.ClearUrchins, LowerDeck, Long);
 
     [UsedImplicitly]
-    public static readonly CustomTaskTypes ShootDepthCharges = new(0x88, CustomStringNames.ShootDepthCharges, LowerDeck, Long);
+    public static readonly CustomTaskTypes ShootDepthCharges =
+        new(0x88, CustomStringNames.ShootDepthCharges, LowerDeck, Long);
 
     [UsedImplicitly]
-    public static readonly CustomTaskTypes DiagnoseElevators = new(0x89, CustomStringNames.DiagnoseElevators, Both, Long);
+    public static readonly CustomTaskTypes DiagnoseElevators =
+        new(0x89, CustomStringNames.DiagnoseElevators, Both, Long);
 
     [UsedImplicitly]
-    public static readonly CustomTaskTypes PurchaseBreakfast = new(0x8B, CustomStringNames.PurchaseBreakfast, UpperDeck, Short);
+    public static readonly CustomTaskTypes PurchaseBreakfast =
+        new(0x8B, CustomStringNames.PurchaseBreakfast, UpperDeck, Short);
 
     [UsedImplicitly]
-    public static readonly CustomTaskTypes ReconnectPiping = new(0x8C, CustomStringNames.ReconnectPiping, LowerDeck, Short);
+    public static readonly CustomTaskTypes ReconnectPiping =
+        new(0x8C, CustomStringNames.ReconnectPiping, LowerDeck, Short);
 
     [UsedImplicitly]
     public static readonly CustomTaskTypes CleanGlass = new(0x8D, CustomStringNames.CleanGlass, UpperDeck, Short);
 
     [UsedImplicitly]
-    public static readonly CustomTaskTypes IdentifySpecimen = new(0x8E, CustomStringNames.IdentifySpecimen, UpperDeck, Short);
+    public static readonly CustomTaskTypes IdentifySpecimen =
+        new(0x8E, CustomStringNames.IdentifySpecimen, UpperDeck, Short);
 
     [UsedImplicitly]
-    public static readonly CustomTaskTypes StartSubmersible = new(0x8F, CustomStringNames.StartSubmersible, LowerDeck, Short);
+    public static readonly CustomTaskTypes StartSubmersible =
+        new(0x8F, CustomStringNames.StartSubmersible, LowerDeck, Short);
 
     [UsedImplicitly]
     public static readonly CustomTaskTypes TrackMantaRay = new(0x90, CustomStringNames.TrackMantaRay, UpperDeck, Short);
@@ -122,7 +135,8 @@ public readonly struct CustomTaskTypes : IEquatable<CustomTaskTypes>
     public static readonly CustomTaskTypes DispenseWater = new(0x91, CustomStringNames.DispenseWater, LowerDeck, Short);
 
     [UsedImplicitly]
-    public static readonly CustomTaskTypes SteadyHeartbeat = new(0x92, CustomStringNames.SteadyHeartbeat, UpperDeck, Short);
+    public static readonly CustomTaskTypes SteadyHeartbeat =
+        new(0x92, CustomStringNames.SteadyHeartbeat, UpperDeck, Short);
 
     [UsedImplicitly]
     public static readonly CustomTaskTypes FeedPetFish = new(0x93, CustomStringNames.FeedPetFish, UpperDeck, Short);
@@ -137,11 +151,13 @@ public readonly struct CustomTaskTypes : IEquatable<CustomTaskTypes>
     public static readonly CustomTaskTypes ResetBreakers = new(0x96, CustomStringNames.ResetBreakers, LowerDeck, Short);
 
     [UsedImplicitly]
-    public static readonly CustomTaskTypes LocateVolcanicActivity = new(0x97, CustomStringNames.LocateVolcanicActivity, UpperDeck, Short);
+    public static readonly CustomTaskTypes LocateVolcanicActivity =
+        new(0x97, CustomStringNames.LocateVolcanicActivity, UpperDeck, Short);
 
     // Custom sabotages
     [UsedImplicitly]
-    public static readonly CustomTaskTypes RetrieveOxygenMask = new(0x98, CustomStringNames.RetrieveOxygenMask, Both, None);
+    public static readonly CustomTaskTypes RetrieveOxygenMask =
+        new(0x98, CustomStringNames.RetrieveOxygenMask, Both, None);
 
     // ReSharper restore InconsistentNaming, UnusedMember.Global
 

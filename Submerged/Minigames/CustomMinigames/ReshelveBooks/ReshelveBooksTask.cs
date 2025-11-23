@@ -73,7 +73,9 @@ public sealed class ReshelveBooksTask(nint ptr) : NormalPlayerTask(ptr)
 
     public Console GetNextConsole()
     {
-        if (taskStep == 2) return ShipStatus.Instance.AllConsoles.FirstOrDefault(c => c.ConsoleId == 2 && c.TaskTypes.Contains(CustomTaskTypes.ReshelveBooks));
+        if (taskStep == 2)
+            return ShipStatus.Instance.AllConsoles.FirstOrDefault(c =>
+                c.ConsoleId == 2 && c.TaskTypes.Contains(CustomTaskTypes.ReshelveBooks));
 
         return ShipStatus.Instance.AllConsoles.Last(ValidConsole);
         // if (CustomData[2] == 0) return ShipStatusCached.Instance.AllConsoles.FirstOrDefault(c => c.ConsoleId == 0 && c.TaskTypes.Contains(CustomTaskTypes.ReshelveBooks));

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Reactor.Utilities.Attributes;
 using Submerged.Enums;
 using Submerged.Extensions;
@@ -9,7 +8,7 @@ namespace Submerged.Minigames.CustomMinigames.MopPuddles;
 [RegisterInIl2Cpp]
 public sealed class MopPuddlesTask(nint ptr) : NormalPlayerTask(ptr)
 {
-    public List<int> validConsoleIds;
+    public SCG.List<int> validConsoleIds;
 
     private void Awake()
     {
@@ -22,12 +21,15 @@ public sealed class MopPuddlesTask(nint ptr) : NormalPlayerTask(ptr)
 
     public override void Initialize()
     {
-        List<Console> consoles = ShipStatus.Instance.AllConsoles.Where(c => c.TaskTypes.Contains(CustomTaskTypes.MopPuddles)).ToList();
-        if (GameManager.Instance.IsHideAndSeek()) // In HnS, this task can only appear on the lower deck, so we only want lower deck consoles to be selected.
+        SCG.List<Console> consoles = ShipStatus.Instance.AllConsoles
+            .Where(c => c.TaskTypes.Contains(CustomTaskTypes.MopPuddles))
+            .ToList();
+        if (GameManager.Instance
+            .IsHideAndSeek()) // In HnS, this task can only appear on the lower deck, so we only want lower deck consoles to be selected.
             consoles = consoles.Where(c =>
-                                          c.Room is SystemTypes.Hallway or SystemTypes.Storage ||
-                                          c.Room == CustomSystemTypes.Filtration)
-                               .ToList();
+                    c.Room is SystemTypes.Hallway or SystemTypes.Storage ||
+                    c.Room == CustomSystemTypes.Filtration)
+                .ToList();
 
         validConsoleIds = consoles.Select(t => t.ConsoleId).ToArray().Shuffle().Take(MaxStep).ToList();
         validConsoleIds.Sort();
@@ -36,7 +38,8 @@ public sealed class MopPuddlesTask(nint ptr) : NormalPlayerTask(ptr)
         LocationDirty = true;
     }
 
-    public override bool ValidConsole(Console console) => console.TaskTypes.Contains(CustomTaskTypes.MopPuddles) && validConsoleIds.Contains(console.ConsoleId);
+    public override bool ValidConsole(Console console) => console.TaskTypes.Contains(CustomTaskTypes.MopPuddles) &&
+        validConsoleIds.Contains(console.ConsoleId);
 
     public override void UpdateArrowAndLocation()
     {
@@ -63,7 +66,8 @@ public sealed class MopPuddlesTask(nint ptr) : NormalPlayerTask(ptr)
                 Arrow.gameObject.SetActive(true);
             }
 
-            Console nextConsole = ShipStatus.Instance.AllConsoles.Where(ValidConsole).First(c => c.ConsoleId == validConsoleIds[0]);
+            Console nextConsole = ShipStatus.Instance.AllConsoles.Where(ValidConsole)
+                .First(c => c.ConsoleId == validConsoleIds[0]);
 
             Arrow.target = nextConsole.transform.position;
             StartAt = nextConsole.Room;

@@ -7,17 +7,10 @@ public sealed partial class AU
     public interface IUsableCoolDown : IUsable
     {
         [UsedImplicitly]
-        float CoolDown
-        {
-            get;
-            set;
-        }
+        float CoolDown { get; set; }
 
         [UsedImplicitly]
-        float MaxCoolDown
-        {
-            get;
-        }
+        float MaxCoolDown { get; }
 
         [UsedImplicitly]
         bool IsCoolingDown();

@@ -10,7 +10,8 @@ public static class SoundPatches
 {
     [HarmonyPatch(typeof(SoundManager), nameof(SoundManager.PlaySound))]
     [HarmonyPrefix]
-    public static void ReplaceO2SabotageSoundWithAirshipPatch([HarmonyArgument(0)] ref AudioClip clip, [HarmonyArgument(2)] ref float volume)
+    public static void ReplaceO2SabotageSoundWithAirshipPatch([HarmonyArgument(0)] ref AudioClip clip,
+        [HarmonyArgument(2)] ref float volume)
     {
         if (!ShipStatus.Instance.IsSubmerged()) return;
         if (clip != MapLoader.Skeld.SabotageSound) return;

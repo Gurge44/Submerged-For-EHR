@@ -9,8 +9,8 @@ namespace Submerged.UI;
 public sealed class CreditsScreenManager(nint ptr) : MonoBehaviour(ptr)
 {
     private const string TRANSLATORS = "DekoKiyo (日本語), ItsNiceCraft (Deutsch), MissJukebox (Español),\n" +
-                                       "Monid73 (Русский), PENGUN (Italiano), RevoLou (Português do Brasil), RobinRMC (Nederlands),\n" +
-                                       "SPRLC (Français), ねろちゃん (日本語), 阿龍DragonTw (繁體中文), 黑客Hecker (简体中文)";
+        "Monid73 (Русский), PENGUN (Italiano), RevoLou (Português do Brasil), RobinRMC (Nederlands),\n" +
+        "SPRLC (Français), ねろちゃん (日本語), 阿龍DragonTw (繁體中文), 黑客Hecker (简体中文)";
 
     public void Awake()
     {
@@ -31,6 +31,7 @@ public sealed class CreditsScreenManager(nint ptr) : MonoBehaviour(ptr)
         textParent.Find("Artists").GetComponent<TextMeshPro>().text = General.Credits_Artists;
         textParent.Find("Technical Support").GetComponent<TextMeshPro>().text = General.Credits_TechnicalSupport;
         textParent.Find("Additional Art").GetComponent<TextMeshPro>().text = General.Credits_AdditionalArt;
-        transform.Find("Translators/Text").GetComponent<TextMeshPro>().text = $"<u><b>{General.Credits_Translators}:</b></u> {TRANSLATORS}";
+        transform.Find("Translators/Text").GetComponent<TextMeshPro>().text =
+            $"<u><b>{General.Credits_Translators}:</b></u> {TRANSLATORS}";
     }
 }

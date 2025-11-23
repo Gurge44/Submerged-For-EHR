@@ -2,9 +2,9 @@
 using Il2CppInterop.Runtime.Attributes;
 using Reactor.Utilities.Attributes;
 using Submerged.Extensions;
+using Submerged.Localization.Strings;
 using Submerged.Minigames.CustomMinigames.DiagnoseElevators.Enums;
 using Submerged.Minigames.MonoBehaviours;
-using Submerged.Localization.Strings;
 using TMPro;
 using UnityEngine;
 

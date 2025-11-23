@@ -18,6 +18,8 @@ public sealed class OxygenSabotageMinigame(nint ptr) : Minigame(ptr)
     private TextMeshPro _text;
     private Draggable _window;
 
+    private int RemainingMasks => _oxygenSystem.RemainingMasks;
+
     public void Start()
     {
         _oxygenSystem = MyTask.Cast<OxygenSabotageTask>().system;
@@ -103,8 +105,6 @@ public sealed class OxygenSabotageMinigame(nint ptr) : Minigame(ptr)
         };
         // Window.OnUp += () => SoundManager.Instance.PlaySound(MinigameProperties.AudioClips[0], false, 1f);
     }
-
-    private int RemainingMasks => _oxygenSystem.RemainingMasks;
 
     private void Complete()
     {

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using BepInEx.Unity.IL2CPP.Utils;
 using Il2CppInterop.Runtime.Attributes;
 using Reactor.Utilities.Attributes;
@@ -17,8 +16,8 @@ public sealed class CleanGlassMinigame(nint ptr) : Minigame(ptr)
     public GameObject[] smudges;
     public Draggable cloth;
 
-    public List<GameObject> activeSmudges;
-    public List<Smudge> activeSmudgeBehaviours = new();
+    public SCG.List<GameObject> activeSmudges;
+    public SCG.List<Smudge> activeSmudgeBehaviours = new();
 
     private bool _finished;
     private bool _hovering;
@@ -60,6 +59,7 @@ public sealed class CleanGlassMinigame(nint ptr) : Minigame(ptr)
         {
             MyNormTask.NextStep();
         }
+
         StartCoroutine(CoStartClose());
 
         Animator anim = transform.Find("Sparkle").GetComponent<Animator>();
@@ -67,7 +67,8 @@ public sealed class CleanGlassMinigame(nint ptr) : Minigame(ptr)
         yield return anim.PlayAndWaitForAnimation("SparkleAnimation");
         anim.GetComponent<SpriteRenderer>().enabled = false;
 
-        if (!PlayerControl.LocalPlayer.myTasks.ToArray().Any(t => t.TaskType == CustomTaskTypes.CleanGlass && !t.IsComplete))
+        if (!PlayerControl.LocalPlayer.myTasks.ToArray()
+                .Any(t => t.TaskType == CustomTaskTypes.CleanGlass && !t.IsComplete))
         {
             GameObject.Find("CleanGlassConsole").GetComponent<SpriteRenderer>().enabled = false;
         }

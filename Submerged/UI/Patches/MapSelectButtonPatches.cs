@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
 using Submerged.Enums;
@@ -16,7 +15,8 @@ public static class MapSelectButtonPatches
 
     [HarmonyPatch(typeof(IGameOptionsExtensions), nameof(IGameOptionsExtensions.ToggleMapFilter))]
     [HarmonyPrefix]
-    public static bool AllowSelectingSubmergedMapPatch([HarmonyArgument(0)] IGameOptions gameOptions, [HarmonyArgument(1)] byte newId)
+    public static bool AllowSelectingSubmergedMapPatch([HarmonyArgument(0)] IGameOptions gameOptions,
+        [HarmonyArgument(1)] byte newId)
     {
         int b = gameOptions.MapId ^ (byte) (1 << newId);
         if (b != 0) gameOptions.SetByte(ByteOptionNames.MapId, (byte) b);
@@ -39,12 +39,16 @@ public static class MapSelectButtonPatches
         submergedButton.GetComponent<SpriteRenderer>().sprite = ResourceManager.spriteCache["Logo"];
         submergedButton.OnPressEvent = fungleButton.OnPressEvent;
 
-        fungleButton.transform.position = new Vector3(__instance.buttons[0].transform.position.x, fungleButton.transform.position.y, fungleButton.transform.position.z);
-        submergedButton.transform.position = new Vector3(__instance.buttons[1].transform.position.x, fungleButton.transform.position.y, fungleButton.transform.position.z);
+        fungleButton.transform.position = new(__instance.buttons[0].transform.position.x,
+            fungleButton.transform.position.y,
+            fungleButton.transform.position.z);
+        submergedButton.transform.position = new(__instance.buttons[1].transform.position.x,
+            fungleButton.transform.position.y,
+            fungleButton.transform.position.z);
 
         SwapPositionsTroll(fungleButton, submergedButton);
 
-        __instance.buttons = new List<FreeplayPopoverButton>(__instance.buttons) { submergedButton }.ToArray();
+        __instance.buttons = new SCG.List<FreeplayPopoverButton>(__instance.buttons) { submergedButton }.ToArray();
     }
 
     [HarmonyPatch(typeof(CreateGameOptions), nameof(CreateGameOptions.Start))]
@@ -52,19 +56,16 @@ public static class MapSelectButtonPatches
     public static void AddSubmergedToCreateGame(CreateGameOptions __instance)
     {
         __instance.mapTooltips = __instance.mapTooltips.AddItem(CustomStringNames.SubmergedTooltip).ToArray();
-        __instance.mapBanners = new List<Sprite>(__instance.mapBanners)
+        __instance.mapBanners = new SCG.List<Sprite>(__instance.mapBanners)
         {
             ResourceManager.spriteCache["OptionsLogo"]
         }.ToArray();
 
         ConfirmCreatePopUp popUp = __instance.confirmPopUp.GetComponent<ConfirmCreatePopUp>();
 
-        popUp.mapLogos = new List<Sprite>(popUp.mapLogos)
-        {
-            ResourceManager.spriteCache["OptionsLogo"]
-        }.ToArray();
+        popUp.mapLogos = new SCG.List<Sprite>(popUp.mapLogos) { ResourceManager.spriteCache["OptionsLogo"] }.ToArray();
 
-        popUp.mapBanners = new List<Sprite>(popUp.mapBanners)
+        popUp.mapBanners = new SCG.List<Sprite>(popUp.mapBanners)
         {
             ResourceManager.spriteCache["OptionsBG"]
         }.ToArray();

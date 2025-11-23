@@ -1,7 +1,7 @@
 ﻿using Reactor.Utilities.Attributes;
 using Submerged.Extensions;
-using Submerged.Minigames.MonoBehaviours;
 using Submerged.Localization.Strings;
+using Submerged.Minigames.MonoBehaviours;
 using TMPro;
 using UnityEngine;
 
@@ -84,6 +84,7 @@ public sealed class ReshelvePart2(nint ptr) : MonoBehaviour(ptr)
             {
                 minigame.Task.NextStep();
             }
+
             minigame.StartCoroutine(minigame.CoStartClose());
             remainingBooks = -1;
         }
@@ -136,7 +137,7 @@ public sealed class ReshelvePart2(nint ptr) : MonoBehaviour(ptr)
 
         if (rendTransform.localPosition.magnitude <= 3)
         {
-            rendTransform.localPosition = new Vector3(0, 0, rendTransform.localPosition.z);
+            rendTransform.localPosition = new(0, 0, rendTransform.localPosition.z);
             rendTransform.localEulerAngles = Vector3.zero;
             rend.GetComponent<Collider2D>().enabled = false;
             SoundManager.Instance.PlaySound(minigame.minigameProperties.audioClips[0], false);
@@ -154,10 +155,12 @@ public sealed class ReshelvePart2(nint ptr) : MonoBehaviour(ptr)
     private void SetText(Transform search, string objName, string targetText)
     {
         Transform targetTrans = search.Find(objName);
+
         if (targetTrans == null)
         {
             return;
         }
+
         targetTrans.GetComponentInChildren<TextMeshPro>().SetText(targetText);
     }
 }

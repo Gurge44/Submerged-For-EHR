@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using BepInEx.Unity.IL2CPP.Utils;
 using Il2CppInterop.Runtime.Attributes;
 using Reactor.Utilities.Attributes;
@@ -18,7 +17,7 @@ public class RelativeShadowRenderer(nint ptr) : MonoBehaviour(ptr)
     public Sprite[] replacementSprites;
     public SpriteRenderer shadowRenderer;
 
-    private readonly Dictionary<Sprite, Sprite> _cachedSprites = [];
+    private readonly SCG.Dictionary<Sprite, Sprite> _cachedSprites = [];
 
     public virtual bool EnableShadow => true;
 
@@ -41,7 +40,7 @@ public class RelativeShadowRenderer(nint ptr) : MonoBehaviour(ptr)
 
         if (isRoot)
         {
-            objTransform.localPosition = new Vector3(-0.04f, 0, 0); // slight offset in the shadow idk why
+            objTransform.localPosition = new(-0.04f, 0, 0); // slight offset in the shadow idk why
             objTransform.localScale = Vector3.one;
             objTransform.localRotation = Quaternion.identity;
         }

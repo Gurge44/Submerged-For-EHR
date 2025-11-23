@@ -1,4 +1,3 @@
-using BepInEx.Unity.IL2CPP.Utils.Collections;
 using HarmonyLib;
 using Reactor.Utilities.Extensions;
 using Submerged.Enums;
@@ -36,7 +35,7 @@ public static class OxygenDeathAnimationPatches
             _oxygenDeath.transform.Find("killstabknife").gameObject.SetActive(false);
             _oxygenDeath.transform.Find("killstabknifehand").gameObject.SetActive(false);
 
-            _oxygenDeath.victimParts.transform.localPosition = new Vector3(-1.5f, 0, 0);
+            _oxygenDeath.victimParts.transform.localPosition = new(-1.5f, 0, 0);
             _oxygenDeath.KillType = CustomKillAnimTypes.Oxygen;
 
             _oxygenDeath.gameObject.AddComponent<CustomKillAnimationPlayer>();
@@ -47,11 +46,19 @@ public static class OxygenDeathAnimationPatches
 
     public static bool IsOxygenDeath { get; set; }
 
-    [HarmonyPatch(typeof(KillOverlay), nameof(KillOverlay.ShowKillAnimation), typeof(NetworkedPlayerInfo), typeof(NetworkedPlayerInfo))]
+    [HarmonyPatch(typeof(KillOverlay),
+        nameof(KillOverlay.ShowKillAnimation),
+        typeof(NetworkedPlayerInfo),
+        typeof(NetworkedPlayerInfo))]
     [HarmonyPrefix]
-    public static bool ShowOxygenKillAnimationPatch(KillOverlay __instance, [HarmonyArgument(0)] NetworkedPlayerInfo killer, [HarmonyArgument(1)] NetworkedPlayerInfo victim)
+    public static bool ShowOxygenKillAnimationPatch(KillOverlay __instance,
+        [HarmonyArgument(0)] NetworkedPlayerInfo killer, [HarmonyArgument(1)] NetworkedPlayerInfo victim)
     {
-        if (killer.PlayerId != victim.PlayerId || !IsOxygenDeath || AprilFoolsMode.ShouldHorseAround() || AprilFoolsMode.ShouldLongAround()) return true;
+        if (killer.PlayerId != victim.PlayerId ||
+            !IsOxygenDeath ||
+            AprilFoolsMode.ShouldHorseAround() ||
+            AprilFoolsMode.ShouldLongAround())
+            return true;
 
         __instance.ShowKillAnimation(OxygenDeath, killer, victim);
 

@@ -36,7 +36,8 @@ public static class CrossFloorVentMovement
         }
     }
 
-    private static IEnumerator MovementAnimation(Vector2 targetPos, bool originalFloor, float cameraSpeedY, float cameraTargetX, float movingDownRpcSnapToYOffset = 0)
+    private static IEnumerator MovementAnimation(Vector2 targetPos, bool originalFloor, float cameraSpeedY,
+        float cameraTargetX, float movingDownRpcSnapToYOffset = 0)
     {
         FollowerCamera cam = HudManager.Instance.PlayerCam;
         Transform camTransform = cam.transform;
@@ -68,7 +69,8 @@ public static class CrossFloorVentMovement
         // Teleport player to same position despite floor X difference
         if (!originalFloor)
         {
-            PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(targetPos - new Vector2(0, FloorHandler.MAP_OFFSET + movingDownRpcSnapToYOffset));
+            PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(targetPos -
+                new Vector2(0, FloorHandler.MAP_OFFSET + movingDownRpcSnapToYOffset));
         }
         else
         {

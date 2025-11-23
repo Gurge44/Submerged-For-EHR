@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using BepInEx.Unity.IL2CPP.Utils;
 using Il2CppInterop.Runtime.Attributes;
 using Reactor.Utilities.Attributes;
@@ -15,9 +14,9 @@ namespace Submerged.Minigames.CustomMinigames.FeedPetFish;
 public sealed class FeedFishMinigame(nint ptr) : Minigame(ptr)
 {
     private readonly bool[] _completedSpecies = new bool[2];
-    private readonly List<DraggableFeeder> _fishFood = [];
+    private readonly SCG.List<DraggableFeeder> _fishFood = [];
     private AudioSource _audio;
-    private List<Transform> _fishGroup;
+    private SCG.List<Transform> _fishGroup;
 
     private MinigameProperties _minigameProperties;
 
@@ -26,12 +25,16 @@ public sealed class FeedFishMinigame(nint ptr) : Minigame(ptr)
     private void Start()
     {
         _minigameProperties = GetComponent<MinigameProperties>();
-        _audio = SoundManager.Instance.PlayNamedSound("Pump", _minigameProperties.audioClips[0], true, SoundManager.Instance.SfxChannel);
+        _audio = SoundManager.Instance.PlayNamedSound("Pump",
+            _minigameProperties.audioClips[0],
+            true,
+            SoundManager.Instance.SfxChannel);
         _audio.volume = 0.25f;
 
         _fishGroup = transform.Find("Background/Fish").GetChildren().ToList();
         Transform rotationLookAtPoint = transform.Find("UI/RotationLookAtPoint");
-        ParticleSystem shakerParticles = transform.Find("UI/ShakerParticleHome/ShakerParticles").GetComponent<ParticleSystem>();
+        ParticleSystem shakerParticles =
+            transform.Find("UI/ShakerParticleHome/ShakerParticles").GetComponent<ParticleSystem>();
         BoxCollider2D activatorArea = transform.Find("UI/ActivatorArea").GetComponent<BoxCollider2D>();
 
         foreach (Transform t in transform.Find("UI/Feed").GetChildren())
@@ -78,6 +81,7 @@ public sealed class FeedFishMinigame(nint ptr) : Minigame(ptr)
             {
                 MyNormTask.NextStep();
             }
+
             StartCoroutine(CoStartClose());
         }
     }
@@ -93,28 +97,36 @@ public sealed class FeedFishMinigame(nint ptr) : Minigame(ptr)
         {
             for (float t = 0; t < duration; t += Time.deltaTime)
             {
-                trans.localPosition = Vector3.Lerp(initialPosition, new Vector3(initialPosition.x, initialPosition.y + rng, initialPosition.z), t / duration);
+                trans.localPosition = Vector3.Lerp(initialPosition,
+                    new(initialPosition.x, initialPosition.y + rng, initialPosition.z),
+                    t / duration);
 
                 yield return null;
             }
 
             for (float t = 0; t < duration; t += Time.deltaTime)
             {
-                trans.localPosition = Vector3.Lerp(new Vector3(initialPosition.x, initialPosition.y + rng, initialPosition.z), initialPosition, t / duration);
+                trans.localPosition = Vector3.Lerp(new(initialPosition.x, initialPosition.y + rng, initialPosition.z),
+                    initialPosition,
+                    t / duration);
 
                 yield return null;
             }
 
             for (float t = 0; t < duration; t += Time.deltaTime)
             {
-                trans.localPosition = Vector3.Lerp(initialPosition, new Vector3(initialPosition.x, initialPosition.y - rng, initialPosition.z), t / duration);
+                trans.localPosition = Vector3.Lerp(initialPosition,
+                    new(initialPosition.x, initialPosition.y - rng, initialPosition.z),
+                    t / duration);
 
                 yield return null;
             }
 
             for (float t = 0; t < duration; t += Time.deltaTime)
             {
-                trans.localPosition = Vector3.Lerp(new Vector3(initialPosition.x, initialPosition.y - rng, initialPosition.z), initialPosition, t / duration);
+                trans.localPosition = Vector3.Lerp(new(initialPosition.x, initialPosition.y - rng, initialPosition.z),
+                    initialPosition,
+                    t / duration);
 
                 yield return null;
             }

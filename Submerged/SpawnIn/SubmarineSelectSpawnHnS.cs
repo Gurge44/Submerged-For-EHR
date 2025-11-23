@@ -22,10 +22,10 @@ public sealed class SubmarineSelectSpawnHnS(nint ptr) : SubmarineSelectSpawn(ptr
         if (!isImpostor && !clicked)
         {
             clicked = true;
-            SetColors(upperDeckRenderers, new Color(1, 1, 1, 0.35f));
-            SetColors(lowerDeckRenderers, new Color(1, 1, 1, 0.35f));
-            upperDeckText.color = new Color(1, 1, 1, 0.35f);
-            lowerDeckText.color = new Color(1, 1, 1, 0.35f);
+            SetColors(upperDeckRenderers, new(1, 1, 1, 0.35f));
+            SetColors(lowerDeckRenderers, new(1, 1, 1, 0.35f));
+            upperDeckText.color = new(1, 1, 1, 0.35f);
+            lowerDeckText.color = new(1, 1, 1, 0.35f);
             this.StartCoroutine(CoWaitForOthers());
         }
 
@@ -40,13 +40,14 @@ public sealed class SubmarineSelectSpawnHnS(nint ptr) : SubmarineSelectSpawn(ptr
             case SpawnInState.Loading:
                 timerText.text = "";
                 playersText.text = string.Format(Tasks.SpawnIn_Bottom_Loading,
-                                                 SubmarineSpawnInSystem.Instance.GetReadyPlayerAmount(),
-                                                 SubmarineSpawnInSystem.Instance.GetTotalPlayerAmount());
+                    SubmarineSpawnInSystem.Instance.GetReadyPlayerAmount(),
+                    SubmarineSpawnInSystem.Instance.GetTotalPlayerAmount());
 
                 break;
 
             case SpawnInState.Spawning when !clicked && SubmarineSpawnInSystem.Instance.timer > 0:
-                timerText.text = string.Format(Tasks.SpawnIn_Top_SpawningNotClicked, Mathf.RoundToInt(SubmarineSpawnInSystem.Instance.timer));
+                timerText.text = string.Format(Tasks.SpawnIn_Top_SpawningNotClicked,
+                    Mathf.RoundToInt(SubmarineSpawnInSystem.Instance.timer));
                 playersText.text = "";
 
                 break;
@@ -61,7 +62,8 @@ public sealed class SubmarineSelectSpawnHnS(nint ptr) : SubmarineSelectSpawn(ptr
                 break;
 
             case SpawnInState.Spawning when clicked && !isImpostor && SubmarineSpawnInSystem.Instance.timer > 0:
-                timerText.text = string.Format(Tasks.SpawnIn_Top_SpawningHnS, Mathf.RoundToInt(SubmarineSpawnInSystem.Instance.timer));
+                timerText.text = string.Format(Tasks.SpawnIn_Top_SpawningHnS,
+                    Mathf.RoundToInt(SubmarineSpawnInSystem.Instance.timer));
                 playersText.text = "";
 
                 break;

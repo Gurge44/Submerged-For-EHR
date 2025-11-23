@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using BepInEx.Unity.IL2CPP.Utils;
+﻿using BepInEx.Unity.IL2CPP.Utils;
 using Il2CppInterop.Runtime.Attributes;
 using Reactor.Utilities.Attributes;
 using Submerged.Extensions;
@@ -34,7 +33,7 @@ public sealed class PipeCell(nint ptr) : MonoBehaviour(ptr)
         _button.OnMouseOut = new Button.ButtonClickedEvent();
         _button.OnMouseOver = new Button.ButtonClickedEvent();
 
-        _button.OnClick = new Button.ButtonClickedEvent();
+        _button.OnClick = new();
         _button.OnClick.AddListener(Click);
 
         // TEMP
@@ -70,7 +69,7 @@ public sealed class PipeCell(nint ptr) : MonoBehaviour(ptr)
                 yield return null;
             }
 
-            gameObject.transform.localEulerAngles = new Vector3(0, 0, originalRotation.z - 90);
+            gameObject.transform.localEulerAngles = new(0, 0, originalRotation.z - 90);
             _queuedClicks--;
 
             yield return null;
@@ -114,7 +113,7 @@ public sealed class PipeCell(nint ptr) : MonoBehaviour(ptr)
                 {
                     Vector3 rotation = gameObject.transform.localEulerAngles;
                     rotation.z -= 90;
-                    gameObj.transform.localEulerAngles = new Vector3(0, 0, -90);
+                    gameObj.transform.localEulerAngles = new(0, 0, -90);
                 }
             }
             else
@@ -122,16 +121,19 @@ public sealed class PipeCell(nint ptr) : MonoBehaviour(ptr)
                 switch ((int) firstDirection + (int) secondDirection)
                 {
                     case 1: // NE
-                        gameObj.transform.localEulerAngles = new Vector3(0, 0, 90);
+                        gameObj.transform.localEulerAngles = new(0, 0, 90);
 
                         break;
+
                     case 3: // SE or NW
-                        gameObj.transform.localEulerAngles = new Vector3(0, 0, -180);
-                        if (firstDirection == Direction.South || secondDirection == Direction.South) gameObj.transform.localEulerAngles = new Vector3(0, 0, 0);
+                        gameObj.transform.localEulerAngles = new(0, 0, -180);
+                        if (firstDirection == Direction.South || secondDirection == Direction.South)
+                            gameObj.transform.localEulerAngles = new(0, 0, 0);
 
                         break;
+
                     case 5: // SW
-                        gameObj.transform.localEulerAngles = new Vector3(0, 0, -90);
+                        gameObj.transform.localEulerAngles = new(0, 0, -90);
 
                         break;
                 }
@@ -141,7 +143,7 @@ public sealed class PipeCell(nint ptr) : MonoBehaviour(ptr)
 
     public void SetRandom()
     {
-        List<Direction> directions =
+        SCG.List<Direction> directions =
         [
             Direction.North,
             Direction.East,
@@ -167,6 +169,7 @@ public sealed class PipeCell(nint ptr) : MonoBehaviour(ptr)
                     if (direction == Direction.North) return Direction.South;
 
                     break;
+
                 case 90:
                 case 270:
                     if (direction == Direction.East) return Direction.West;
@@ -182,6 +185,7 @@ public sealed class PipeCell(nint ptr) : MonoBehaviour(ptr)
                     if (currentAngle % 180 == 0) return (Direction) (((int) direction + 2) % 4);
 
                     break;
+
                 case Direction.East:
                 case Direction.West:
                     if ((currentAngle + 90) % 180 == 0) return (Direction) (((int) direction + 2) % 4);
@@ -198,16 +202,19 @@ public sealed class PipeCell(nint ptr) : MonoBehaviour(ptr)
                     if (direction == Direction.East) return Direction.South;
 
                     break;
+
                 case 90:
                     if (direction == Direction.North) return Direction.East;
                     if (direction == Direction.East) return Direction.North;
 
                     break;
+
                 case 180:
                     if (direction == Direction.North) return Direction.West;
                     if (direction == Direction.West) return Direction.North;
 
                     break;
+
                 case 270:
                     if (direction == Direction.South) return Direction.West;
                     if (direction == Direction.West) return Direction.South;

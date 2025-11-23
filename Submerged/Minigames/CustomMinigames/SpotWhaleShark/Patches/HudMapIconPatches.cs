@@ -29,7 +29,7 @@ public static class HudMapIconPatches
         if (__instance.GetComponent<WhaleSharkMapIcon>() is { } component)
         {
             component.Destroy();
-            __instance.GetComponent<SpriteRenderer>().color = new Color(1, 0.9216f, 0.0157f);
+            __instance.GetComponent<SpriteRenderer>().color = new(1, 0.9216f, 0.0157f);
         }
     }
 }

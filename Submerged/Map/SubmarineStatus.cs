@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 using BepInEx.Unity.IL2CPP.Utils;
@@ -33,10 +32,8 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
 {
     public static SubmarineStatus instance;
 
-    public static ICG.Dictionary<SystemTypes, ISystemType> systems { get; set; } = new();
-
     public ShipStatus normalShip;
-    public List<SubmarineElevator> elevators = [];
+    public SCG.List<SubmarineElevator> elevators = [];
     public bool shakeOverridden;
     public GameObject vitalsPanel;
     public Transform referenceHolder;
@@ -44,15 +41,20 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
     public bool lightFlickerActive;
     public AudioSource powerDownSound;
     public AudioSource powerUpSound;
-    public SwitchSystem switchSystem;
 
     public MinigameProperties minigameProperties;
     public Tilemap2 aprilFoolsShadowSpritesHolder;
 
     private float _ventTransitionTimer;
+    public SwitchSystem switchSystem;
 
-    private static float CrewLightMod => GameOptionsManager.Instance.CurrentGameOptions.GetFloat(FloatOptionNames.CrewLightMod);
-    private static float ImpostorLightMod => GameOptionsManager.Instance.CurrentGameOptions.GetFloat(FloatOptionNames.ImpostorLightMod);
+    public static ICG.Dictionary<SystemTypes, ISystemType> systems { get; set; } = new();
+
+    private static float CrewLightMod =>
+        GameOptionsManager.Instance.CurrentGameOptions.GetFloat(FloatOptionNames.CrewLightMod);
+
+    private static float ImpostorLightMod =>
+        GameOptionsManager.Instance.CurrentGameOptions.GetFloat(FloatOptionNames.ImpostorLightMod);
 
     public void Awake()
     {
@@ -74,7 +76,8 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
         minigameProperties = gameObject.AddComponent<MinigameProperties>();
         minigameProperties.Awake();
         DestroyImmediate(GetComponent<DivertPowerMetagame>());
-        aprilFoolsShadowSpritesHolder = transform.Find("MinigameProperties/April Fools Shadow Sprites").GetComponent<Tilemap2>();
+        aprilFoolsShadowSpritesHolder =
+            transform.Find("MinigameProperties/April Fools Shadow Sprites").GetComponent<Tilemap2>();
 
         ResolveTaskMinigames(normalShip.CommonTasks);
         ResolveTaskMinigames(normalShip.LongTasks);
@@ -92,11 +95,12 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
         normalShip.MeetingSpawnCenter2 *= 0.8f / 0.85f;
 
         vitalsPanel = Instantiate(MapLoader.Airship.transform.Find("Medbay/panel_vitals").gameObject, transform);
-        vitalsPanel.transform.position = new Vector3(4.9882f, 32.8877f, 0.0366f);
+        vitalsPanel.transform.position = new(4.9882f, 32.8877f, 0.0366f);
         vitalsPanel.SetActive(true);
         FixMinigameClosing(vitalsPanel.GetComponent<SystemConsole>().MinigamePrefab);
 
-        normalShip.EmergencyButton = transform.Find("TopFloor/Adm-Obsv-Loun-MR/TaskConsoles/console-mr-callmeeting").GetComponent<SystemConsole>();
+        normalShip.EmergencyButton = transform.Find("TopFloor/Adm-Obsv-Loun-MR/TaskConsoles/console-mr-callmeeting")
+            .GetComponent<SystemConsole>();
 
         normalShip.AllVents = transform.GetComponentsInChildren<Vent>().ToArray();
         for (int i = 0; i < normalShip.AllVents.Length; i++) normalShip.AllVents[i].Id = i;
@@ -105,8 +109,10 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
 
         gameObject.AddComponent<KcegListener>();
 
-        Collider2D centralVentCollider = transform.Find("BottomFloor/LowerCentral/MapBase/ShittyVentCollider").GetComponent<Collider2D>();
-        Collider2D enginesVentCollider = transform.Find("BottomFloor/Engines-Security/MapBase/ShittyCornerCollider").GetComponent<Collider2D>();
+        Collider2D centralVentCollider = transform.Find("BottomFloor/LowerCentral/MapBase/ShittyVentCollider")
+            .GetComponent<Collider2D>();
+        Collider2D enginesVentCollider = transform.Find("BottomFloor/Engines-Security/MapBase/ShittyCornerCollider")
+            .GetComponent<Collider2D>();
 
         foreach (PlayerControl player in PlayerControl.AllPlayerControls.GetFastEnumerator())
         {
@@ -131,8 +137,9 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
 
         if (TutorialManager.InstanceExists)
         {
-            SystemConsole taskPicker = Instantiate(MapLoader.Skeld.transform.GetComponentsInChildren<SystemConsole>().First(c => c.FreeplayOnly));
-            taskPicker.transform.position = new Vector3(5.2393f, -27.8891f, -0.002f);
+            SystemConsole taskPicker = Instantiate(MapLoader.Skeld.transform.GetComponentsInChildren<SystemConsole>()
+                .First(c => c.FreeplayOnly));
+            taskPicker.transform.position = new(5.2393f, -27.8891f, -0.002f);
             taskPicker.usableDistance = 1;
             FixMinigameClosing(taskPicker.MinigamePrefab);
         }
@@ -177,8 +184,12 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
 
         foreach (SubmarineElevator elevator in elevators)
         {
-            shakeAmount = elevator.FollowerCameraShakeAmount > shakeAmount ? elevator.FollowerCameraShakeAmount : shakeAmount;
-            shakePeriod = elevator.FollowerCameraShakePeriod > shakePeriod ? elevator.FollowerCameraShakePeriod : shakePeriod;
+            shakeAmount = elevator.FollowerCameraShakeAmount > shakeAmount
+                ? elevator.FollowerCameraShakeAmount
+                : shakeAmount;
+            shakePeriod = elevator.FollowerCameraShakePeriod > shakePeriod
+                ? elevator.FollowerCameraShakePeriod
+                : shakePeriod;
         }
 
         HudManager.Instance.PlayerCam.shakeAmount = shakeAmount;
@@ -191,11 +202,11 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
         FollowerCamera followerCam = Camera.main!.GetComponent<FollowerCamera>();
         if (followerCam) followerCam.shakeAmount = followerCam.shakePeriod = 0;
 
-        systems = new ICG.Dictionary<SystemTypes, ISystemType>(ShipStatus.SystemTypeComparer.Instance.Cast<ICG.IEqualityComparer<SystemTypes>>());
+        systems = new(ShipStatus.SystemTypeComparer.Instance.Cast<ICG.IEqualityComparer<SystemTypes>>());
 
         systems.Add(SystemTypes.Comms, new HudOverrideSystemType().Cast<ISystemType>());
         systems.Add(SystemTypes.Doors, new DoorsSystemType().Cast<ISystemType>());
-        systems.Add(SystemTypes.Electrical, (switchSystem = new SwitchSystem()).Cast<ISystemType>());
+        systems.Add(SystemTypes.Electrical, (switchSystem = new()).Cast<ISystemType>());
         systems.Add(SystemTypes.MedBay, new MedScanSystem().Cast<ISystemType>());
         systems.Add(SystemTypes.Reactor, new ReactorSystemType(45f, SystemTypes.Reactor).Cast<ISystemType>());
         systems.Add(SystemTypes.Security, new SecurityCameraSystemType().Cast<ISystemType>());
@@ -204,15 +215,22 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
         systems.Add(CustomSystemTypes.UpperCentral, new SubmarineOxygenSystem(30f).Cast<ISystemType>());
 
         systems.Add(CustomSystemTypes.ElevatorHallwayLeft,
-                                     new SubmarineElevatorSystem(CustomSystemTypes.ElevatorHallwayLeft, false, CustomSystemTypes.ElevatorHallwayRight).Cast<ISystemType>());
+            new SubmarineElevatorSystem(CustomSystemTypes.ElevatorHallwayLeft,
+                false,
+                CustomSystemTypes.ElevatorHallwayRight).Cast<ISystemType>());
         systems.Add(CustomSystemTypes.ElevatorHallwayRight,
-                                     new SubmarineElevatorSystem(CustomSystemTypes.ElevatorHallwayRight, true, CustomSystemTypes.ElevatorHallwayLeft).Cast<ISystemType>());
+            new SubmarineElevatorSystem(CustomSystemTypes.ElevatorHallwayRight,
+                true,
+                CustomSystemTypes.ElevatorHallwayLeft).Cast<ISystemType>());
         systems.Add(CustomSystemTypes.ElevatorLobbyLeft,
-                                     new SubmarineElevatorSystem(CustomSystemTypes.ElevatorLobbyLeft, true, CustomSystemTypes.ElevatorLobbyRight).Cast<ISystemType>());
+            new SubmarineElevatorSystem(CustomSystemTypes.ElevatorLobbyLeft, true, CustomSystemTypes.ElevatorLobbyRight)
+                .Cast<ISystemType>());
         systems.Add(CustomSystemTypes.ElevatorLobbyRight,
-                                     new SubmarineElevatorSystem(CustomSystemTypes.ElevatorLobbyRight, false, CustomSystemTypes.ElevatorLobbyLeft).Cast<ISystemType>());
+            new SubmarineElevatorSystem(CustomSystemTypes.ElevatorLobbyRight,
+                false,
+                CustomSystemTypes.ElevatorLobbyLeft).Cast<ISystemType>());
         systems.Add(CustomSystemTypes.ElevatorService,
-                                     new SubmarineElevatorSystem(CustomSystemTypes.ElevatorService, false).Cast<ISystemType>());
+            new SubmarineElevatorSystem(CustomSystemTypes.ElevatorService, false).Cast<ISystemType>());
 
         systems.Add(CustomSystemTypes.SubmarineFloor, new SubmarinePlayerFloorSystem().Cast<ISystemType>());
         systems.Add(CustomSystemTypes.SecuritySabotage, new SubmarineSecuritySabotageSystem().Cast<ISystemType>());
@@ -223,20 +241,23 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
 
         normalShip.SystemNames = new[]
         {
-            StringNames.FixComms,
-            StringNames.FixLights,
-            StringNames.AdminMapSystem,
-            StringNames.SecurityCamsSystem,
-            CustomStringNames.RetrieveOxygenMask,
-            CustomStringNames.StabilizeWaterLevels
+            StringNames.FixComms, StringNames.FixLights, StringNames.AdminMapSystem, StringNames.SecurityCamsSystem,
+            CustomStringNames.RetrieveOxygenMask, CustomStringNames.StabilizeWaterLevels
         };
     }
 
-    private static Il2CppReferenceArray<IActivatable> GetActivatableSystems(ICG.Dictionary<SystemTypes, ISystemType> systems)
+    private void OnDestroy()
     {
-        IEnumerable<IActivatable> enumerator()
+        if (instance == this) instance = null;
+    }
+
+    private static Il2CppReferenceArray<IActivatable> GetActivatableSystems(
+        ICG.Dictionary<SystemTypes, ISystemType> systems)
+    {
+        SCG.IEnumerable<IActivatable> enumerator()
         {
             if (systems == null || systems.Count == 0) yield break;
+
             foreach (ISystemType system in systems.Values)
             {
                 if (system is Il2CppObjectBase iObj && iObj.TryCast<IActivatable>() is { } activatable)
@@ -247,11 +268,6 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
         }
 
         return enumerator().ToArray();
-    }
-
-    private void OnDestroy()
-    {
-        if (instance == this) instance = null;
     }
 
     [HideFromIl2Cpp]
@@ -270,7 +286,9 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
     {
         if (switchSystem.ActualSwitches != switchSystem.ExpectedSwitches)
         {
-            float amount = GetSabotagedLightRadiusAndPlaySounds(neutralImpostor || (!neutral && player != null && player.Role.IsImpostor));
+            float amount =
+                GetSabotagedLightRadiusAndPlaySounds(neutralImpostor ||
+                    (!neutral && player != null && player.Role.IsImpostor));
 
             if (!neutral && (player == null || player.IsDead)) return normalShip.MaxLightRadius;
 
@@ -291,7 +309,8 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
             lightTimer = 0f;
         }
 
-        if (neutralImpostor || (!neutral && player.Role.IsImpostor)) return normalShip.MaxLightRadius * ImpostorLightMod;
+        if (neutralImpostor || (!neutral && player.Role.IsImpostor))
+            return normalShip.MaxLightRadius * ImpostorLightMod;
 
         return Mathf.Lerp(normalShip.MinLightRadius, normalShip.MaxLightRadius, num) * CrewLightMod;
     }
@@ -313,7 +332,8 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
 
         if (lightTimer > segmentSum - 0.4f)
         {
-            if (!powerDownSound) powerDownSound = SoundManager.Instance.PlaySound(minigameProperties.audioClips[1], false);
+            if (!powerDownSound)
+                powerDownSound = SoundManager.Instance.PlaySound(minigameProperties.audioClips[1], false);
         }
 
         if (lightTimer < segmentSum)
@@ -385,17 +405,22 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
         };
     }
 
+    private static SCG.IEnumerable<PlayerTask> GetAllTasks(ShipStatus ship) => ship.ShortTasks.Concat(ship.CommonTasks)
+        .Concat(ship.LongTasks)
+        .Concat(ship.SpecialTasks);
+
     #region Resolve Stuff
 
     private void ResolveBaseGameMinigame(TaskTypes taskType, ShipStatus from)
     {
-        IEnumerable<PlayerTask> ourTasks = GetAllTasks(normalShip);
+        SCG.IEnumerable<PlayerTask> ourTasks = GetAllTasks(normalShip);
         PlayerTask targetTask = GetAllTasks(from).First(t => t.TaskType == taskType);
 
         foreach (PlayerTask task in ourTasks.Where(t => t.TaskType == taskType))
         {
             task.MinigamePrefab = targetTask.MinigamePrefab;
-            FixMinigameClosing(task.MinigamePrefab); // It's probably fine if we modify the prefab directly cuz this shouldn't interfere with base game
+            FixMinigameClosing(task
+                .MinigamePrefab); // It's probably fine if we modify the prefab directly cuz this shouldn't interfere with base game
         }
     }
 
@@ -405,7 +430,9 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
         {
             foreach (PersistentCall call in passiveButton.OnClick.m_PersistentCalls.m_Calls)
             {
-                if (call.methodName == nameof(Minigame.Close) && call.mode == PersistentListenerMode.Bool && call.target.TryCast<Minigame>())
+                if (call.methodName == nameof(Minigame.Close) &&
+                    call.mode == PersistentListenerMode.Bool &&
+                    call.target.TryCast<Minigame>())
                 {
                     call.mode = PersistentListenerMode.Void;
                 }
@@ -423,6 +450,7 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
         TextMeshPro basegameText = MapLoader.Skeld.MapPrefab.GetComponentInChildren<TextMeshPro>();
         TMP_FontAsset mapFont = basegameText.font;
         Material mapFontMaterial = basegameText.fontMaterial;
+
         foreach (TextMeshPro text in normalShip.MapPrefab.GetComponentsInChildren<TextMeshPro>())
         {
             text.font = mapFont;
@@ -451,7 +479,8 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
             StowArms propertiesObj = minigame.GetComponentInChildren<StowArms>(true);
             if (!propertiesObj || minigame.GetComponentInChildren<MinigameProperties>()) continue;
 
-            (string playerTaskName, string minigameName) = minigame.gameObject.AddComponent<MinigameProperties>().GetCustomTypes();
+            (string playerTaskName, string minigameName) =
+                minigame.gameObject.AddComponent<MinigameProperties>().GetCustomTypes();
 
             if (!string.IsNullOrWhiteSpace(playerTaskName))
             {
@@ -484,7 +513,8 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
             {
                 try
                 {
-                    Minigame newMinigame = minigame.gameObject.AddInjectedComponentByName(minigameName).Cast<Minigame>();
+                    Minigame newMinigame =
+                        minigame.gameObject.AddInjectedComponentByName(minigameName).Cast<Minigame>();
                     newMinigame.TransType = minigame.TransType;
                     newMinigame.OpenSound = minigame.OpenSound;
                     newMinigame.CloseSound = minigame.CloseSound;
@@ -503,11 +533,13 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
     }
 
     [HideFromIl2Cpp]
-    private void ResolveSystemConsoleMinigames(IEnumerable<SystemConsole> consoles)
+    private void ResolveSystemConsoleMinigames(SCG.IEnumerable<SystemConsole> consoles)
     {
-        List<(SystemConsole console, GameObject minigameObject)> consoleMinigames = [];
-        IEnumerable<SystemConsole> filteredConsoles = consoles.Where(c => c.MinigamePrefab && c.MinigamePrefab.GetComponent<DivertPowerMetagame>());
-        foreach (SystemConsole console in filteredConsoles) consoleMinigames.Add((console, Instantiate(console.MinigamePrefab.gameObject, referenceHolder)));
+        SCG.List<(SystemConsole console, GameObject minigameObject)> consoleMinigames = [];
+        SCG.IEnumerable<SystemConsole> filteredConsoles =
+            consoles.Where(c => c.MinigamePrefab && c.MinigamePrefab.GetComponent<DivertPowerMetagame>());
+        foreach (SystemConsole console in filteredConsoles)
+            consoleMinigames.Add((console, Instantiate(console.MinigamePrefab.gameObject, referenceHolder)));
 
         foreach ((_, GameObject minigameObject) in consoleMinigames)
         {
@@ -520,7 +552,8 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
             {
                 try
                 {
-                    Minigame newMinigame = minigame.gameObject.AddInjectedComponentByName(minigameName).Cast<Minigame>();
+                    Minigame newMinigame =
+                        minigame.gameObject.AddInjectedComponentByName(minigameName).Cast<Minigame>();
                     newMinigame.TransType = minigame.TransType;
                     newMinigame.OpenSound = minigame.OpenSound;
                     newMinigame.CloseSound = minigame.CloseSound;
@@ -535,7 +568,8 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
 
         foreach ((SystemConsole console, GameObject minigameObject) in consoleMinigames)
         {
-            console.MinigamePrefab = minigameObject.GetComponents<Minigame>().First(m => !m.TryCast<DivertPowerMetagame>());
+            console.MinigamePrefab =
+                minigameObject.GetComponents<Minigame>().First(m => !m.TryCast<DivertPowerMetagame>());
         }
     }
 
@@ -558,9 +592,11 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
     [HideFromIl2Cpp]
     private void ResolveDoorMinigames()
     {
-        List<(DoorConsole console, GameObject minigameObject)> consoleMinigames = [];
-        IEnumerable<DoorConsole> filteredConsoles = normalShip.GetComponentsInChildren<DoorConsole>().Where(c => c.MinigamePrefab && c.MinigamePrefab.GetComponent<DivertPowerMetagame>());
-        foreach (DoorConsole console in filteredConsoles) consoleMinigames.Add((console, Instantiate(console.MinigamePrefab.gameObject, referenceHolder)));
+        SCG.List<(DoorConsole console, GameObject minigameObject)> consoleMinigames = [];
+        SCG.IEnumerable<DoorConsole> filteredConsoles = normalShip.GetComponentsInChildren<DoorConsole>()
+            .Where(c => c.MinigamePrefab && c.MinigamePrefab.GetComponent<DivertPowerMetagame>());
+        foreach (DoorConsole console in filteredConsoles)
+            consoleMinigames.Add((console, Instantiate(console.MinigamePrefab.gameObject, referenceHolder)));
 
         foreach ((_, GameObject minigameObject) in consoleMinigames)
         {
@@ -573,7 +609,8 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
             {
                 try
                 {
-                    Minigame newMinigame = minigame.gameObject.AddInjectedComponentByName(minigameName).Cast<Minigame>();
+                    Minigame newMinigame =
+                        minigame.gameObject.AddInjectedComponentByName(minigameName).Cast<Minigame>();
                     newMinigame.TransType = minigame.TransType;
                     newMinigame.OpenSound = minigame.OpenSound;
                     newMinigame.CloseSound = minigame.CloseSound;
@@ -588,7 +625,8 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
 
         foreach ((DoorConsole console, GameObject minigameObject) in consoleMinigames)
         {
-            console.MinigamePrefab = minigameObject.GetComponents<Minigame>().FirstOrDefault(m => m.TryCast<IDoorMinigame>() != null);
+            console.MinigamePrefab = minigameObject.GetComponents<Minigame>()
+                .FirstOrDefault(m => m.TryCast<IDoorMinigame>() != null);
             console.MyDoor = console.GetComponent<PlainDoor>();
         }
     }
@@ -621,9 +659,6 @@ public sealed class SubmarineStatus(nint intPtr) : MonoBehaviour(intPtr)
     }
 
     #endregion
-
-    private static IEnumerable<PlayerTask> GetAllTasks(ShipStatus ship)
-        => ship.ShortTasks.Concat(ship.CommonTasks).Concat(ship.LongTasks).Concat(ship.SpecialTasks);
 }
 
 [HarmonyPatch]
@@ -635,7 +670,6 @@ public static class SubmarineStatusPatches
     {
         if (!__instance.IsSubmerged()) return;
 
-        if (SubmarineSpawnInSystem.Instance != null)
-            SubmarineSpawnInSystem.Instance.Deteriorate(Time.fixedDeltaTime);
+        if (SubmarineSpawnInSystem.Instance != null) SubmarineSpawnInSystem.Instance.Deteriorate(Time.fixedDeltaTime);
     }
 }

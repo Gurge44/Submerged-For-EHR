@@ -43,7 +43,7 @@ public class Draggable(nint ptr) : ClickableSprite(ptr)
         if (!dragging) return;
 
         Vector2 newPos = (Vector2) _mainCam.ScreenToWorldPoint(Input.mousePosition) + _offset;
-        transform.position = new Vector3(newPos.x, newPos.y, initialPosition.z);
+        transform.position = new(newPos.x, newPos.y, initialPosition.z);
 
         onDrag?.Invoke();
     }

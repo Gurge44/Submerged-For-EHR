@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Il2CppInterop.Runtime;
 using Reactor.Utilities.Attributes;
@@ -12,15 +11,17 @@ namespace Submerged.Floors.Objects;
 [RegisterInIl2Cpp]
 public sealed class GenericShadowBehaviour(nint ptr) : MonoBehaviour(ptr)
 {
-    public static List<Func<Transform, Type>> ShadowTypeOverrides { get; set; } = [];
-
     static GenericShadowBehaviour()
     {
         // Overrides added earlier have higher priority (smaller index goes first)
-        ShadowTypeOverrides.Add(obj => obj.gameObject.GetComponentInParent<LongBoiPlayerBody>(true) ? typeof(LongPlayerShadowRenderer) : null);
-        ShadowTypeOverrides.Add(obj => obj.gameObject.GetComponentInParent<PlayerControl>() ? typeof(PlayerShadowRenderer) : null);
+        ShadowTypeOverrides.Add(obj =>
+            obj.gameObject.GetComponentInParent<LongBoiPlayerBody>(true) ? typeof(LongPlayerShadowRenderer) : null);
+        ShadowTypeOverrides.Add(obj =>
+            obj.gameObject.GetComponentInParent<PlayerControl>() ? typeof(PlayerShadowRenderer) : null);
         ShadowTypeOverrides.Add(obj => obj.gameObject.GetComponent<DeadBody>() ? typeof(DeadBodyShadowRenderer) : null);
     }
+
+    public static SCG.List<Func<Transform, Type>> ShadowTypeOverrides { get; set; } = [];
 
     private void Start()
     {
@@ -35,8 +36,10 @@ public sealed class GenericShadowBehaviour(nint ptr) : MonoBehaviour(ptr)
 
     private static void CreateShadowsRecursively(Transform currentObject, Transform currentShadow, bool isRoot = true)
     {
-        Type targetRendererType = ShadowTypeOverrides.Select(func => func(currentObject)).FirstOrDefault(type => type != null, defaultValue: typeof(RelativeShadowRenderer));
-        RelativeShadowRenderer rend = currentShadow.gameObject.AddComponent(Il2CppType.From(targetRendererType)).Cast<RelativeShadowRenderer>();
+        Type targetRendererType = ShadowTypeOverrides.Select(func => func(currentObject))
+            .FirstOrDefault(type => type != null, typeof(RelativeShadowRenderer));
+        RelativeShadowRenderer rend = currentShadow.gameObject.AddComponent(Il2CppType.From(targetRendererType))
+            .Cast<RelativeShadowRenderer>();
 
         rend.isRoot = isRoot;
         rend.target = currentObject;

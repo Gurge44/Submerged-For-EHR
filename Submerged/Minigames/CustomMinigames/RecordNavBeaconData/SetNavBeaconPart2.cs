@@ -14,9 +14,9 @@ namespace Submerged.Minigames.CustomMinigames.RecordNavBeaconData;
 public sealed class SetNavBeaconPart2(nint ptr) : MonoBehaviour(ptr)
 {
     private static readonly KeyCode[] _validKeyCodes = Enum.GetValues(typeof(KeyCode))
-                                                           .OfType<KeyCode>()
-                                                           .Where(k => k is >= KeyCode.A and <= KeyCode.Z or >= KeyCode.Alpha0 and <= KeyCode.Alpha9)
-                                                           .ToArray();
+        .OfType<KeyCode>()
+        .Where(k => k is >= KeyCode.A and <= KeyCode.Z or >= KeyCode.Alpha0 and <= KeyCode.Alpha9)
+        .ToArray();
 
     private Transform _blinkyBar;
 
@@ -70,7 +70,7 @@ public sealed class SetNavBeaconPart2(nint ptr) : MonoBehaviour(ptr)
             }
         }
 
-        _blinkyBar.localPosition = new Vector3(Mathf.Clamp(_text.text.Length, 0, 2) * 4.21f, 0, _blinkyBar.localPosition.z);
+        _blinkyBar.localPosition = new(Mathf.Clamp(_text.text.Length, 0, 2) * 4.21f, 0, _blinkyBar.localPosition.z);
     }
 
     private void OnEnable()

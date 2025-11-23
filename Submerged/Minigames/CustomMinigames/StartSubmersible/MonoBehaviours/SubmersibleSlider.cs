@@ -53,7 +53,8 @@ public sealed class SubmersibleSlider(nint ptr) : MonoBehaviour(ptr)
             if (!_active)
             {
                 _active = true;
-                _mouseOffset = _controller.mainCam.ScreenToWorldPoint(Input.mousePosition) - sliderHandle.transform.position;
+                _mouseOffset = _controller.mainCam.ScreenToWorldPoint(Input.mousePosition) -
+                    sliderHandle.transform.position;
             }
 
             handlePosition = (Vector2) _controller.mainCam.ScreenToWorldPoint(Input.mousePosition) - _mouseOffset;
@@ -79,7 +80,8 @@ public sealed class SubmersibleSlider(nint ptr) : MonoBehaviour(ptr)
 
         float tolerance = (position.y - position1.y) * 0.001f;
 
-        if (((Vector2) sliderHandle.transform.position - (Vector2) targetLine.transform.position).SqrMagnitude() < tolerance)
+        if (((Vector2) sliderHandle.transform.position - (Vector2) targetLine.transform.position).SqrMagnitude() <
+            tolerance)
         {
             if (!_controller.amTouching) complete = true;
             targetLine.color = Color.green;

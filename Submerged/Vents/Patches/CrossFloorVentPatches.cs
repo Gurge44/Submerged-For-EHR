@@ -23,9 +23,10 @@ public static class CrossFloorVentPatches
 
             SpriteRenderer button = __instance.Buttons[i].GetComponent<SpriteRenderer>();
 
-            button.color = __instance.transform.position.y < FloorHandler.FLOOR_CUTOFF != vent.transform.position.y < FloorHandler.FLOOR_CUTOFF
-                ? Color.yellow
-                : Color.white;
+            button.color = __instance.transform.position.y < FloorHandler.FLOOR_CUTOFF !=
+                vent.transform.position.y < FloorHandler.FLOOR_CUTOFF
+                    ? Color.yellow
+                    : Color.white;
 
             __instance.UpdateArrows(SubmarineStatus.systems[SystemTypes.Ventilation].Cast<VentilationSystem>());
         }
@@ -34,7 +35,8 @@ public static class CrossFloorVentPatches
     [HarmonyPatch(typeof(Vent), nameof(Vent.CanUse))]
     [HarmonyPostfix]
     [HarmonyPriority(Priority.Last)]
-    public static void PreventMovingDuringTransitionPatch(ref float __result, [HarmonyArgument(1)] ref bool canUse, [HarmonyArgument(2)] ref bool couldUse)
+    public static void PreventMovingDuringTransitionPatch(ref float __result, [HarmonyArgument(1)] ref bool canUse,
+        [HarmonyArgument(2)] ref bool couldUse)
     {
         if (!ShipStatus.Instance.IsSubmerged()) return;
 

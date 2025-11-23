@@ -1,7 +1,7 @@
 ﻿using Reactor.Utilities.Attributes;
 using Submerged.Extensions;
-using Submerged.Minigames.MonoBehaviours;
 using Submerged.Localization.Strings;
+using Submerged.Minigames.MonoBehaviours;
 using TMPro;
 using UnityEngine;
 
@@ -25,16 +25,19 @@ public sealed class IdentifySpecimenMinigame(nint ptr) : Minigame(ptr)
         transform.Find($"ClipboardIcons/{selectedJar.name}").gameObject.SetActive(true);
         selectedJar.gameObject.AddComponent<ClickableSprite>().onDown += CompleteTask;
 
-        transform.Find("ClipboardIcons/Puffer/Text").GetComponent<TextMeshPro>().text = Tasks.IdentifySpecimen_Pufferfish;
+        transform.Find("ClipboardIcons/Puffer/Text").GetComponent<TextMeshPro>().text =
+            Tasks.IdentifySpecimen_Pufferfish;
     }
 
     private void CompleteTask()
     {
         if (amClosing != CloseState.None) return;
+
         if (MyNormTask != null)
         {
             MyNormTask.NextStep();
         }
+
         StartCoroutine(CoStartClose());
     }
 }

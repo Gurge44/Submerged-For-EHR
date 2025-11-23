@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using BepInEx.Unity.IL2CPP.Utils;
+﻿using BepInEx.Unity.IL2CPP.Utils;
 using Il2CppInterop.Runtime.Attributes;
 using Reactor.Utilities.Attributes;
 using Submerged.Minigames.MonoBehaviours;
@@ -24,7 +23,7 @@ public sealed class CakeBehaviour(nint ptr) : UnityEngine.MonoBehaviour(ptr)
     public SpriteRenderer leftNumber;
     public SpriteRenderer rightNumber;
 
-    public Dictionary<int, Sprite> numbers;
+    public SCG.Dictionary<int, Sprite> numbers;
 
     private void Awake()
     {

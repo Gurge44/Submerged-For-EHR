@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using Submerged.IL2CPP;
+﻿using Submerged.IL2CPP;
 using I = Il2CppSystem.Collections.Generic;
 
 namespace Submerged.Extensions;
 
 public static class ListExtensions
 {
-    public static Il2CppListEnumerable<T> GetFastEnumerator<T>(this I.List<T> list) where T : CppObject => new(list);
+    public static Il2CppListEnumerable<T> GetFastEnumerator<T>(this ICG.List<T> list) where T : CppObject => new(list);
 
-    public static T RemoveAndGet<T>(this List<T> list, int index)
+    public static T RemoveAndGet<T>(this SCG.List<T> list, int index)
     {
         T result = list[index];
         list.RemoveAt(index);
@@ -16,7 +15,7 @@ public static class ListExtensions
         return result;
     }
 
-    public static IList<T> Shuffle<T>(this IList<T> self, int startAt = 0)
+    public static SCG.IList<T> Shuffle<T>(this SCG.IList<T> self, int startAt = 0)
     {
         for (int i = startAt; i < self.Count - 1; i++)
         {
@@ -29,7 +28,7 @@ public static class ListExtensions
         return self;
     }
 
-    public static T Random<T>(this IList<T> self)
+    public static T Random<T>(this SCG.IList<T> self)
     {
         if (self.Count > 0)
         {

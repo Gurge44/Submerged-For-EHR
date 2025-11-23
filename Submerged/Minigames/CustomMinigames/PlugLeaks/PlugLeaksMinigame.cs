@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Reactor.Utilities.Attributes;
 using Submerged.Extensions;
@@ -34,8 +33,8 @@ public sealed class PlugLeaksMinigame(nint ptr) : Minigame(ptr)
     public Transform tapeStrip;
 
     public PolygonCollider2D crackCollider;
-    public List<Vector2> colliderPoints;
-    public List<BoxCollider2D> tapeStripColliders = [];
+    public SCG.List<Vector2> colliderPoints;
+    public SCG.List<BoxCollider2D> tapeStripColliders = [];
     private bool _blockClose;
 
     private int _count;
@@ -137,7 +136,7 @@ public sealed class PlugLeaksMinigame(nint ptr) : Minigame(ptr)
     {
         _delta = -1;
         if (_currentTape != null) UpdateRollAndStripRotation();
-        tapeTransform.localEulerAngles = new Vector3(0, 0, _lastTapeAngle);
+        tapeTransform.localEulerAngles = new(0, 0, _lastTapeAngle);
 
         if (_delta > 8.32)
         {
@@ -146,7 +145,7 @@ public sealed class PlugLeaksMinigame(nint ptr) : Minigame(ptr)
 
             foreach (BoxCollider2D collider in tapeStripColliders)
             {
-                List<Vector2> points = [..colliderPoints];
+                SCG.List<Vector2> points = [..colliderPoints];
 
                 foreach (Vector2 point in points)
                 {
@@ -173,7 +172,7 @@ public sealed class PlugLeaksMinigame(nint ptr) : Minigame(ptr)
         float angle = Mathf.Atan2(delta.y, delta.x) * Mathf.Rad2Deg;
 
         _lastTapeAngle = angle + ANGLE_OFFSET;
-        _currentTape.localEulerAngles = new Vector3(0, 0, angle);
+        _currentTape.localEulerAngles = new(0, 0, angle);
         _delta = delta.sqrMagnitude;
     }
 

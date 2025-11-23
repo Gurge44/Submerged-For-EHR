@@ -10,6 +10,8 @@ namespace Submerged.SpawnIn.Patches;
 [HarmonyPatch]
 public static class DisplayPrespawnStepPatches
 {
+    private static int _lastShip = int.MinValue;
+
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.PrespawnStep))]
     [HarmonyPostfix]
     public static void Postfix(ShipStatus __instance, ref CppIEnumerator __result)
@@ -17,8 +19,6 @@ public static class DisplayPrespawnStepPatches
         if (!__instance.IsSubmerged()) return;
         __result = CustomPrespawnStep().WrapToIl2Cpp();
     }
-
-    private static int _lastShip = int.MinValue;
 
     private static IEnumerator CustomPrespawnStep()
     {
@@ -30,7 +30,7 @@ public static class DisplayPrespawnStepPatches
             ? spawnInObject.AddComponent<SubmarineSelectSpawn>()
             : spawnInObject.AddComponent<SubmarineSelectSpawnHnS>();
         spawnInMinigame.transform.SetParent(Camera.main!.transform, false);
-        spawnInMinigame.transform.localPosition = new Vector3(0f, 0f, -600f); // -610 z pos
+        spawnInMinigame.transform.localPosition = new(0f, 0f, -600f); // -610 z pos
         spawnInMinigame.Begin(null);
         yield return spawnInMinigame.WaitForFinish();
     }

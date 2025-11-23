@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using BepInEx.Unity.IL2CPP.Utils;
 using Il2CppInterop.Runtime.Attributes;
 using Reactor.Utilities.Attributes;
 using Submerged.BaseGame.Extensions;
 using Submerged.Extensions;
-using Submerged.Minigames.MonoBehaviours;
 using Submerged.Localization.Strings;
+using Submerged.Minigames.MonoBehaviours;
 using TMPro;
 using UnityEngine;
 
@@ -16,7 +15,7 @@ namespace Submerged.Minigames.CustomMinigames.MicrowaveLunch;
 [RegisterInIl2Cpp]
 public sealed class MicrowaveLunchMinigame(nint ptr) : Minigame(ptr)
 {
-    private readonly List<int> _enteredNumber = [];
+    private readonly SCG.List<int> _enteredNumber = [];
 
     private AudioSource _audio;
     private GameObject _background;
@@ -62,10 +61,13 @@ public sealed class MicrowaveLunchMinigame(nint ptr) : Minigame(ptr)
 
         _beep = _minigameProperties.audioClips[2];
         _audio = SoundManager.Instance.PlayDynamicSound("Hum",
-                                                        _minigameProperties.audioClips[0],
-                                                        true,
-                                                        new Action<AudioSource, float>((source, _) => { source.volume = Mathf.Lerp(0, 0.5f, (_cookTimeSeconds - MyNormTask.TaskTimer) / 4f); }),
-                                                        SoundManager.Instance.SfxChannel);
+            _minigameProperties.audioClips[0],
+            true,
+            new Action<AudioSource, float>((source, _) =>
+            {
+                source.volume = Mathf.Lerp(0, 0.5f, (_cookTimeSeconds - MyNormTask.TaskTimer) / 4f);
+            }),
+            SoundManager.Instance.SfxChannel);
         _audio.Pause();
 
         MicrowaveLunchTask task = MyNormTask.Cast<MicrowaveLunchTask>();
@@ -91,10 +93,12 @@ public sealed class MicrowaveLunchMinigame(nint ptr) : Minigame(ptr)
                     clickableSprite.onDown += () => NumberButtonPress(int.Parse(button.name));
 
                     break;
+
                 case 4:
                     clickableSprite.onDown += CookButtonPress;
 
                     break;
+
                 case 5:
                     clickableSprite.onDown += ClearButtonPress;
 
@@ -211,7 +215,8 @@ public sealed class MicrowaveLunchMinigame(nint ptr) : Minigame(ptr)
     {
         _audio.Stop();
         _dontUpdate = true;
-        _foodItems[_foodItem].AddComponent<ClickableSprite>().onDown += () => this.StartCoroutine(CompleteTask(_foodItems[_foodItem]));
+        _foodItems[_foodItem].AddComponent<ClickableSprite>().onDown +=
+            () => this.StartCoroutine(CompleteTask(_foodItems[_foodItem]));
         _dontUpdate = true;
         _timerText.text = "00:00";
         SoundManager.Instance.PlaySound(_beep, false, 0.5f);
@@ -241,7 +246,7 @@ public sealed class MicrowaveLunchMinigame(nint ptr) : Minigame(ptr)
 
         for (float t = 0; t < 0.5f; t += Time.deltaTime)
         {
-            rend.color = new Color(1, 1, 1, (0.5f - t) * 2);
+            rend.color = new(1, 1, 1, (0.5f - t) * 2);
 
             yield return null;
         }

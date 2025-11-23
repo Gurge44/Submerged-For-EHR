@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Submerged.Enums;
@@ -13,8 +12,8 @@ public readonly struct CustomSystemTypes : IEquatable<CustomSystemTypes>
 
     #region Struct implementation
 
-    public static List<CustomSystemTypes> All { get; } = [];
-    private static readonly Dictionary<SystemTypes, CustomSystemTypes> _mapping = new();
+    public static SCG.List<CustomSystemTypes> All { get; } = [];
+    private static readonly SCG.Dictionary<SystemTypes, CustomSystemTypes> _mapping = new();
 
     public readonly SystemTypes systemType;
     public readonly StringNames stringName;
@@ -28,7 +27,8 @@ public readonly struct CustomSystemTypes : IEquatable<CustomSystemTypes>
         _mapping.Add(this.systemType, this);
     }
 
-    public static bool TryGetFromSystemType(SystemTypes systemTypes, out CustomSystemTypes result) => _mapping.TryGetValue(systemTypes, out result);
+    public static bool TryGetFromSystemType(SystemTypes systemTypes, out CustomSystemTypes result) =>
+        _mapping.TryGetValue(systemTypes, out result);
 
     public static implicit operator SystemTypes(CustomSystemTypes self) => self.systemType;
 
@@ -103,7 +103,7 @@ public readonly struct CustomSystemTypes : IEquatable<CustomSystemTypes>
 
     public override bool Equals(object obj) => obj is CustomSystemTypes other && Equals(other);
 
-    public override int GetHashCode() => (int)systemType;
+    public override int GetHashCode() => (int) systemType;
 
     public static bool operator ==(CustomSystemTypes left, CustomSystemTypes right) => left.Equals(right);
 

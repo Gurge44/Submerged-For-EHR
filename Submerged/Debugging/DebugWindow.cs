@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Il2CppInterop.Runtime.Attributes;
 using Reactor.Utilities.Attributes;
@@ -12,8 +11,8 @@ namespace Submerged.Debugging;
 [RegisterInIl2Cpp]
 public sealed class DebugWindow(nint ptr) : MonoBehaviour(ptr)
 {
-    private int _activeTabIdx;
     private readonly int _windowId = Window.NextWindowId();
+    private int _activeTabIdx;
     private Rect _windowRect = new(20, 20, 100, 100);
 
     public static DebugWindow Instance { get; private set; }
@@ -25,7 +24,7 @@ public sealed class DebugWindow(nint ptr) : MonoBehaviour(ptr)
     public string Title { get; set; } = "Debug Window";
 
     [HideFromIl2Cpp]
-    public List<IDebugTab> Tabs { get; set; } = new();
+    public SCG.List<IDebugTab> Tabs { get; set; } = new();
 
     private void Awake()
     {
@@ -50,7 +49,8 @@ public sealed class DebugWindow(nint ptr) : MonoBehaviour(ptr)
 
         _windowRect = GUILayout.Window(_windowId, _windowRect, (Action<int>) (_ => DrawWindow()), Title);
 
-        if ((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) && _windowRect.Contains(new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y)))
+        if ((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) &&
+            _windowRect.Contains(new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y)))
         {
             Input.ResetInputAxes();
         }
@@ -60,7 +60,7 @@ public sealed class DebugWindow(nint ptr) : MonoBehaviour(ptr)
     {
         if (Tabs.Count == 0) return;
 
-        GUI.DragWindow(new Rect(0, 0, 10000, 20));
+        GUI.DragWindow(new(0, 0, 10000, 20));
         GUILayout.BeginHorizontal(GUIStyle.none);
 
         for (int i = 0; i < Tabs.Count; i++)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Il2CppInterop.Runtime.Attributes;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
@@ -85,8 +84,10 @@ public sealed class SubmarineElevator(nint ptr) : MonoBehaviour(ptr)
     {
         if (!system.moving)
         {
-            lowerElevator.Value.material.SetTexture(_mainTex, system.upperDeckIsTargetFloor ? elevatorWithoutDoorL1 : elevatorWithoutDoorL2);
-            upperElevator.Value.material.SetTexture(_mainTex, system.upperDeckIsTargetFloor ? elevatorWithoutDoorL1 : elevatorWithoutDoorL2);
+            lowerElevator.Value.material.SetTexture(_mainTex,
+                system.upperDeckIsTargetFloor ? elevatorWithoutDoorL1 : elevatorWithoutDoorL2);
+            upperElevator.Value.material.SetTexture(_mainTex,
+                system.upperDeckIsTargetFloor ? elevatorWithoutDoorL1 : elevatorWithoutDoorL2);
 
             lowerOuterDoor.Value.SetDoorway(!system.upperDeckIsTargetFloor);
             lowerInnerDoor.Value.SetDoorway(!system.upperDeckIsTargetFloor);
@@ -143,8 +144,10 @@ public sealed class SubmarineElevator(nint ptr) : MonoBehaviour(ptr)
                     lowerInnerRend.Value.enabled = system.upperDeckIsTargetFloor;
                     upperInnerRend.Value.enabled = !system.upperDeckIsTargetFloor;
 
-                    lowerElevator.Value.material.SetTexture(_mainTex, system.upperDeckIsTargetFloor ? elevatorWithoutDoorL2 : elevatorWithoutDoorL1);
-                    upperElevator.Value.material.SetTexture(_mainTex, system.upperDeckIsTargetFloor ? elevatorWithoutDoorL2 : elevatorWithoutDoorL1);
+                    lowerElevator.Value.material.SetTexture(_mainTex,
+                        system.upperDeckIsTargetFloor ? elevatorWithoutDoorL2 : elevatorWithoutDoorL1);
+                    upperElevator.Value.material.SetTexture(_mainTex,
+                        system.upperDeckIsTargetFloor ? elevatorWithoutDoorL2 : elevatorWithoutDoorL1);
 
                     _lowerBlackoutMat.SetFloat(_alpha, 0);
                     _upperBlackoutMat.SetFloat(_alpha, 0);
@@ -157,6 +160,7 @@ public sealed class SubmarineElevator(nint ptr) : MonoBehaviour(ptr)
 
                     break;
                 }
+
                 case ElevatorMovementStage.FadingToBlack:
                 {
                     if (!_movingSound.isPlaying) _movingSound.Play();
@@ -168,8 +172,10 @@ public sealed class SubmarineElevator(nint ptr) : MonoBehaviour(ptr)
                     lowerInnerRend.Value.enabled = false;
                     upperInnerRend.Value.enabled = false;
 
-                    lowerElevator.Value.material.SetTexture(_mainTex, system.upperDeckIsTargetFloor ? elevatorWithDoorL2 : elevatorWithDoorL1);
-                    upperElevator.Value.material.SetTexture(_mainTex, system.upperDeckIsTargetFloor ? elevatorWithDoorL2 : elevatorWithDoorL1);
+                    lowerElevator.Value.material.SetTexture(_mainTex,
+                        system.upperDeckIsTargetFloor ? elevatorWithDoorL2 : elevatorWithDoorL1);
+                    upperElevator.Value.material.SetTexture(_mainTex,
+                        system.upperDeckIsTargetFloor ? elevatorWithDoorL2 : elevatorWithDoorL1);
 
                     if (LocalPlayerInElevator || PlayerControl.LocalPlayer.Data.IsDead)
                     {
@@ -201,6 +207,7 @@ public sealed class SubmarineElevator(nint ptr) : MonoBehaviour(ptr)
 
                     break;
                 }
+
                 case ElevatorMovementStage.ElevatorMovingOut:
                 {
                     if (!_movingSound.isPlaying) _movingSound.Play();
@@ -209,8 +216,10 @@ public sealed class SubmarineElevator(nint ptr) : MonoBehaviour(ptr)
                     lowerInnerRend.Value.enabled = false;
                     upperInnerRend.Value.enabled = false;
 
-                    lowerElevator.Value.material.SetTexture(_mainTex, system.upperDeckIsTargetFloor ? elevatorWithDoorL2 : elevatorWithDoorL1);
-                    upperElevator.Value.material.SetTexture(_mainTex, system.upperDeckIsTargetFloor ? elevatorWithDoorL2 : elevatorWithDoorL1);
+                    lowerElevator.Value.material.SetTexture(_mainTex,
+                        system.upperDeckIsTargetFloor ? elevatorWithDoorL2 : elevatorWithDoorL1);
+                    upperElevator.Value.material.SetTexture(_mainTex,
+                        system.upperDeckIsTargetFloor ? elevatorWithDoorL2 : elevatorWithDoorL1);
 
                     if (LocalPlayerInElevator || PlayerControl.LocalPlayer.Data.IsDead)
                     {
@@ -242,12 +251,17 @@ public sealed class SubmarineElevator(nint ptr) : MonoBehaviour(ptr)
                         _lowerBlackoutMat.SetFloat(_alpha, 0);
                         _upperBlackoutMat.SetFloat(_alpha, 0);
                         // Elevator on opposite to target floor is lerping movement, other one is invisible
-                        SetMeshMovement(lowerElevator, _lowerMesh, !system.upperDeckIsTargetFloor ? -1 : -GetMovementLerp(stage));
-                        SetMeshMovement(upperElevator, _upperMesh, system.upperDeckIsTargetFloor ? 1 : GetMovementLerp(stage));
+                        SetMeshMovement(lowerElevator,
+                            _lowerMesh,
+                            !system.upperDeckIsTargetFloor ? -1 : -GetMovementLerp(stage));
+                        SetMeshMovement(upperElevator,
+                            _upperMesh,
+                            system.upperDeckIsTargetFloor ? 1 : GetMovementLerp(stage));
                     }
 
                     break;
                 }
+
                 case ElevatorMovementStage.Wait:
                 {
                     if (!_movingSound.isPlaying) _movingSound.Play();
@@ -255,8 +269,10 @@ public sealed class SubmarineElevator(nint ptr) : MonoBehaviour(ptr)
                     lowerInnerRend.Value.enabled = false;
                     upperInnerRend.Value.enabled = false;
 
-                    lowerElevator.Value.material.SetTexture(_mainTex, system.upperDeckIsTargetFloor ? elevatorWithDoorL2 : elevatorWithDoorL1);
-                    upperElevator.Value.material.SetTexture(_mainTex, system.upperDeckIsTargetFloor ? elevatorWithDoorL2 : elevatorWithDoorL1);
+                    lowerElevator.Value.material.SetTexture(_mainTex,
+                        system.upperDeckIsTargetFloor ? elevatorWithDoorL2 : elevatorWithDoorL1);
+                    upperElevator.Value.material.SetTexture(_mainTex,
+                        system.upperDeckIsTargetFloor ? elevatorWithDoorL2 : elevatorWithDoorL1);
 
                     if (LocalPlayerInElevator || PlayerControl.LocalPlayer.Data.IsDead)
                     {
@@ -296,6 +312,7 @@ public sealed class SubmarineElevator(nint ptr) : MonoBehaviour(ptr)
 
                     break;
                 }
+
                 case ElevatorMovementStage.ElevatorMovingIn:
                 {
                     if (!_movingSound.isPlaying) _movingSound.Play();
@@ -304,8 +321,10 @@ public sealed class SubmarineElevator(nint ptr) : MonoBehaviour(ptr)
                     lowerInnerRend.Value.enabled = false;
                     upperInnerRend.Value.enabled = false;
 
-                    lowerElevator.Value.material.SetTexture(_mainTex, system.upperDeckIsTargetFloor ? elevatorWithDoorL2 : elevatorWithDoorL1);
-                    upperElevator.Value.material.SetTexture(_mainTex, system.upperDeckIsTargetFloor ? elevatorWithDoorL2 : elevatorWithDoorL1);
+                    lowerElevator.Value.material.SetTexture(_mainTex,
+                        system.upperDeckIsTargetFloor ? elevatorWithDoorL2 : elevatorWithDoorL1);
+                    upperElevator.Value.material.SetTexture(_mainTex,
+                        system.upperDeckIsTargetFloor ? elevatorWithDoorL2 : elevatorWithDoorL1);
 
                     if (LocalPlayerInElevator || PlayerControl.LocalPlayer.Data.IsDead)
                     {
@@ -340,12 +359,17 @@ public sealed class SubmarineElevator(nint ptr) : MonoBehaviour(ptr)
                         _upperBlackoutMat.SetFloat(_alpha, 0);
 
                         // Elevator on target floor is lerping movement, other one is invisible
-                        SetMeshMovement(lowerElevator, _lowerMesh, system.upperDeckIsTargetFloor ? -1 : -1 + GetMovementLerp(stage));
-                        SetMeshMovement(upperElevator, _upperMesh, !system.upperDeckIsTargetFloor ? 1 : 1 - GetMovementLerp(stage));
+                        SetMeshMovement(lowerElevator,
+                            _lowerMesh,
+                            system.upperDeckIsTargetFloor ? -1 : -1 + GetMovementLerp(stage));
+                        SetMeshMovement(upperElevator,
+                            _upperMesh,
+                            !system.upperDeckIsTargetFloor ? 1 : 1 - GetMovementLerp(stage));
                     }
 
                     break;
                 }
+
                 case ElevatorMovementStage.FadingToClear:
                 {
                     if (!_movingSound.isPlaying) _movingSound.Play();
@@ -366,8 +390,10 @@ public sealed class SubmarineElevator(nint ptr) : MonoBehaviour(ptr)
                     lowerInnerRend.Value.enabled = false;
                     upperInnerRend.Value.enabled = false;
 
-                    lowerElevator.Value.material.SetTexture(_mainTex, system.upperDeckIsTargetFloor ? elevatorWithDoorL2 : elevatorWithDoorL1);
-                    upperElevator.Value.material.SetTexture(_mainTex, system.upperDeckIsTargetFloor ? elevatorWithDoorL2 : elevatorWithDoorL1);
+                    lowerElevator.Value.material.SetTexture(_mainTex,
+                        system.upperDeckIsTargetFloor ? elevatorWithDoorL2 : elevatorWithDoorL1);
+                    upperElevator.Value.material.SetTexture(_mainTex,
+                        system.upperDeckIsTargetFloor ? elevatorWithDoorL2 : elevatorWithDoorL1);
 
                     if (LocalPlayerInElevator || PlayerControl.LocalPlayer.Data.IsDead)
                     {
@@ -399,6 +425,7 @@ public sealed class SubmarineElevator(nint ptr) : MonoBehaviour(ptr)
 
                     break;
                 }
+
                 case ElevatorMovementStage.DoorsOpening:
                 {
                     _dingSound = null;
@@ -409,8 +436,10 @@ public sealed class SubmarineElevator(nint ptr) : MonoBehaviour(ptr)
                     lowerInnerRend.Value.enabled = !system.upperDeckIsTargetFloor;
                     upperInnerRend.Value.enabled = system.upperDeckIsTargetFloor;
 
-                    lowerElevator.Value.material.SetTexture(_mainTex, !system.upperDeckIsTargetFloor ? elevatorWithoutDoorL2 : elevatorWithoutDoorL1);
-                    upperElevator.Value.material.SetTexture(_mainTex, !system.upperDeckIsTargetFloor ? elevatorWithoutDoorL2 : elevatorWithoutDoorL1);
+                    lowerElevator.Value.material.SetTexture(_mainTex,
+                        !system.upperDeckIsTargetFloor ? elevatorWithoutDoorL2 : elevatorWithoutDoorL1);
+                    upperElevator.Value.material.SetTexture(_mainTex,
+                        !system.upperDeckIsTargetFloor ? elevatorWithoutDoorL2 : elevatorWithoutDoorL1);
 
                     _lowerBlackoutMat.SetFloat(_alpha, 0);
                     _upperBlackoutMat.SetFloat(_alpha, 0);
@@ -436,16 +465,16 @@ public sealed class SubmarineElevator(nint ptr) : MonoBehaviour(ptr)
         }
     }
 
+    public void OnDestroy()
+    {
+        SoundManager.Instance.StopNamedSound($"ding_{name}_{GetInstanceID()}");
+    }
+
     private Vector2 GetTargetSyncPosition(ICG.Queue<Vector2> incomingPosQueue)
     {
         int index = incomingPosQueue._tail - 1;
         if (index == -1) index = incomingPosQueue._array.Length - 1;
         return incomingPosQueue._array[index];
-    }
-
-    public void OnDestroy()
-    {
-        SoundManager.Instance.StopNamedSound($"ding_{name}_{GetInstanceID()}");
     }
 
     [HideFromIl2Cpp]
@@ -468,7 +497,8 @@ public sealed class SubmarineElevator(nint ptr) : MonoBehaviour(ptr)
     }
 
     [HideFromIl2Cpp]
-    public bool CheckInElevator(Vector2 position) => lowerElevatorCollider.Value.OverlapPoint(position) || upperElevatorCollider.Value.OverlapPoint(position);
+    public bool CheckInElevator(Vector2 position) => lowerElevatorCollider.Value.OverlapPoint(position) ||
+        upperElevatorCollider.Value.OverlapPoint(position);
 
     [HideFromIl2Cpp]
     private float GetMovementLerp(int stage)
@@ -509,7 +539,7 @@ public sealed class SubmarineElevator(nint ptr) : MonoBehaviour(ptr)
     }
 
     [HideFromIl2Cpp]
-    public void GetPlayersInElevator(List<PlayerControl> players)
+    public void GetPlayersInElevator(SCG.List<PlayerControl> players)
     {
         players.Clear();
 
@@ -539,7 +569,7 @@ public sealed class SubmarineElevator(nint ptr) : MonoBehaviour(ptr)
             _vertexColors[i] = alphaColor;
         }
 
-        rend.material.SetColor(_colorPropertyID, new Color(1, 1, 1, alpha));
+        rend.material.SetColor(_colorPropertyID, new(1, 1, 1, alpha));
         mesh.SetUVs(0, _newUVs);
         mesh.SetColors(_vertexColors);
     }
@@ -580,7 +610,10 @@ public sealed class SubmarineElevator(nint ptr) : MonoBehaviour(ptr)
 
         Vector2 truePosition = PlayerControl.LocalPlayer.GetTruePosition();
 
-        float distance = Vector2.Distance(truePosition, system.upperDeckIsTargetFloor ? upperElevator.Value.transform.position : lowerElevator.Value.transform.position);
+        float distance = Vector2.Distance(truePosition,
+            system.upperDeckIsTargetFloor
+                ? upperElevator.Value.transform.position
+                : lowerElevator.Value.transform.position);
 
         float volume;
 
@@ -590,10 +623,12 @@ public sealed class SubmarineElevator(nint ptr) : MonoBehaviour(ptr)
                 volume = 1;
 
                 break;
+
             case <= 4f:
                 volume = Mathf.Lerp(1, 0, (distance - 2.5f) / 1.5f);
 
                 break;
+
             default:
                 volume = 0;
 

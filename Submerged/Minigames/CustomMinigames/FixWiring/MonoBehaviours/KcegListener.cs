@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Il2CppInterop.Runtime;
+﻿using Il2CppInterop.Runtime;
 using Reactor.Utilities.Attributes;
 using Submerged.Map;
 using UnityEngine;
@@ -11,7 +10,7 @@ public sealed class KcegListener(nint ptr) : MonoBehaviour(ptr)
 {
     public const string PLAYER_PREFS_KEY = "HasDoneKCEG";
 
-    private static readonly List<KeyCode[]> _requiredInputs =
+    private static readonly SCG.List<KeyCode[]> _requiredInputs =
     [
         [KeyCode.UpArrow, KeyCode.W, KeyCode.Keypad8],
         [KeyCode.UpArrow, KeyCode.W, KeyCode.Keypad8],
@@ -25,11 +24,11 @@ public sealed class KcegListener(nint ptr) : MonoBehaviour(ptr)
         [KeyCode.A, KeyCode.Mouse0]
     ];
 
-    public static KcegListener Instance { get; private set; }
-
     public int step;
     public float nextKeyTimer;
     public bool triggered;
+
+    public static KcegListener Instance { get; private set; }
 
     public void Awake()
     {

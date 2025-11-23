@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Reactor.Utilities.Attributes;
-using Submerged.Minigames.MonoBehaviours;
 using Submerged.Localization.Strings;
+using Submerged.Minigames.MonoBehaviours;
 using TMPro;
 using UnityEngine;
 
@@ -14,7 +13,7 @@ public sealed class CycleReactorMinigame(nint ptr) : Minigame(ptr)
 {
     private Transform _barMask;
 
-    private List<float> _deltas;
+    private SCG.List<float> _deltas;
 
     private bool _dragging;
 
@@ -64,7 +63,9 @@ public sealed class CycleReactorMinigame(nint ptr) : Minigame(ptr)
             return;
         }
 
-        _barMask.localPosition = new Vector3(_originalMaskPos.x, Mathf.Lerp(_originalMaskPos.y, _originalMaskPos.y + 18.5f, Mathf.InverseLerp(0, 9000, _totalAngle)), _originalMaskPos.z);
+        _barMask.localPosition = new(_originalMaskPos.x,
+            Mathf.Lerp(_originalMaskPos.y, _originalMaskPos.y + 18.5f, Mathf.InverseLerp(0, 9000, _totalAngle)),
+            _originalMaskPos.z);
         Vector2 mousePosition = _mainCam.ScreenToWorldPoint(Input.mousePosition);
         bool overlap = _handleCollider.OverlapPoint(mousePosition);
         _minigameProperties.dontCloseOnBgClick = overlap;
@@ -84,7 +85,7 @@ public sealed class CycleReactorMinigame(nint ptr) : Minigame(ptr)
         float angle = (Mathf.Atan2(deltaY, deltaX) * Mathf.Rad2Deg + 720) % 360;
         float lastAngle = _handle.localEulerAngles.z;
         _totalAngle += Mathf.Abs(Mathf.DeltaAngle(angle, lastAngle));
-        _handle.localEulerAngles = new Vector3(0, 0, angle);
+        _handle.localEulerAngles = new(0, 0, angle);
         _handleArm.eulerAngles = Vector3.zero;
     }
 
@@ -93,7 +94,7 @@ public sealed class CycleReactorMinigame(nint ptr) : Minigame(ptr)
         if (amClosing != CloseState.None) return;
 
         _timer += Time.deltaTime;
-        _needle.localEulerAngles = new Vector3(0, 0, Mathf.LerpAngle(_prevAngle, -_rpm * 0.5f + 120, _timer / 0.1f));
+        _needle.localEulerAngles = new(0, 0, Mathf.LerpAngle(_prevAngle, -_rpm * 0.5f + 120, _timer / 0.1f));
 
         if (_timer < 0.1f) return;
         _timer = 0;
@@ -107,10 +108,10 @@ public sealed class CycleReactorMinigame(nint ptr) : Minigame(ptr)
         _prevAngle = _needle.localEulerAngles.z;
 
         SoundManager.Instance.PlayDynamicSound("CycleSound",
-                                               _minigameProperties.audioClips[0],
-                                               true,
-                                               new Action<AudioSource, float>(CycleSound),
-                                               SoundManager.Instance.SfxChannel);
+            _minigameProperties.audioClips[0],
+            true,
+            new Action<AudioSource, float>(CycleSound),
+            SoundManager.Instance.SfxChannel);
     }
 
     private void CycleSound(AudioSource source, float t)

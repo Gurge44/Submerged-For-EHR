@@ -4,5 +4,6 @@ namespace Submerged.Extensions;
 
 public static class ShipStatusExtensions
 {
-    public static bool IsSubmerged(this ShipStatus shipStatus) => shipStatus && shipStatus.Type == CustomMapTypes.Submerged;
+    public static bool IsSubmerged(this ShipStatus shipStatus) =>
+        shipStatus && shipStatus.Type == CustomMapTypes.Submerged;
 }

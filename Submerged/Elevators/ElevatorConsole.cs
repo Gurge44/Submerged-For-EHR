@@ -11,10 +11,10 @@ namespace Submerged.Systems.Elevator;
 public sealed class ElevatorConsole(nint ptr) : MonoBehaviour(ptr), AU.IUsable
 {
     [UsedImplicitly]
-    public Il2CppValueField<float> usableDistance; // = 0.5f
+    public Il2CppReferenceField<SubmarineElevator> elevator;
 
     [UsedImplicitly]
-    public Il2CppReferenceField<SubmarineElevator> elevator;
+    public Il2CppValueField<float> usableDistance; // = 0.5f
 
     public float UsableDistance
     {
@@ -31,14 +31,17 @@ public sealed class ElevatorConsole(nint ptr) : MonoBehaviour(ptr), AU.IUsable
         float distance = float.MaxValue;
         PlayerControl player = pc.Object;
 
-        couldUse = !pc.IsDead && player.CanMove && (!elevator.Value.system.moving || elevator.Value.system.lastStage == ElevatorMovementStage.Complete);
+        couldUse = !pc.IsDead &&
+            player.CanMove &&
+            (!elevator.Value.system.moving || elevator.Value.system.lastStage == ElevatorMovementStage.Complete);
         canUse = couldUse;
 
         if (!canUse) return distance;
         Vector2 truePosition = player.GetTruePosition();
         Vector3 position = transform.position;
         distance = Vector2.Distance(truePosition, position);
-        canUse &= distance <= UsableDistance && !PhysicsHelpers.AnythingBetween(truePosition, position, Constants.ShipOnlyMask, false);
+        canUse &= distance <= UsableDistance &&
+            !PhysicsHelpers.AnythingBetween(truePosition, position, Constants.ShipOnlyMask, false);
 
         return distance;
     }

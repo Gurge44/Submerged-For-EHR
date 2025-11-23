@@ -21,7 +21,8 @@ public static class StartGameErrorPatches
     {
         if (!GameManager.Instance || GameManager.Instance.LogicOptions == null) return;
 
-        if (!AmongUsClient.Instance.AmHost || GameManager.Instance.LogicOptions.MapId != (byte) CustomMapTypes.Submerged)
+        if (!AmongUsClient.Instance.AmHost ||
+            GameManager.Instance.LogicOptions.MapId != (byte) CustomMapTypes.Submerged)
         {
             UpdateErrorMessage(__instance);
             return;
@@ -36,7 +37,7 @@ public static class StartGameErrorPatches
 
             if (sb == null)
             {
-                sb = new StringBuilder();
+                sb = new();
                 sb.Append(General.Error_PlayersMissingSubmerged);
                 sb.Append(' ');
             }
@@ -57,7 +58,8 @@ public static class StartGameErrorPatches
     {
         if (!AmongUsClient.Instance.AmHost) return;
         if (__instance.startState != GameStartManager.StartingStates.Countdown) return;
-        if (_lastErrorMessage.IsNullOrWhiteSpace()) return; // Take care, as updating the error message with text but without wasError will break this
+        if (_lastErrorMessage.IsNullOrWhiteSpace())
+            return; // Take care, as updating the error message with text but without wasError will break this
 
         __instance.ResetStartState();
     }
@@ -74,7 +76,8 @@ public static class StartGameErrorPatches
         }
 
         gameStartManager.StartButton.SetButtonEnableState(false);
-        if (gameStartManager.StartButtonGlyph != null) gameStartManager.StartButtonGlyph.SetColor(Palette.DisabledClear);
+        if (gameStartManager.StartButtonGlyph != null)
+            gameStartManager.StartButtonGlyph.SetColor(Palette.DisabledClear);
         gameStartManager.StartButton.buttonText.enableWordWrapping = true;
         gameStartManager.StartButton.buttonText.alignment = TextAlignmentOptions.Center;
         gameStartManager.StartButton.ChangeButtonText(text);
@@ -83,21 +86,30 @@ public static class StartGameErrorPatches
     [BaseGameCode(LastChecked.v17_0_0, "This code is taken from GameStartManager.Update")]
     private static void UpdateStartButtonBasedOnPlayerCount(GameStartManager gameStartManager)
     {
-        gameStartManager.StartButton.SetButtonEnableState(gameStartManager.LastPlayerCount >= gameStartManager.MinPlayers);
+        gameStartManager.StartButton.SetButtonEnableState(gameStartManager.LastPlayerCount >=
+            gameStartManager.MinPlayers);
         ActionMapGlyphDisplay startButtonGlyph = gameStartManager.StartButtonGlyph;
+
         if (startButtonGlyph != null)
         {
-            startButtonGlyph.SetColor(gameStartManager.LastPlayerCount >= gameStartManager.MinPlayers ? Palette.EnabledColor : Palette.DisabledClear);
+            startButtonGlyph.SetColor(gameStartManager.LastPlayerCount >= gameStartManager.MinPlayers
+                ? Palette.EnabledColor
+                : Palette.DisabledClear);
         }
+
         if (gameStartManager.LastPlayerCount >= gameStartManager.MinPlayers)
         {
-            gameStartManager.StartButton.ChangeButtonText(TranslationController.Instance.GetString(StringNames.StartLabel, []));
-            gameStartManager.GameStartTextClient.text = TranslationController.Instance.GetString(StringNames.WaitingForHost, []);
+            gameStartManager.StartButton.ChangeButtonText(
+                TranslationController.Instance.GetString(StringNames.StartLabel, []));
+            gameStartManager.GameStartTextClient.text =
+                TranslationController.Instance.GetString(StringNames.WaitingForHost, []);
         }
         else
         {
-            gameStartManager.StartButton.ChangeButtonText(TranslationController.Instance.GetString(StringNames.WaitingForPlayers, []));
-            gameStartManager.GameStartTextClient.text = TranslationController.Instance.GetString(StringNames.WaitingForPlayers, []);
+            gameStartManager.StartButton.ChangeButtonText(
+                TranslationController.Instance.GetString(StringNames.WaitingForPlayers, []));
+            gameStartManager.GameStartTextClient.text =
+                TranslationController.Instance.GetString(StringNames.WaitingForPlayers, []);
         }
     }
 }

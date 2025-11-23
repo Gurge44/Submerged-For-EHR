@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using BepInEx.Unity.IL2CPP.Utils;
 using Il2CppInterop.Runtime.Attributes;
 using Reactor.Utilities.Attributes;
@@ -26,7 +25,7 @@ public sealed class MopPuddlesMinigame(nint ptr) : Minigame(ptr)
     public Material bucketBackMat;
     public Transform bucketTarget;
 
-    public List<PuddleBehaviour> puddles = [];
+    public SCG.List<PuddleBehaviour> puddles = [];
     public int driedPuddles;
 
     public bool mopDirty;
@@ -72,9 +71,9 @@ public sealed class MopPuddlesMinigame(nint ptr) : Minigame(ptr)
         }
 
         puddles = puddleTransforms.Shuffle()
-                                  .Take(3)
-                                  .Select(t => t.gameObject.AddComponent<PuddleBehaviour>())
-                                  .ToList();
+            .Take(3)
+            .Select(t => t.gameObject.AddComponent<PuddleBehaviour>())
+            .ToList();
 
         foreach (PuddleBehaviour puddle in puddles)
         {
@@ -110,7 +109,8 @@ public sealed class MopPuddlesMinigame(nint ptr) : Minigame(ptr)
         }
 
         SoundManager.Instance.PlaySound(minigameProperties.audioClips[1], false, 0.33f);
-        bucketWater.localPosition = Vector3.Lerp(_bucketWaterStartPos, _bucketWaterEndPos, (float) driedPuddles / puddles.Count);
+        bucketWater.localPosition =
+            Vector3.Lerp(_bucketWaterStartPos, _bucketWaterEndPos, (float) driedPuddles / puddles.Count);
     }
 
     public void SetMopDirty()
@@ -138,6 +138,7 @@ public sealed class MopPuddlesMinigame(nint ptr) : Minigame(ptr)
             MyNormTask.GetComponent<MopPuddlesTask>().validConsoleIds.Remove(Console.ConsoleId);
             MyNormTask.NextStep();
         }
+
         StartCoroutine(CoStartClose(1f));
 
         Animator anim = transform.Find("MopAnimation").GetComponent<Animator>();

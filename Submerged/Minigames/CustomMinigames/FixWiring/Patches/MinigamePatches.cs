@@ -15,7 +15,14 @@ public static class MinigamePatches
         int wireCount = __instance.transform.Find("RightWires").childCount;
 
         __instance.ActualWires = new sbyte[wireCount];
-        WireMinigame.colors = new[] { Color.red, new Color(0.15f, 0.15f, 1f, 1f), Color.yellow, Color.magenta, Color.green, Color.white, Color.cyan, Color.gray }.Take(wireCount).ToArray().ShuffleCopy();
+        WireMinigame.colors =
+            new[]
+                {
+                    Color.red, new Color(0.15f, 0.15f, 1f, 1f), Color.yellow, Color.magenta, Color.green, Color.white,
+                    Color.cyan, Color.gray
+                }.Take(wireCount)
+                .ToArray()
+                .ShuffleCopy();
         __instance.ExpectedWires = new sbyte[wireCount];
     }
 }

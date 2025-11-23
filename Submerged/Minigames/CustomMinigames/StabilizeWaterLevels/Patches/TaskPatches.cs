@@ -19,10 +19,10 @@ public static class TaskPatches
         Color color = __instance.even ? Color.yellow : Color.red;
 
         sb.AppendLine($"{color.ToTextColor()}" +
-                      Tasks.StabilizeWaterLevels +
-                      $" {(int) __instance.reactor.Countdown} " +
-                      $"({__instance.reactor.UserCount}/{2})" +
-                      $"{Color.white.ToTextColor()}");
+            Tasks.StabilizeWaterLevels +
+            $" {(int) __instance.reactor.Countdown} " +
+            $"({__instance.reactor.UserCount}/{2})" +
+            $"{Color.white.ToTextColor()}");
 
         foreach (ArrowBehaviour t in __instance.Arrows)
         {

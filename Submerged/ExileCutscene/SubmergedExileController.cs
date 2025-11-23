@@ -42,14 +42,14 @@ public sealed class SubmergedExileController(nint ptr) : ExileController(ptr)
         _mainCam = HudManager.Instance.UICamera;
 
         _originalPosition = transform.localPosition;
-        _finalPosition = new Vector3(_originalPosition.x, _originalPosition.y + 6f, _originalPosition.z);
+        _finalPosition = new(_originalPosition.x, _originalPosition.y + 6f, _originalPosition.z);
 
         _leftCliff = transform.Find("Cliffs/LeftCliff");
         _rightCliff = transform.Find("Cliffs/RightCliff");
 
         float width = _mainCam.orthographicSize * _mainCam.aspect;
-        _leftCliff.transform.localPosition = new Vector3(-width, 3, 0);
-        _rightCliff.transform.localPosition = new Vector3(width, 3, 0);
+        _leftCliff.transform.localPosition = new(-width, 3, 0);
+        _rightCliff.transform.localPosition = new(width, 3, 0);
 
         _darkness = transform.Find("Darkness");
         textTransform = transform.Find("Text");
@@ -107,6 +107,7 @@ public sealed class SubmergedExileController(nint ptr) : ExileController(ptr)
     private IEnumerator WaitForFadeAndAnimate()
     {
         bool isPlayerEjected = initData != null && initData.networkedPlayer;
+
         if (!isPlayerEjected)
         {
             Player.gameObject.SetActive(false);
@@ -131,7 +132,9 @@ public sealed class SubmergedExileController(nint ptr) : ExileController(ptr)
         float amountDoneFuture = amountDone + 0.15f;
 
         top.x = Mathf.Lerp(0.25f, 0.15f, amountDone) * Mathf.Sin(_timer * Mathf.Lerp(1f, 2f, amountDoneFuture)) * 1.33f;
-        bottom.x = Mathf.Lerp(0.25f, 0.15f, amountDone) * Mathf.Sin(_timer * Mathf.Lerp(1f, 2f, amountDoneFuture)) * 1.33f;
+        bottom.x = Mathf.Lerp(0.25f, 0.15f, amountDone) *
+            Mathf.Sin(_timer * Mathf.Lerp(1f, 2f, amountDoneFuture)) *
+            1.33f;
         Vector2 anchorPos = Vector2.Lerp(top, bottom, amountDoneFuture);
 
         top.x = Mathf.Lerp(0.75f, 0.4f, amountDone) * Mathf.Sin(_timer * Mathf.Lerp(1f, 2f, amountDone)) * 1.33f;
@@ -159,7 +162,9 @@ public sealed class SubmergedExileController(nint ptr) : ExileController(ptr)
         {
             if (!string.IsNullOrWhiteSpace(completeStr))
             {
-                int amountOfText = Math.Clamp(Mathf.FloorToInt(completeStr.Length * t / TEXT_DUR), 0, completeStr.Length);
+                int amountOfText = Math.Clamp(Mathf.FloorToInt(completeStr.Length * t / TEXT_DUR),
+                    0,
+                    completeStr.Length);
                 Text.text = completeStr.Substring(0, amountOfText);
                 Text.gameObject.SetActive(true);
 
@@ -210,7 +215,8 @@ public sealed class SubmergedExileController(nint ptr) : ExileController(ptr)
             initData.networkedPlayer.IsDead = true;
         }
 
-        if (TutorialManager.InstanceExists || (GameManager.Instance && !GameManager.Instance.LogicFlow.IsGameOverDueToDeath()))
+        if (TutorialManager.InstanceExists ||
+            (GameManager.Instance && !GameManager.Instance.LogicFlow.IsGameOverDueToDeath()))
         {
             yield return ShipStatus.Instance.PrespawnStep();
 

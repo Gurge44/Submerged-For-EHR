@@ -49,7 +49,9 @@ public sealed class BallastSabotageMinigame(nint ptr) : Minigame(ptr)
         {
             _elapsed -= 0.1f;
 
-            _gaugeValue = isDefaultIncreasing ? Mathf.Clamp(_gaugeValue + STEP, 0f, 1f) : Mathf.Clamp(_gaugeValue - STEP, 0f, 1f);
+            _gaugeValue = isDefaultIncreasing
+                ? Mathf.Clamp(_gaugeValue + STEP, 0f, 1f)
+                : Mathf.Clamp(_gaugeValue - STEP, 0f, 1f);
             UpdateGaugeDisplay();
         }
 

@@ -14,7 +14,13 @@ public static class CentralVentPatches
     {
         private static bool _enableAnythingBetweenPatch;
 
-        [HarmonyPatch(typeof(PhysicsHelpers), nameof(PhysicsHelpers.AnythingBetween), typeof(Collider2D), typeof(Vector2), typeof(Vector2), typeof(int), typeof(bool))]
+        [HarmonyPatch(typeof(PhysicsHelpers),
+            nameof(PhysicsHelpers.AnythingBetween),
+            typeof(Collider2D),
+            typeof(Vector2),
+            typeof(Vector2),
+            typeof(int),
+            typeof(bool))]
         [HarmonyPrefix]
         public static bool AnythingBetweenBypassPatch() => !_enableAnythingBetweenPatch;
 
@@ -44,7 +50,8 @@ public static class CentralVentPatches
         private static bool _enableSnapToPatch;
 
         [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.SnapTo), typeof(Vector2))]
-        [HarmonyPrefix, HarmonyPriority(Priority.First + 100)]
+        [HarmonyPrefix]
+        [HarmonyPriority(Priority.First + 100)]
         public static void Prefix([HarmonyArgument(0)] ref Vector2 vector)
         {
             if (!_enableSnapToPatch) return;

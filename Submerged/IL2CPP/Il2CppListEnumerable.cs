@@ -1,5 +1,4 @@
 using Il2CppInterop.Runtime.Runtime;
-using Il2CppSystem.Collections.Generic;
 
 namespace Submerged.IL2CPP;
 
@@ -32,7 +31,7 @@ public unsafe struct Il2CppListEnumerable<T> where T : CppObject
     private int _index = -1;
 
     // ReSharper disable once SuggestBaseTypeForParameterInConstructor
-    public Il2CppListEnumerable(List<T> list)
+    public Il2CppListEnumerable(ICG.List<T> list)
     {
         Il2CppListStruct* listStruct = (Il2CppListStruct*) list.Pointer;
         _count = listStruct->size;

@@ -1,9 +1,9 @@
 ﻿using Reactor.Utilities.Attributes;
 using Submerged.Enums;
-using Submerged.Minigames.CustomMinigames.CamsSabotage.MonoBehaviours;
-using Submerged.Minigames.MonoBehaviours;
 using Submerged.Localization.Strings;
 using Submerged.Map;
+using Submerged.Minigames.CustomMinigames.CamsSabotage.MonoBehaviours;
+using Submerged.Minigames.MonoBehaviours;
 using Submerged.Systems.SecuritySabotage;
 using TMPro;
 using UnityEngine;
@@ -108,7 +108,10 @@ public sealed class SetupCamsMinigame(nint ptr) : Minigame(ptr)
             ? Tasks.CamsSabotage_Disabled
             : Tasks.CamsSabotage_Active;
 
-        slider.transform.localPosition = new Vector3(Mathf.Clamp(slider.transform.localPosition.x, slider.localXRange.min, slider.localXRange.max), _sliderPos.y, _sliderPos.z);
+        slider.transform.localPosition =
+            new(Mathf.Clamp(slider.transform.localPosition.x, slider.localXRange.min, slider.localXRange.max),
+                _sliderPos.y,
+                _sliderPos.z);
         _sliderValue = slider.SliderValue;
         cameraScreen.material.SetFloat(_noiseAlpha, Mathf.Clamp(Mathf.Abs(_target - _sliderValue) * 8f, 0f, 1f));
 
@@ -137,11 +140,10 @@ public sealed class SetupCamsMinigame(nint ptr) : Minigame(ptr)
                     if (!myUnderStanding)
                     {
                         myUnderStanding = true;
-                        ShipStatus.Instance.RpcUpdateSystem(CustomSystemTypes.SecuritySabotage, (byte) (_cameraIdx * 10 + 1));
+                        ShipStatus.Instance.RpcUpdateSystem(CustomSystemTypes.SecuritySabotage,
+                            (byte) (_cameraIdx * 10 + 1));
                     }
                 }
-
-                return;
             }
 
             return;
@@ -185,7 +187,9 @@ public sealed class SetupCamsMinigame(nint ptr) : Minigame(ptr)
         _statusText.gameObject.SetActive(!_statusText.gameObject.active);
         offScreen.gameObject.SetActive(!_screenOn);
 
-        if (SubmarineSecuritySabotageSystem.Instance.IsSabotaged((byte) _cameraIdx) == _initialCameraState && !_initialCameraState && !PlayerControl.LocalPlayer.Data.IsDead)
+        if (SubmarineSecuritySabotageSystem.Instance.IsSabotaged((byte) _cameraIdx) == _initialCameraState &&
+            !_initialCameraState &&
+            !PlayerControl.LocalPlayer.Data.IsDead)
         {
             SoundManager.Instance.PlaySound(SubmarineStatus.instance.minigameProperties.audioClips[0], false);
             StartCoroutine(CoStartClose());

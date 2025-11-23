@@ -24,7 +24,13 @@ public static class ChangeFloorButtonPatches
     [HarmonyPostfix]
     public static void HudUpdatePatch(HudManager __instance)
     {
-        if (!SubmarineStatus.instance || Minigame.Instance || !GameManager.Instance || !GameManager.Instance.IsNormal() || MeetingHud.Instance || !PlayerControl.LocalPlayer || !PlayerControl.LocalPlayer.Data.IsDead)
+        if (!SubmarineStatus.instance ||
+            Minigame.Instance ||
+            !GameManager.Instance ||
+            !GameManager.Instance.IsNormal() ||
+            MeetingHud.Instance ||
+            !PlayerControl.LocalPlayer ||
+            !PlayerControl.LocalPlayer.Data.IsDead)
         {
             if (_floorButton) _floorButton.SetActive(false);
 
@@ -33,7 +39,8 @@ public static class ChangeFloorButtonPatches
 
         if (!_floorButton)
         {
-            _floorButton = UnityObject.Instantiate(__instance.MapButton.gameObject, __instance.MapButton.transform.parent);
+            _floorButton =
+                UnityObject.Instantiate(__instance.MapButton.gameObject, __instance.MapButton.transform.parent);
 
             AspectPosition aspectPos = _floorButton.GetComponent<AspectPosition>();
             Vector3 distanceFromEdge = aspectPos.DistanceFromEdge;

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Hazel;
 using Il2CppInterop.Runtime.Injection;
 using Reactor.Utilities.Attributes;
@@ -14,7 +13,7 @@ namespace Submerged.SpawnIn;
 public sealed class SubmarineSpawnInSystem(nint ptr) : CppObject(ptr), AU.ISystemType
 {
     public SpawnInState currentState = SpawnInState.Loading;
-    public HashSet<byte> players = [];
+    public SCG.HashSet<byte> players = [];
     public float timer = 10;
 
     public SubmarineSpawnInSystem() : this(ClassInjector.DerivedConstructorPointer<SubmarineSpawnInSystem>())
@@ -36,7 +35,8 @@ public sealed class SubmarineSpawnInSystem(nint ptr) : CppObject(ptr), AU.ISyste
 
         foreach (NetworkedPlayerInfo instanceAllPlayer in GameData.Instance.AllPlayers.GetFastEnumerator())
         {
-            if (instanceAllPlayer.IsDead || instanceAllPlayer.Disconnected || instanceAllPlayer.Object.isDummy) continue;
+            if (instanceAllPlayer.IsDead || instanceAllPlayer.Disconnected || instanceAllPlayer.Object.isDummy)
+                continue;
             if (players.Contains(instanceAllPlayer.PlayerId)) continue;
 
             return;
@@ -76,7 +76,8 @@ public sealed class SubmarineSpawnInSystem(nint ptr) : CppObject(ptr), AU.ISyste
         IsDirty = true;
     }
 
-    public int GetReadyPlayerAmount() => players.Count(p => GameData.Instance.GetPlayerById(p) is { IsDead: false, Disconnected: false, Object.isDummy: false });
+    public int GetReadyPlayerAmount() => players.Count(p =>
+        GameData.Instance.GetPlayerById(p) is { IsDead: false, Disconnected: false, Object.isDummy: false });
 
     public int GetTotalPlayerAmount()
     {
@@ -84,7 +85,8 @@ public sealed class SubmarineSpawnInSystem(nint ptr) : CppObject(ptr), AU.ISyste
 
         foreach (NetworkedPlayerInfo instanceAllPlayer in GameData.Instance.AllPlayers)
         {
-            if (instanceAllPlayer.IsDead || instanceAllPlayer.Disconnected || instanceAllPlayer.Object.isDummy) continue;
+            if (instanceAllPlayer.IsDead || instanceAllPlayer.Disconnected || instanceAllPlayer.Object.isDummy)
+                continue;
             count++;
         }
 

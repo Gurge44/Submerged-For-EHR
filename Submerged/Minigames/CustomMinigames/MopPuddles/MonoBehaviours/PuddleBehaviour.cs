@@ -45,7 +45,8 @@ public sealed class PuddleBehaviour(nint ptr) : MonoBehaviour(ptr)
         // Vector2 mousePosition = Camera.main!.ScreenToWorldPoint(Input.mousePosition);
         Vector2 dragPos = draggable.transform.position;
 
-        bool mouseInCollider = _collider2D.OverlapPoint(new Vector2(dragPos.x, dragPos.y - 2f)); // Collider2D.OverlapPoint(mousePosition) ||
+        bool mouseInCollider =
+            _collider2D.OverlapPoint(new(dragPos.x, dragPos.y - 2f)); // Collider2D.OverlapPoint(mousePosition) ||
         if (!wiping) _previousPosition = dragPos;
 
         if (!mouseInCollider) return;
@@ -55,7 +56,7 @@ public sealed class PuddleBehaviour(nint ptr) : MonoBehaviour(ptr)
         _previousPosition = dragPos;
         if (name.Contains('3')) delta *= 3f;
         health -= delta;
-        _spriteRenderer.color = new Color(1, 1, 1, Mathf.Clamp(health / 15 + 0.25f, 0, 1));
+        _spriteRenderer.color = new(1, 1, 1, Mathf.Clamp(health / 15 + 0.25f, 0, 1));
         // transform.localScale = Vector3.one * Mathf.Clamp(Health / 100 + 0.5f, 0, 1);
     }
 
@@ -68,11 +69,11 @@ public sealed class PuddleBehaviour(nint ptr) : MonoBehaviour(ptr)
         for (float t = 0; t < DURATION; t += Time.deltaTime)
         {
             float invAmount = (DURATION - t) / DURATION;
-            _spriteRenderer.color = new Color(1, 1, 1, invAmount * 0.25f);
+            _spriteRenderer.color = new(1, 1, 1, invAmount * 0.25f);
 
             yield return null;
         }
 
-        _spriteRenderer.color = new Color(1, 1, 1, 0);
+        _spriteRenderer.color = new(1, 1, 1, 0);
     }
 }

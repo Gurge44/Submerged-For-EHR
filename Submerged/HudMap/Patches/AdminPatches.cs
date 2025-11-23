@@ -14,7 +14,8 @@ public static class AdminPatches
     [HarmonyPrefix]
     public static void ReplacePlayerIconPatch(MapBehaviour __instance)
     {
-        __instance.countOverlay.GetComponent<ObjectPoolBehavior>().Prefab = MapLoader.Skeld.MapPrefab.countOverlay.GetComponent<ObjectPoolBehavior>().Prefab;
+        __instance.countOverlay.GetComponent<ObjectPoolBehavior>().Prefab =
+            MapLoader.Skeld.MapPrefab.countOverlay.GetComponent<ObjectPoolBehavior>().Prefab;
     }
 
     [HarmonyPatch(typeof(UseButton), nameof(UseButton.Awake))]

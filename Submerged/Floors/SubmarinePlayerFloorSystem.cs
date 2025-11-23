@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Hazel;
+﻿using Hazel;
 using Il2CppInterop.Runtime.Injection;
 using Reactor.Utilities.Attributes;
 using Submerged.Extensions;
@@ -10,9 +9,9 @@ namespace Submerged.Floors;
 [RegisterInIl2Cpp(typeof(ISystemType))]
 public sealed class SubmarinePlayerFloorSystem(nint ptr) : CppObject(ptr), AU.ISystemType
 {
-    public readonly Dictionary<byte, int> playerFloorSids = new(); // On Upper Deck
+    public readonly SCG.Dictionary<byte, int> playerFloorSids = new(); // On Upper Deck
 
-    public readonly Dictionary<byte, bool> playerFloorStates = new(); // On Upper Deck
+    public readonly SCG.Dictionary<byte, bool> playerFloorStates = new(); // On Upper Deck
 
     public SubmarinePlayerFloorSystem() : this(ClassInjector.DerivedConstructorPointer<SubmarinePlayerFloorSystem>())
     {
@@ -55,7 +54,7 @@ public sealed class SubmarinePlayerFloorSystem(nint ptr) : CppObject(ptr), AU.IS
     {
         writer.Write((byte) playerFloorStates.Count);
 
-        foreach (KeyValuePair<byte, bool> pair in playerFloorStates)
+        foreach (SCG.KeyValuePair<byte, bool> pair in playerFloorStates)
         {
             writer.Write(pair.Key);
             writer.Write(pair.Value);

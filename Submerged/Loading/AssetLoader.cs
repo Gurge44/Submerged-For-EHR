@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using BepInEx.Unity.IL2CPP.Utils;
 using Il2CppInterop.Runtime.Attributes;
 using InnerNet;
 using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;
-using Submerged.Resources;
 using Submerged.Localization.Strings;
+using Submerged.Resources;
 using Submerged.UI;
 using UnityEngine;
 
@@ -16,30 +15,6 @@ namespace Submerged.Loading;
 [RegisterInIl2Cpp]
 public sealed class AssetLoader(nint ptr) : MonoBehaviour(ptr)
 {
-    private class Result<T>
-    {
-        private T _value;
-        private Exception _error;
-
-        public void SetValue(T value)
-        {
-            _value = value;
-            _error = null;
-        }
-
-        public void SetError(Exception error)
-        {
-            _value = default;
-            _error = error;
-        }
-
-        public static implicit operator T(Result<T> result)
-        {
-            if (result._error != null) throw result._error;
-            return result._value;
-        }
-    }
-
     private static AssetLoader _instance;
 
     private bool _errored;
@@ -71,6 +46,7 @@ public sealed class AssetLoader(nint ptr) : MonoBehaviour(ptr)
         while (!AmongUsClient.Instance) yield return null;
 
         AssetBundleCreateRequest req;
+
         try
         {
             req = AssetBundle.LoadFromMemoryAsync(ResourceManager.GetEmbeddedBytes("submerged"));
@@ -93,7 +69,7 @@ public sealed class AssetLoader(nint ptr) : MonoBehaviour(ptr)
         {
             Submerged = submerged;
 
-            List<InnerNetObject> nonAddrList = AmongUsClient.Instance.NonAddressableSpawnableObjects.ToList();
+            SCG.List<InnerNetObject> nonAddrList = AmongUsClient.Instance.NonAddressableSpawnableObjects.ToList();
             nonAddrList.Add(Submerged.GetComponent<ShipStatus>());
             AmongUsClient.Instance.NonAddressableSpawnableObjects = nonAddrList.ToArray();
         }
@@ -122,7 +98,8 @@ public sealed class AssetLoader(nint ptr) : MonoBehaviour(ptr)
     }
 
     [HideFromIl2Cpp]
-    private static IEnumerator LoadAsset<T>(AssetBundle bundle, string objectName, Result<T> result) where T : UnityObject
+    private static IEnumerator LoadAsset<T>(AssetBundle bundle, string objectName, Result<T> result)
+        where T : UnityObject
     {
         AssetBundleRequest bundleReq;
 
@@ -162,5 +139,29 @@ public sealed class AssetLoader(nint ptr) : MonoBehaviour(ptr)
         popup.Show(General.Error_AssetsNotLoaded);
 
         LoadingManager.DoneLoading(nameof(AssetLoader));
+    }
+
+    private class Result<T>
+    {
+        private Exception _error;
+        private T _value;
+
+        public void SetValue(T value)
+        {
+            _value = value;
+            _error = null;
+        }
+
+        public void SetError(Exception error)
+        {
+            _value = default;
+            _error = error;
+        }
+
+        public static implicit operator T(Result<T> result)
+        {
+            if (result._error != null) throw result._error;
+            return result._value;
+        }
     }
 }

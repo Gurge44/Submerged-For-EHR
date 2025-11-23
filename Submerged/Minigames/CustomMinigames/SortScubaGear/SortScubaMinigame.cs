@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Reactor.Utilities.Attributes;
 using Submerged.BaseGame.Extensions;
@@ -16,14 +15,14 @@ public sealed class SortScubaMinigame(nint ptr) : Minigame(ptr)
 {
     public MinigameProperties properties;
 
-    public List<ScubaGearItem> scubaGearItems = [];
+    public SCG.List<ScubaGearItem> scubaGearItems = [];
 
-    public List<Transform> boxes = [];
+    public SCG.List<Transform> boxes = [];
 
-    public List<Draggable> hovering = [];
+    public SCG.List<Draggable> hovering = [];
 
     private bool _forceClose;
-    public Dictionary<ScubaGearType, SortScubaBox> scubaBoxes = new();
+    public SCG.Dictionary<ScubaGearType, SortScubaBox> scubaBoxes = new();
 
     private void Start()
     {
@@ -78,10 +77,12 @@ public sealed class SortScubaMinigame(nint ptr) : Minigame(ptr)
                 if (CheckBoxes())
                 {
                     _forceClose = true;
+
                     if (MyNormTask != null)
                     {
                         MyNormTask.NextStep();
                     }
+
                     StartCoroutine(CoStartClose());
                 }
             };
@@ -95,7 +96,8 @@ public sealed class SortScubaMinigame(nint ptr) : Minigame(ptr)
             };
 
             scubaGearItem.draggable.onEnter += () => hovering.Add(scubaGearItem.draggable);
-            scubaGearItem.draggable.onExit += () => hovering.RemoveAll(d => d.GetHashCode() == scubaGearItem.draggable.GetHashCode());
+            scubaGearItem.draggable.onExit += () =>
+                hovering.RemoveAll(d => d.GetHashCode() == scubaGearItem.draggable.GetHashCode());
 
             scubaGearItems.Add(scubaGearItem);
         }
@@ -122,17 +124,17 @@ public sealed class SortScubaMinigame(nint ptr) : Minigame(ptr)
 
     public void ShuffleGear()
     {
-        List<int> scubaNums = Enumerable.Range(0, 8).ToList();
+        SCG.List<int> scubaNums = Enumerable.Range(0, 8).ToList();
         scubaNums.Shuffle();
 
-        List<Vector3> scubaGearPositions = scubaGearItems.Select(s => s.transform.position).ToList();
+        SCG.List<Vector3> scubaGearPositions = scubaGearItems.Select(s => s.transform.position).ToList();
 
         for (int i = 0; i < 8; i++)
         {
             scubaGearItems[i].transform.position = scubaGearPositions[scubaNums[i]];
         }
 
-        List<int> boxNums = Enumerable.Range(0, 4).ToList();
+        SCG.List<int> boxNums = Enumerable.Range(0, 4).ToList();
         boxNums.Shuffle();
     }
 
@@ -142,7 +144,8 @@ public sealed class SortScubaMinigame(nint ptr) : Minigame(ptr)
 
         foreach (ScubaGearItem scubaGearItem in scubaGearItems)
         {
-            bool correctPosition = scubaBoxes[scubaGearItem.itemType].polygonCollider2D.OverlapPoint(scubaGearItem.transform.position);
+            bool correctPosition = scubaBoxes[scubaGearItem.itemType]
+                .polygonCollider2D.OverlapPoint(scubaGearItem.transform.position);
 
             if (!correctPosition) return false;
         }

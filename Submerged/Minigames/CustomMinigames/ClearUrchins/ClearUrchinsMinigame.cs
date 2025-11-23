@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using BepInEx.Unity.IL2CPP.Utils;
 using Il2CppInterop.Runtime.Attributes;
 using Reactor.Utilities.Attributes;
@@ -17,7 +16,7 @@ public sealed class ClearUrchinsMinigame(nint ptr) : Minigame(ptr)
     private const float PELLET_ANGLE_OFFSET = 47.3f;
 
     private readonly FloatRange _angleRange = new(-20.3f, 16.8f);
-    private readonly List<Urchin> _urchins = [];
+    private readonly SCG.List<Urchin> _urchins = [];
     private Camera _camera;
     private bool _finished;
 
@@ -39,7 +38,7 @@ public sealed class ClearUrchinsMinigame(nint ptr) : Minigame(ptr)
         _pelletBody = _pellet.GetComponent<Rigidbody2D>();
         _camera = Camera.main;
 
-        List<int> active = Enumerable.Range(0, 11).ToList();
+        SCG.List<int> active = Enumerable.Range(0, 11).ToList();
         active.Shuffle();
         active = active.Take(UnityRandom.Range(0, 1f) > 0.5f ? 4 : 5).ToList();
 
@@ -71,7 +70,7 @@ public sealed class ClearUrchinsMinigame(nint ptr) : Minigame(ptr)
 
         float angle = Mathf.Atan2(deltaY, deltaX) * Mathf.Rad2Deg - ANGLE_OFFSET;
         angle = Mathf.Clamp(angle, _angleRange.min, _angleRange.max);
-        _gun.eulerAngles = new Vector3(0, 0, angle);
+        _gun.eulerAngles = new(0, 0, angle);
 
         if (_shooting) return;
 
@@ -82,10 +81,12 @@ public sealed class ClearUrchinsMinigame(nint ptr) : Minigame(ptr)
             _finished = CheckFinished();
 
             if (!_finished) return;
+
             if (MyNormTask != null)
             {
                 MyNormTask.NextStep();
             }
+
             StartCoroutine(CoStartClose());
         }
     }

@@ -44,7 +44,9 @@ public class ElevatorMover(nint ptr) : MonoBehaviour(ptr)
             return;
         }
 
-        MoveFloor(stage >= ElevatorMovementStage.FadingToClear ? currentElevator.system.upperDeckIsTargetFloor : !currentElevator.system.upperDeckIsTargetFloor);
+        MoveFloor(stage >= ElevatorMovementStage.FadingToClear
+            ? currentElevator.system.upperDeckIsTargetFloor
+            : !currentElevator.system.upperDeckIsTargetFloor);
     }
 
     public void MoveFloor(bool onUpper)

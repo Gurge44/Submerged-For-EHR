@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Hazel;
 using Il2CppInterop.Runtime.Injection;
 using Reactor.Networking.Attributes;
@@ -21,11 +20,12 @@ public sealed class SubmarineOxygenSystem(nint ptr) : CppObject(ptr), AU.ISystem
     public float dirtyTimer;
     public bool doKillCheck;
     public bool doKillCheckSerialized;
-    public HashSet<byte> playersWithMask = new();
+    public SCG.HashSet<byte> playersWithMask = new();
 
     public float recentlyActive;
 
-    public SubmarineOxygenSystem(float duration) : this(ClassInjector.DerivedConstructorPointer<SubmarineOxygenSystem>())
+    public SubmarineOxygenSystem(float duration) : this(
+        ClassInjector.DerivedConstructorPointer<SubmarineOxygenSystem>())
     {
         ClassInjector.DerivedConstructorBody(this);
 
@@ -38,9 +38,10 @@ public sealed class SubmarineOxygenSystem(nint ptr) : CppObject(ptr), AU.ISystem
     public bool IsActive => countdown < 10000f;
     public int RemainingMasks => GameData.Instance.AllPlayers.Count - playersWithMask.Count;
 
-    public bool IsDirty { get; set; }
+    public bool LocalPlayerNeedsMask => !playersWithMask.Contains(PlayerControl.LocalPlayer.PlayerId) &&
+        !PlayerControl.LocalPlayer.Data.IsDead;
 
-    public bool LocalPlayerNeedsMask => !playersWithMask.Contains(PlayerControl.LocalPlayer.PlayerId) && !PlayerControl.LocalPlayer.Data.IsDead;
+    public bool IsDirty { get; set; }
 
     public void Deteriorate(float deltaTime)
     {
@@ -51,7 +52,10 @@ public sealed class SubmarineOxygenSystem(nint ptr) : CppObject(ptr), AU.ISystem
         {
             doKillCheck = false;
 
-            if (localPlayer && !localPlayer.Data.Disconnected && !localPlayer.Data.IsDead && !playersWithMask.Contains(localPlayer.PlayerId))
+            if (localPlayer &&
+                !localPlayer.Data.Disconnected &&
+                !localPlayer.Data.IsDead &&
+                !playersWithMask.Contains(localPlayer.PlayerId))
             {
                 try
                 {
@@ -62,6 +66,7 @@ public sealed class SubmarineOxygenSystem(nint ptr) : CppObject(ptr), AU.ISystem
                         Vent.currentVent.SetButtons(false);
                         localPlayer.MyPhysics.RpcExitVent(Vent.currentVent.Id);
                     }
+
                     RpcOxygenDeath(localPlayer);
                 }
                 finally
@@ -137,6 +142,12 @@ public sealed class SubmarineOxygenSystem(nint ptr) : CppObject(ptr), AU.ISystem
         IsDirty = initialState;
     }
 
+    public void UpdateSystem(PlayerControl player, MessageReader msgReader)
+    {
+        byte amount = msgReader.ReadByte();
+        RepairDamage(player, amount);
+    }
+
     public void RepairDamage(PlayerControl player, byte amount)
     {
         switch (amount)
@@ -161,12 +172,6 @@ public sealed class SubmarineOxygenSystem(nint ptr) : CppObject(ptr), AU.ISystem
         }
 
         IsDirty = true;
-    }
-
-    public void UpdateSystem(PlayerControl player, MessageReader msgReader)
-    {
-        byte amount = msgReader.ReadByte();
-        RepairDamage(player, amount);
     }
 
     [MethodRpc(CustomRpcCalls.OxygenDeath)]

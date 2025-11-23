@@ -25,6 +25,6 @@ public sealed class CamSlider(nint ptr) : Draggable(ptr)
     {
         Transform transform1 = transform;
         Vector3 pos = transform1.localPosition;
-        transform1.localPosition = new Vector3(localXRange.min + (localXRange.max - localXRange.min) * value, pos.y, pos.z);
+        transform1.localPosition = new(localXRange.min + (localXRange.max - localXRange.min) * value, pos.y, pos.z);
     }
 }

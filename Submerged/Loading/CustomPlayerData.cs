@@ -6,6 +6,7 @@ namespace Submerged.Loading;
 [RegisterInIl2Cpp]
 public sealed class CustomPlayerData(nint ptr) : MonoBehaviour(ptr)
 {
+    public PlayerControl player;
     private bool _hasMap;
 
     public bool HasMap
@@ -13,8 +14,6 @@ public sealed class CustomPlayerData(nint ptr) : MonoBehaviour(ptr)
         get => player.AmOwner ? !AssetLoader.Errored : _hasMap || player.isDummy;
         set => _hasMap = value;
     }
-
-    public PlayerControl player;
 
     public void Awake()
     {

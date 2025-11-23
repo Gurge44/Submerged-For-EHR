@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Submerged.KillAnimation;
 using Submerged.KillAnimation.Patches;
@@ -11,8 +10,8 @@ public sealed class KillAnimEditorTab : IDebugTab
 {
     private const float ANIM_DURATION = 2.5f;
 
-    private readonly List<KillAnimFrame> _frames = [];
-    private readonly Dictionary<int, KillAnimFrame> _previewLookup = new();
+    private readonly SCG.List<KillAnimFrame> _frames = [];
+    private readonly SCG.Dictionary<int, KillAnimFrame> _previewLookup = new();
 
     private int _currentAnimation;
 
@@ -40,7 +39,8 @@ public sealed class KillAnimEditorTab : IDebugTab
 
             try
             {
-                HudManager.Instance.KillOverlay.ShowKillAnimation(PlayerControl.LocalPlayer.Data, PlayerControl.LocalPlayer.Data);
+                HudManager.Instance.KillOverlay.ShowKillAnimation(PlayerControl.LocalPlayer.Data,
+                    PlayerControl.LocalPlayer.Data);
             }
             finally
             {
@@ -54,12 +54,16 @@ public sealed class KillAnimEditorTab : IDebugTab
 
         GUILayout.BeginHorizontal();
 
-        if (GUILayout.Toggle(_mode == EditMode.Select, nameof(EditMode.Select), new GUIStyle(GUI.skin.button))) _mode = EditMode.Select;
+        if (GUILayout.Toggle(_mode == EditMode.Select, nameof(EditMode.Select), new GUIStyle(GUI.skin.button)))
+            _mode = EditMode.Select;
         GUI.enabled = _frames.Any();
-        if (GUILayout.Toggle(_mode == EditMode.Edit, nameof(EditMode.Edit), new GUIStyle(GUI.skin.button))) _mode = EditMode.Edit;
-        if (GUILayout.Toggle(_mode == EditMode.Preview, nameof(EditMode.Preview), new GUIStyle(GUI.skin.button))) _mode = EditMode.Preview;
+        if (GUILayout.Toggle(_mode == EditMode.Edit, nameof(EditMode.Edit), new GUIStyle(GUI.skin.button)))
+            _mode = EditMode.Edit;
+        if (GUILayout.Toggle(_mode == EditMode.Preview, nameof(EditMode.Preview), new GUIStyle(GUI.skin.button)))
+            _mode = EditMode.Preview;
         GUI.enabled = true;
-        if (GUILayout.Toggle(_mode == EditMode.Save, nameof(EditMode.Save), new GUIStyle(GUI.skin.button))) _mode = EditMode.Save;
+        if (GUILayout.Toggle(_mode == EditMode.Save, nameof(EditMode.Save), new GUIStyle(GUI.skin.button)))
+            _mode = EditMode.Save;
 
         GUILayout.EndHorizontal();
 
@@ -83,10 +87,22 @@ public sealed class KillAnimEditorTab : IDebugTab
 
         GUILayout.BeginHorizontal();
 
-        if (GUILayout.Toggle(_currentAnimation == 0, HudManager.Instance.KillOverlay.KillAnims[0].KillType.ToString(), new GUIStyle(GUI.skin.button))) _currentAnimation = 0;
-        if (GUILayout.Toggle(_currentAnimation == 1, HudManager.Instance.KillOverlay.KillAnims[1].KillType.ToString(), new GUIStyle(GUI.skin.button))) _currentAnimation = 1;
-        if (GUILayout.Toggle(_currentAnimation == 2, HudManager.Instance.KillOverlay.KillAnims[2].KillType.ToString(), new GUIStyle(GUI.skin.button))) _currentAnimation = 2;
-        if (GUILayout.Toggle(_currentAnimation == 3, HudManager.Instance.KillOverlay.KillAnims[3].KillType.ToString(), new GUIStyle(GUI.skin.button))) _currentAnimation = 3;
+        if (GUILayout.Toggle(_currentAnimation == 0,
+                HudManager.Instance.KillOverlay.KillAnims[0].KillType.ToString(),
+                new GUIStyle(GUI.skin.button)))
+            _currentAnimation = 0;
+        if (GUILayout.Toggle(_currentAnimation == 1,
+                HudManager.Instance.KillOverlay.KillAnims[1].KillType.ToString(),
+                new GUIStyle(GUI.skin.button)))
+            _currentAnimation = 1;
+        if (GUILayout.Toggle(_currentAnimation == 2,
+                HudManager.Instance.KillOverlay.KillAnims[2].KillType.ToString(),
+                new GUIStyle(GUI.skin.button)))
+            _currentAnimation = 2;
+        if (GUILayout.Toggle(_currentAnimation == 3,
+                HudManager.Instance.KillOverlay.KillAnims[3].KillType.ToString(),
+                new GUIStyle(GUI.skin.button)))
+            _currentAnimation = 3;
 
         GUILayout.EndHorizontal();
 
@@ -100,7 +116,7 @@ public sealed class KillAnimEditorTab : IDebugTab
         _currentTime = Mathf.Round(GUILayout.HorizontalSlider(_currentTime, 0, ANIM_DURATION) * 100) / 100;
 
         if (GUILayout.Button("Add Frame"))
-            _frames.Add(new KillAnimFrame
+            _frames.Add(new()
             {
                 animation = _currentAnimation,
                 time = _currentTime,
@@ -116,7 +132,8 @@ public sealed class KillAnimEditorTab : IDebugTab
             KillAnimFrame frame = _frames[i];
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label($"{i}: {HudManager.Instance.KillOverlay.KillAnims[frame.animation].KillType} / {frame.time:0.00}");
+            GUILayout.Label(
+                $"{i}: {HudManager.Instance.KillOverlay.KillAnims[frame.animation].KillType} / {frame.time:0.00}");
 
             if (GUILayout.Button("L", GUILayout.Width(25)))
             {

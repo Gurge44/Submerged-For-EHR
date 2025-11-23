@@ -1,8 +1,8 @@
 ﻿using Reactor.Utilities.Attributes;
 using Submerged.Extensions;
+using Submerged.Localization.Strings;
 using Submerged.Minigames.CustomMinigames.StartSubmersible.MonoBehaviours;
 using Submerged.Minigames.MonoBehaviours;
-using Submerged.Localization.Strings;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -41,7 +41,8 @@ public sealed class StartSubmersibleMinigame(nint ptr) : Minigame(ptr)
         transform.Find("Background/WeaponsText").GetComponent<TextMeshPro>().text = Tasks.StartSubmersible_Weapons;
         transform.Find("Switches/MainEngines").GetComponent<TextMeshPro>().text = Tasks.StartSubmersible_MainEngines;
         transform.Find("Switches/AuxEngines").GetComponent<TextMeshPro>().text = Tasks.StartSubmersible_AuxEngines;
-        transform.Find("Switches/ExternalSystems").GetComponent<TextMeshPro>().text = Tasks.StartSubmersible_ExternalSystems;
+        transform.Find("Switches/ExternalSystems").GetComponent<TextMeshPro>().text =
+            Tasks.StartSubmersible_ExternalSystems;
 
         EnableEverything();
     }
@@ -50,7 +51,8 @@ public sealed class StartSubmersibleMinigame(nint ptr) : Minigame(ptr)
     {
         _controller.Update();
 
-        if (amClosing == CloseState.None && (_keyComplete || _flickedSwitches > 0 || weaponsSlider.complete || shieldSlider.complete))
+        if (amClosing == CloseState.None &&
+            (_keyComplete || _flickedSwitches > 0 || weaponsSlider.complete || shieldSlider.complete))
         {
             _audio = SoundManager.Instance.PlaySound(backgroundSound, false, 0.25f);
             text.text = Tasks.StartSubmersible_Status_Starting;
@@ -63,14 +65,20 @@ public sealed class StartSubmersibleMinigame(nint ptr) : Minigame(ptr)
             sliderBackground.gameObject.SetActive(true);
         }
 
-        if (_keyComplete && _flickedSwitches == 3 && weaponsSlider.complete && shieldSlider.complete && amClosing == CloseState.None)
+        if (_keyComplete &&
+            _flickedSwitches == 3 &&
+            weaponsSlider.complete &&
+            shieldSlider.complete &&
+            amClosing == CloseState.None)
         {
             text.text = Tasks.StartSubmersible_Status_Active;
             _audio.Stop();
+
             if (MyNormTask != null)
             {
                 MyNormTask.NextStep();
             }
+
             StartCoroutine(CoStartClose());
         }
     }
@@ -110,7 +118,7 @@ public sealed class StartSubmersibleMinigame(nint ptr) : Minigame(ptr)
             PassiveButton button = switchObj.AddComponent<PassiveButton>();
             button.OnMouseOut = new Button.ButtonClickedEvent();
             button.OnMouseOver = new Button.ButtonClickedEvent();
-            button.OnClick = new Button.ButtonClickedEvent();
+            button.OnClick = new();
             button.OnClick.AddListener(() =>
             {
                 if (!offObj.activeSelf) return;
@@ -135,12 +143,14 @@ public sealed class StartSubmersibleMinigame(nint ptr) : Minigame(ptr)
 
     public void SetupNeedles()
     {
-        NeedleBehaviour wheelSpriteNeedle = transform.Find("Wheel/WheelSprite").gameObject.AddComponent<NeedleBehaviour>();
+        NeedleBehaviour wheelSpriteNeedle =
+            transform.Find("Wheel/WheelSprite").gameObject.AddComponent<NeedleBehaviour>();
         wheelSpriteNeedle.movementType = NeedleBehaviour.Movement.ConstantBounce;
         wheelSpriteNeedle.duration = 0.075f;
         wheelSpriteNeedle.amount = 1.5f;
 
-        NeedleBehaviour wheelShadowNeedle = transform.Find("Wheel/WheelShadow").gameObject.AddComponent<NeedleBehaviour>();
+        NeedleBehaviour wheelShadowNeedle =
+            transform.Find("Wheel/WheelShadow").gameObject.AddComponent<NeedleBehaviour>();
         wheelShadowNeedle.movementType = NeedleBehaviour.Movement.ConstantBounce;
         wheelShadowNeedle.duration = 0.075f;
         wheelShadowNeedle.amount = 1.5f;
@@ -150,7 +160,7 @@ public sealed class StartSubmersibleMinigame(nint ptr) : Minigame(ptr)
         topLeft.amount = 10f;
         topLeft.movementType = NeedleBehaviour.Movement.RandomBounce;
         topLeft.randomInitialAngle = true;
-        topLeft.initialAngleRange = new FloatRange(30, 80);
+        topLeft.initialAngleRange = new(30, 80);
 
         NeedleBehaviour topRight = transform.Find("Dials/TopRight").gameObject.AddComponent<NeedleBehaviour>();
         topRight.duration = 1f;
@@ -162,7 +172,7 @@ public sealed class StartSubmersibleMinigame(nint ptr) : Minigame(ptr)
         bottomRight.amount = 10f;
         bottomRight.movementType = NeedleBehaviour.Movement.RandomBounce;
         bottomRight.randomInitialAngle = true;
-        bottomRight.initialAngleRange = new FloatRange(-30, -80);
+        bottomRight.initialAngleRange = new(-30, -80);
 
         NeedleBehaviour bottomLeft = transform.Find("Dials/BottomLeft").gameObject.AddComponent<NeedleBehaviour>();
         bottomLeft.duration = 10f;
@@ -200,11 +210,13 @@ public sealed class StartSubmersibleMinigame(nint ptr) : Minigame(ptr)
             case DragState.Dragging:
             {
                 Vector2 vector = key.transform.position;
-                float num = Vector2.SignedAngle(_controller.DragStartPosition - vector, _controller.DragPosition - vector);
-                key.transform.localEulerAngles = new Vector3(0f, 0f, Mathf.Clamp(num, -90f, 90f));
+                float num = Vector2.SignedAngle(_controller.DragStartPosition - vector,
+                    _controller.DragPosition - vector);
+                key.transform.localEulerAngles = new(0f, 0f, Mathf.Clamp(num, -90f, 90f));
 
                 return;
             }
+
             case DragState.Released:
             {
                 float num2 = key.transform.localEulerAngles.z;
@@ -227,7 +239,7 @@ public sealed class StartSubmersibleMinigame(nint ptr) : Minigame(ptr)
                 }
                 else
                 {
-                    key.transform.localEulerAngles = new Vector3(0f, 0f, 0f);
+                    key.transform.localEulerAngles = new(0f, 0f, 0f);
                 }
             }
 

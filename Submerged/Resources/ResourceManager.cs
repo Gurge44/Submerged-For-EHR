@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -11,7 +10,7 @@ namespace Submerged.Resources;
 
 public static class ResourceManager
 {
-    public static readonly Dictionary<string, Sprite> spriteCache = new();
+    public static readonly SCG.Dictionary<string, Sprite> spriteCache = new();
 
     private static readonly Assembly _resourceManagerAssembly = typeof(ResourceManager).Assembly;
 
@@ -39,7 +38,7 @@ public static class ResourceManager
         if (buffer == null) return null;
 
         Texture2D tex = new(2, 2, TextureFormat.ARGB32, false);
-        ImageConversion.LoadImage(tex, buffer, false);
+        tex.LoadImage(buffer, false);
 
         return tex;
     }
@@ -47,7 +46,7 @@ public static class ResourceManager
     private static Sprite GetSprite(string name, float ppu = 100)
     {
         Texture2D tex = GetTexture(name);
-        return tex == null ? null : Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f), ppu);
+        return tex == null ? null : Sprite.Create(tex, new(0, 0, tex.width, tex.height), new(0.5f, 0.5f), ppu);
     }
 
     public static void CacheSprite(string name, float ppu = 100, string cacheName = null)

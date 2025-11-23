@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using HarmonyLib;
 using Submerged.BaseGame;
 using Submerged.Enums;
@@ -11,19 +10,24 @@ using UnityEngine;
 
 namespace Submerged.Minigames.Patches;
 
-[BaseGameCode(LastChecked.v17_0_0, "UpdatePosition is inlined in IL2CPP, we must check to make sure it is still inlined across versions.")]
+[BaseGameCode(LastChecked.v17_0_0,
+    "UpdatePosition is inlined in IL2CPP, we must check to make sure it is still inlined across versions.")]
 [HarmonyPatch(typeof(ArrowBehaviour), nameof(ArrowBehaviour.Update))]
 public static class ArrowBehaviourUpdatePositionPatch
 {
-    private static List<(SubmarineElevator elevator, Vector3 position)> _lowerElevatorPositions;
-    private static List<(SubmarineElevator elevator, Vector3 position)> _upperElevatorPositions;
+    private static SCG.List<(SubmarineElevator elevator, Vector3 position)> _lowerElevatorPositions;
+    private static SCG.List<(SubmarineElevator elevator, Vector3 position)> _upperElevatorPositions;
 
     public static Vector3 GetElevatorPosition(ArrowBehaviour __instance)
     {
         if (_lowerElevatorPositions == null || _upperElevatorPositions == null || !_lowerElevatorPositions[0].elevator)
         {
-            _lowerElevatorPositions = SubmarineStatus.instance.elevators.Select(e => (e, e.lowerOuterDoor.Value.transform.position)).ToList();
-            _upperElevatorPositions = SubmarineStatus.instance.elevators.Select(e => (e, e.upperOuterDoor.Value.transform.position)).ToList();
+            _lowerElevatorPositions = SubmarineStatus.instance.elevators
+                .Select(e => (e, e.lowerOuterDoor.Value.transform.position))
+                .ToList();
+            _upperElevatorPositions = SubmarineStatus.instance.elevators
+                .Select(e => (e, e.upperOuterDoor.Value.transform.position))
+                .ToList();
         }
 
         FloorHandler floorHandler = FloorHandler.LocalPlayer;
@@ -43,11 +47,14 @@ public static class ArrowBehaviourUpdatePositionPatch
         Vector2 current = Vector2.zero;
         int elevatorIndex = 0;
 
-        for (int index = 0; index < (floorHandler.onUpper ? _upperElevatorPositions : _lowerElevatorPositions).Count; index++)
+        for (int index = 0; index < (floorHandler.onUpper ? _upperElevatorPositions : _lowerElevatorPositions).Count;
+             index++)
         {
-            (SubmarineElevator elevator, Vector3 pos) = (floorHandler.onUpper ? _upperElevatorPositions : _lowerElevatorPositions)[index];
+            (SubmarineElevator elevator, Vector3 pos) =
+                (floorHandler.onUpper ? _upperElevatorPositions : _lowerElevatorPositions)[index];
             if (elevator.system.systemTypes != CustomSystemTypes.ElevatorService &&
-                elevator.system.upperDeckIsTargetFloor != floorHandler.onUpper) continue;
+                elevator.system.upperDeckIsTargetFloor != floorHandler.onUpper)
+                continue;
 
             float distance = Vector2.Distance(pos, position);
 
@@ -81,14 +88,17 @@ public static class ArrowBehaviourUpdatePositionPatch
         {
             __instance.transform.position = newTarget - (Vector3) vector.normalized * 0.6f;
             float num2 = Mathf.Clamp(num, 0f, 1f);
-            __instance.transform.localScale = new Vector3(num2, num2, num2);
+            __instance.transform.localScale = new(num2, num2, num2);
         }
         else
         {
-            Vector2 vector3 = new Vector3(Mathf.Clamp(vector2.x * 2f - 1f, -1f, 1f), Mathf.Clamp(vector2.y * 2f - 1f, -1f, 1f));
+            Vector2 vector3 = new Vector3(Mathf.Clamp(vector2.x * 2f - 1f, -1f, 1f),
+                Mathf.Clamp(vector2.y * 2f - 1f, -1f, 1f));
             float orthographicSize = main.orthographicSize;
             float num3 = main.orthographicSize * main.aspect;
-            Vector3 vector4 = new(Mathf.LerpUnclamped(0f, num3 * 0.88f, vector3.x), Mathf.LerpUnclamped(0f, orthographicSize * 0.79f, vector3.y), 0f);
+            Vector3 vector4 = new(Mathf.LerpUnclamped(0f, num3 * 0.88f, vector3.x),
+                Mathf.LerpUnclamped(0f, orthographicSize * 0.79f, vector3.y),
+                0f);
             __instance.transform.position = main.transform.position + vector4;
             __instance.transform.localScale = Vector3.one;
         }

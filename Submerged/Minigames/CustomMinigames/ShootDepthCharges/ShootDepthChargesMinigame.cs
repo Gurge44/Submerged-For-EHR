@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using Reactor.Utilities.Attributes;
 using Submerged.Extensions;
+using Submerged.Localization.Strings;
 using Submerged.Minigames.CustomMinigames.ShootDepthCharges.MonoBehaviours;
 using Submerged.Minigames.MonoBehaviours;
-using Submerged.Localization.Strings;
 using TMPro;
 using UnityEngine;
 
@@ -53,7 +53,7 @@ public sealed class ShootDepthChargesMinigame(nint ptr) : Minigame(ptr)
         _staticScreenBoxCollider2D = _staticScreen.GetComponent<BoxCollider2D>();
         _doNotCloseBoxCollider2D = _background.GetComponent<BoxCollider2D>();
 
-        _xRange = new FloatRange(-9f, 9f);
+        _xRange = new(-9f, 9f);
         yStart = 2 * 10f;
 
         _lineRendererTransform = transform.Find("LineRenderer");
@@ -80,7 +80,7 @@ public sealed class ShootDepthChargesMinigame(nint ptr) : Minigame(ptr)
                 return;
             }
 
-            _target.position = new Vector3(mousePos.x, mousePos.y, _target.position.z);
+            _target.position = new(mousePos.x, mousePos.y, _target.position.z);
             Vector3 clickPosition = new(mousePos.x, mousePos.y, _text.transform.position.z + 20f);
             _lineRenderer.SetPosition(1, transform.InverseTransformPoint(clickPosition));
             SoundManager.Instance.PlaySound(_shootClip, false);

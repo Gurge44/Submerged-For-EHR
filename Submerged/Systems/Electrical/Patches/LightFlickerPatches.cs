@@ -7,7 +7,8 @@ namespace Submerged.Systems.Electrical.Patches;
 [HarmonyPatch]
 public static class LightFlickerPatches
 {
-    public static bool IsLightFlickerActive => ShipStatus.Instance.IsSubmerged() && SubmarineStatus.instance.lightFlickerActive;
+    public static bool IsLightFlickerActive =>
+        ShipStatus.Instance.IsSubmerged() && SubmarineStatus.instance.lightFlickerActive;
 
     [HarmonyPatch(typeof(DeadBody), nameof(DeadBody.OnClick))]
     [HarmonyPrefix]

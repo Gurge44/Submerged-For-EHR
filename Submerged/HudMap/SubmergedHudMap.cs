@@ -9,6 +9,11 @@ public sealed class SubmergedHudMap(nint ptr) : MonoBehaviour(ptr)
 {
     public const float LOWER_Y = 8.375f;
 
+    private bool _disableChangeFloor;
+
+    [UsedImplicitly]
+    public Il2CppReferenceField<GameObject> downArrow;
+
     [UsedImplicitly]
     public Il2CppReferenceField<Transform> hudTransform;
 
@@ -17,11 +22,6 @@ public sealed class SubmergedHudMap(nint ptr) : MonoBehaviour(ptr)
 
     [UsedImplicitly]
     public Il2CppReferenceField<GameObject> upArrow;
-
-    [UsedImplicitly]
-    public Il2CppReferenceField<GameObject> downArrow;
-
-    private bool _disableChangeFloor;
 
     private void Start()
     {
@@ -79,6 +79,6 @@ public sealed class SubmergedHudMap(nint ptr) : MonoBehaviour(ptr)
     {
         upArrow.Value.SetActive(!_disableChangeFloor);
         downArrow.Value.SetActive(false);
-        hudTransform.Value.localPosition = new Vector3(0, LOWER_Y, 0);
+        hudTransform.Value.localPosition = new(0, LOWER_Y, 0);
     }
 }

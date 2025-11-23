@@ -10,7 +10,8 @@ namespace Submerged.UI.Patches;
 [HarmonyPatch]
 public static class ShowReportButtonDisabledPatches
 {
-    private static readonly Lazy<Sprite> _reportDisabledSprite = new(() => ResourceManager.spriteCache["ReportDisabled"]);
+    private static readonly Lazy<Sprite> _reportDisabledSprite =
+        new(() => ResourceManager.spriteCache["ReportDisabled"]);
 
     private static GameObject _reportDisabledObject;
 
@@ -26,11 +27,11 @@ public static class ShowReportButtonDisabledPatches
             _reportDisabledObject.Destroy();
         }
 
-        _reportDisabledObject = new GameObject("DisabledIcon");
+        _reportDisabledObject = new("DisabledIcon");
         _reportDisabledObject.layer = reportButton.gameObject.layer;
         _reportDisabledObject.SetActive(false);
         _reportDisabledObject.transform.SetParent(reportButton.transform, false);
-        _reportDisabledObject.transform.localPosition = new Vector3(0, 0, -0.1f);
+        _reportDisabledObject.transform.localPosition = new(0, 0, -0.1f);
 
         GameObject childifiedButton = new("ChildSprite");
         childifiedButton.layer = reportButton.gameObject.layer;

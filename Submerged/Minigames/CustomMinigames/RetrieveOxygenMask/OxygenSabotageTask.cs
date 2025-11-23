@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Il2CppSystem.Text;
 using Reactor.Utilities.Attributes;
 using Submerged.Enums;
@@ -38,7 +37,7 @@ public sealed class OxygenSabotageTask(nint ptr) : PlayerTask(ptr)
             return;
         }
 
-        List<Console> list = ShipStatus.Instance.AllConsoles.Where(ValidConsole).ToList();
+        SCG.List<Console> list = ShipStatus.Instance.AllConsoles.Where(ValidConsole).ToList();
 
         foreach (ArrowBehaviour t in arrows)
         {
@@ -46,7 +45,10 @@ public sealed class OxygenSabotageTask(nint ptr) : PlayerTask(ptr)
         }
 
         ArrowBehaviour arrow = arrows[0];
-        Console console = list.FirstOrDefault(c => FloorHandler.LocalPlayer.onUpper ? c.name.Contains("UpperOxygenConsole") : c.name.Contains("LowerOxygenConsole"));
+        Console console = list.FirstOrDefault(c =>
+            FloorHandler.LocalPlayer.onUpper
+                ? c.name.Contains("UpperOxygenConsole")
+                : c.name.Contains("LowerOxygenConsole"));
 
         if (console)
         {
@@ -64,13 +66,15 @@ public sealed class OxygenSabotageTask(nint ptr) : PlayerTask(ptr)
     public override bool ValidConsole(Console console)
     {
         return console.TaskTypes.Any(t => t == CustomTaskTypes.RetrieveOxygenMask) ||
-               console.ValidTasks.Any(t => t.taskType == CustomTaskTypes.RetrieveOxygenMask);
+            console.ValidTasks.Any(t => t.taskType == CustomTaskTypes.RetrieveOxygenMask);
     }
 
     public override void AppendTaskText(StringBuilder sb)
     {
         taskTextYellow = !taskTextYellow;
-        Color color = taskTextYellow || system.playersWithMask.Contains(PlayerControl.LocalPlayer.PlayerId) ? Color.yellow : Color.red;
+        Color color = taskTextYellow || system.playersWithMask.Contains(PlayerControl.LocalPlayer.PlayerId)
+            ? Color.yellow
+            : Color.red;
 
         sb.Append(color.ToTextColor());
         sb.Append(TranslationController.Instance.GetString(CustomTaskTypes.RetrieveOxygenMask));
@@ -96,6 +100,7 @@ public sealed class OxygenSabotageTask(nint ptr) : PlayerTask(ptr)
         isComplete = true;
         PlayerControl.LocalPlayer.RemoveTask(this);
         OxygenSabotageMinigame minigame = FindObjectOfType<OxygenSabotageMinigame>();
+
         if (minigame != null)
         {
             minigame.Close();

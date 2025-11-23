@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
 using Il2CppInterop.Runtime;
 using Reactor.Utilities.Attributes;
@@ -9,14 +8,14 @@ namespace Submerged.Extensions;
 
 public static class ComponentExtensions
 {
-    private static Dictionary<string, Type> _registeredTypes;
+    private static SCG.Dictionary<string, Type> _registeredTypes;
 
-    private static Dictionary<string, Type> RegisteredTypes
+    private static SCG.Dictionary<string, Type> RegisteredTypes
     {
         get
         {
             if (_registeredTypes != null) return _registeredTypes;
-            _registeredTypes = new Dictionary<string, Type>();
+            _registeredTypes = new();
 
             foreach (Type type in Assembly.GetExecutingAssembly().GetTypes())
             {
@@ -34,10 +33,11 @@ public static class ComponentExtensions
     }
 
     public static T EnsureComponent<T>(this GameObject obj) where T : Component =>
-        obj.TryGetComponent<T>(out T comp) ? comp : obj.AddComponent<T>();
+        obj.TryGetComponent(out T comp) ? comp : obj.AddComponent<T>();
 
-    public static Component EnsureComponent(this GameObject obj, Type type)
-        => obj.TryGetComponent(Il2CppType.From(type), out Component comp) ? comp : obj.AddComponent(Il2CppType.From(type));
+    public static Component EnsureComponent(this GameObject obj, Type type) =>
+        obj.TryGetComponent(Il2CppType.From(type), out Component comp) ? comp : obj.AddComponent(Il2CppType.From(type));
 
-    public static Component AddInjectedComponentByName(this GameObject obj, string typeName) => obj.AddComponent(Il2CppType.From(RegisteredTypes[typeName]));
+    public static Component AddInjectedComponentByName(this GameObject obj, string typeName) =>
+        obj.AddComponent(Il2CppType.From(RegisteredTypes[typeName]));
 }

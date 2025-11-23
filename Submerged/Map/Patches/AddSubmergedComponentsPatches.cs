@@ -24,7 +24,8 @@ public static class AddSubmergedComponentsPatches
     {
         if (!ShipStatus.Instance.IsSubmerged()) return;
 
-        DeadBody body = UnityObject.FindObjectsOfType<DeadBody>()?.FirstOrDefault(b => b.ParentId == __instance.PlayerId);
+        DeadBody body = UnityObject.FindObjectsOfType<DeadBody>()
+            ?.FirstOrDefault(b => b.ParentId == __instance.PlayerId);
 
         if (body)
         {

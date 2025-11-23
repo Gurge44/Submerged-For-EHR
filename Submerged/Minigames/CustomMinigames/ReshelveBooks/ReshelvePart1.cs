@@ -2,8 +2,8 @@
 using Il2CppInterop.Runtime.Attributes;
 using Reactor.Utilities.Attributes;
 using Submerged.Extensions;
-using Submerged.Minigames.MonoBehaviours;
 using Submerged.Localization.Strings;
+using Submerged.Minigames.MonoBehaviours;
 using TMPro;
 using UnityEngine;
 
@@ -28,7 +28,7 @@ public sealed class ReshelvePart1(nint ptr) : MonoBehaviour(ptr)
             0 when minigame.ConsoleId != 0 => Tasks.ReshelveBooks_Book08_Medical,
             1 when minigame.ConsoleId != 0 => Tasks.ReshelveBooks_Book10_Medical,
             2 when minigame.ConsoleId != 0 => Tasks.ReshelveBooks_Book13_Medical,
-            _                              => ""
+            _ => ""
         }).Replace("<size=125%>", "<size=100%>");
 
         ClickableSprite clickableSprite = books[bookIndex].gameObject.AddComponent<ClickableSprite>();
@@ -51,6 +51,7 @@ public sealed class ReshelvePart1(nint ptr) : MonoBehaviour(ptr)
     private IEnumerator CoOnMouseDown(GameObject obj)
     {
         minigame.Task.customData[minigame.ConsoleId + 2] = 1;
+
         if (minigame.Task != null)
         {
             minigame.Task.NextStep();
@@ -61,7 +62,7 @@ public sealed class ReshelvePart1(nint ptr) : MonoBehaviour(ptr)
 
         for (float t = 0; t <= 0.5f; t += Time.deltaTime)
         {
-            rend.color = text.color = new Color(1, 1, 1, Mathf.Lerp(1, 0, t * 2));
+            rend.color = text.color = new(1, 1, 1, Mathf.Lerp(1, 0, t * 2));
 
             yield return null;
         }
@@ -72,10 +73,12 @@ public sealed class ReshelvePart1(nint ptr) : MonoBehaviour(ptr)
     private void SetText(string objName, string targetText)
     {
         Transform targetTrans = transform.Find(objName);
+
         if (targetTrans == null)
         {
             return;
         }
+
         targetTrans.GetComponentInChildren<TextMeshPro>().SetText(targetText);
     }
 }

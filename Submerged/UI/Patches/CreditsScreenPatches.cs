@@ -51,7 +51,8 @@ public static class CreditsScreenPatches
         MaterialPropertyBlock block = new();
         block.AddTexture("_MainTex", _texture);
 
-        Il2CppArrayBase<SpriteRenderer> spriteRenderers = doNotPressButton.GetComponentsInChildren<SpriteRenderer>(true);
+        Il2CppArrayBase<SpriteRenderer>
+            spriteRenderers = doNotPressButton.GetComponentsInChildren<SpriteRenderer>(true);
 
         foreach (SpriteRenderer spriteRenderer in spriteRenderers)
         {

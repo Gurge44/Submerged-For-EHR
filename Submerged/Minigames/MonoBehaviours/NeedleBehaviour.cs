@@ -35,6 +35,7 @@ public sealed class NeedleBehaviour(nint ptr) : MonoBehaviour(ptr)
                 this.StartCoroutine(ConsistantBounce());
 
                 break;
+
             case Movement.RandomBounce:
                 this.StartCoroutine(RandomBounce());
 

@@ -9,8 +9,6 @@ namespace Submerged.Minigames.CustomMinigames.SpotWhaleShark;
 [RegisterInIl2Cpp]
 public sealed class WhaleSharkTask(nint ptr) : NormalPlayerTask(ptr)
 {
-    public static bool CanComplete(PlayerControl player) => !player.Data.Role.IsImpostor;
-
     public bool visible;
     public float timer;
 
@@ -20,7 +18,9 @@ public sealed class WhaleSharkTask(nint ptr) : NormalPlayerTask(ptr)
     private void Start()
     {
         visibleDuration = UnityRandom.Range(20f, 40f);
-        notVisibleDuration = GameManager.Instance.IsHideAndSeek() ? UnityRandom.Range(20f, 30f) : UnityRandom.Range(60f, 90f);
+        notVisibleDuration = GameManager.Instance.IsHideAndSeek()
+            ? UnityRandom.Range(20f, 30f)
+            : UnityRandom.Range(60f, 90f);
 
         timer = UnityRandom.Range(0f, visibleDuration - 5f);
         MaxStep = 1;
@@ -47,6 +47,8 @@ public sealed class WhaleSharkTask(nint ptr) : NormalPlayerTask(ptr)
             }
         }
     }
+
+    public static bool CanComplete(PlayerControl player) => !player.Data.Role.IsImpostor;
 
     [BaseGameCode(LastChecked.v17_0_0, "Part of this method comes from NormalPlayerTask.AppendTaskText")]
     public override void AppendTaskText(StringBuilder sb)

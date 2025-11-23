@@ -27,9 +27,9 @@ public sealed class ScubaGearItem(nint ptr) : MonoBehaviour(ptr)
         if (transform.localPosition.z > -2f)
         {
             bool correctPosition = (minigame.scubaBoxes.Values.Any(b =>
-                                                                       b.polygonCollider2D.ClosestPoint(transform.position) == (Vector2) transform.position) &&
-                                    transform.localPosition.y > 5) ||
-                                   transform.localPosition.y is > -4 and < 1;
+                        b.polygonCollider2D.ClosestPoint(transform.position) == (Vector2) transform.position) &&
+                    transform.localPosition.y > 5) ||
+                transform.localPosition.y is > -4 and < 1;
 
             Vector3 pos = transform.localPosition;
             pos.z = correctPosition ? -0.05f : -1.05f;

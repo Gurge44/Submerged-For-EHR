@@ -11,7 +11,8 @@ public static class SubmarineStatusPatches
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CalculateLightRadius))]
     [HarmonyPrefix]
     [HarmonyPriority(Priority.First)]
-    public static bool CalculateLightRadiusPatch(ShipStatus __instance, [HarmonyArgument(0)] NetworkedPlayerInfo player, ref float __result)
+    public static bool CalculateLightRadiusPatch(ShipStatus __instance, [HarmonyArgument(0)] NetworkedPlayerInfo player,
+        ref float __result)
     {
         if (!__instance.IsSubmerged()) return true;
 

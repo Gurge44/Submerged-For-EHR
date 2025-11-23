@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using BepInEx.Unity.IL2CPP.Utils;
@@ -7,9 +6,9 @@ using Il2CppInterop.Runtime.Attributes;
 using Reactor.Utilities.Attributes;
 using Submerged.BaseGame.Extensions;
 using Submerged.Extensions;
+using Submerged.Localization.Strings;
 using Submerged.Minigames.CustomMinigames.PurchaseBreakfast.MonoBehaviour;
 using Submerged.Minigames.MonoBehaviours;
-using Submerged.Localization.Strings;
 using TMPro;
 using UnityEngine;
 
@@ -24,18 +23,18 @@ public sealed class PurchaseBreakfastMinigame(nint ptr) : Minigame(ptr)
 
     // Prices
     public int[] currencyDenominations = [1, 5, 10, 20];
-    public List<int> possiblePrices = [];
-    public List<int> existingBillConfigurations = [];
+    public SCG.List<int> possiblePrices = [];
+    public SCG.List<int> existingBillConfigurations = [];
 
     // Selections
-    public List<int> pickedPrices = [];
-    public List<int> pickedSlots = [];
-    public List<int> pickedSales = [];
-    public List<SpriteRenderer> billRenderers = [];
-    public List<Transform> billTransforms = [];
+    public SCG.List<int> pickedPrices = [];
+    public SCG.List<int> pickedSlots = [];
+    public SCG.List<int> pickedSales = [];
+    public SCG.List<SpriteRenderer> billRenderers = [];
+    public SCG.List<Transform> billTransforms = [];
 
-    public List<Transform> traysMovingParts = [];
-    public List<Transform> salesMovingParts = [];
+    public SCG.List<Transform> traysMovingParts = [];
+    public SCG.List<Transform> salesMovingParts = [];
     private int _amountOfBills = 5;
 
     private int _callCount;
@@ -50,17 +49,18 @@ public sealed class PurchaseBreakfastMinigame(nint ptr) : Minigame(ptr)
     private SpriteRenderer _rightFailRenderer;
     private int _seed;
 
-    public Dictionary<int, CakeBehaviour> cakeBehaviours = new();
-    public List<(Sprite single, Sprite multiple)> foodSprites = [];
-    public Dictionary<int, Sprite> moneySprites = new();
+    public SCG.Dictionary<int, CakeBehaviour> cakeBehaviours = new();
+    public SCG.List<(Sprite single, Sprite multiple)> foodSprites = [];
+    public SCG.Dictionary<int, Sprite> moneySprites = new();
 
     // Sprites
-    public Dictionary<int, Sprite> numbers = new();
-    public List<(int price, int[] bills)> priceToBill = [];
+    public SCG.Dictionary<int, Sprite> numbers = new();
+    public SCG.List<(int price, int[] bills)> priceToBill = [];
 
     private void Awake()
     {
-        transform.Find("Cards/specials card+shadow/text").GetComponent<TextMeshPro>().text = Tasks.PurchaseBreakfast_Offers;
+        transform.Find("Cards/specials card+shadow/text").GetComponent<TextMeshPro>().text =
+            Tasks.PurchaseBreakfast_Offers;
     }
 
     private void Start()
@@ -88,7 +88,7 @@ public sealed class PurchaseBreakfastMinigame(nint ptr) : Minigame(ptr)
             FindSprites();
 
             _seed = UnityRandom.Range(0, int.MaxValue);
-            _random = new SystemRandom(_seed);
+            _random = new(_seed);
 
             ShuffleWithRandom(foodSprites, _random);
             ShuffleWithRandom(possiblePrices, _random);
@@ -143,13 +143,13 @@ public sealed class PurchaseBreakfastMinigame(nint ptr) : Minigame(ptr)
                 sale.Find("RightMoney").GetComponent<SpriteRenderer>().sprite = numbers[discount % 10];
             }
 
-            List<int> cakePrices = [..pickedPrices];
+            SCG.List<int> cakePrices = [..pickedPrices];
             cakePrices.Sort();
             int chosenPrice = cakePrices[0];
             int[] bills = ShuffleWithRandom(ShuffleWithRandom(priceToBill, _random)
-                                            .First(p => p.price == chosenPrice)
-                                            .bills.ToList(),
-                                            _random)
+                        .First(p => p.price == chosenPrice)
+                        .bills.ToList(),
+                    _random)
                 .ToArray();
 
             for (int i = 0; i < bills.Length; i++)
@@ -178,10 +178,10 @@ public sealed class PurchaseBreakfastMinigame(nint ptr) : Minigame(ptr)
             if (!_hasShownEasterEgg && UnityRandom.Range(0, 40) == 0)
             {
                 _hasShownEasterEgg = true;
-                List<CakeBehaviour> range = cakeBehaviours.Values.ToList();
+                SCG.List<CakeBehaviour> range = cakeBehaviours.Values.ToList();
                 range.Shuffle();
                 CakeBehaviour cake = range.First(c => c.price != chosenPrice);
-                List<Transform> eggs = transform.Find("EasterEggs").GetChildren().ToList();
+                SCG.List<Transform> eggs = transform.Find("EasterEggs").GetChildren().ToList();
                 MatchCollection matches = Regex.Matches(cake.name, @"\d+");
 
                 if (int.Parse(matches[0].ToString()) % 3 == 1)
@@ -263,7 +263,8 @@ public sealed class PurchaseBreakfastMinigame(nint ptr) : Minigame(ptr)
     }
 
     [HideFromIl2Cpp]
-    public int GetBillIdentifier(int[] bills) => bills[0] * 2 + bills[1] * 3 + bills[2] * 5 + bills[3] * 7 + bills[4] * 11;
+    public int GetBillIdentifier(int[] bills) =>
+        bills[0] * 2 + bills[1] * 3 + bills[2] * 5 + bills[3] * 7 + bills[4] * 11;
 
     public void FindSprites()
     {
@@ -321,7 +322,8 @@ public sealed class PurchaseBreakfastMinigame(nint ptr) : Minigame(ptr)
 
         for (float t = 0; t < DURATION; t += Time.deltaTime)
         {
-            billTransforms[0].parent.localPosition = Vector3.Lerp(originalPos, new Vector3(originalPos.x, -8, originalPos.z), t / DURATION);
+            billTransforms[0].parent.localPosition =
+                Vector3.Lerp(originalPos, new(originalPos.x, -8, originalPos.z), t / DURATION);
 
             yield return null;
         }
@@ -341,10 +343,18 @@ public sealed class PurchaseBreakfastMinigame(nint ptr) : Minigame(ptr)
 
             int index = UnityRandom.Range(0, 7);
             Transform transition = transform.Find("Trays/FailTransition");
-            _leftFailRenderer = transition.Find("Left").GetChild(1).GetChild(index).Find("Pastery").GetComponent<SpriteRenderer>();
-            _rightFailRenderer = transition.Find("Right").GetChild(1).GetChild(index).Find("Pastery").GetComponent<SpriteRenderer>();
+            _leftFailRenderer = transition.Find("Left")
+                .GetChild(1)
+                .GetChild(index)
+                .Find("Pastery")
+                .GetComponent<SpriteRenderer>();
+            _rightFailRenderer = transition.Find("Right")
+                .GetChild(1)
+                .GetChild(index)
+                .Find("Pastery")
+                .GetComponent<SpriteRenderer>();
 
-            List<Transform> eggs = transform.Find("EasterEggs").GetChildren().ToList();
+            SCG.List<Transform> eggs = transform.Find("EasterEggs").GetChildren().ToList();
             MatchCollection matches = Regex.Matches(_leftFailRenderer.transform.parent.name, @"\d+");
 
             if (int.Parse(matches[0].ToString()) % 3 == 1)
@@ -364,12 +374,13 @@ public sealed class PurchaseBreakfastMinigame(nint ptr) : Minigame(ptr)
 
         for (float t = 0; t < duration; t += Time.deltaTime)
         {
-            billTransforms[0].parent.localPosition = Vector3.Lerp(originalPos, new Vector3(originalPos.x, -8, originalPos.z), t / duration);
+            billTransforms[0].parent.localPosition =
+                Vector3.Lerp(originalPos, new(originalPos.x, -8, originalPos.z), t / duration);
 
             yield return null;
         }
 
-        billTransforms[0].parent.localPosition = new Vector3(originalPos.x, -8, originalPos.z);
+        billTransforms[0].parent.localPosition = new(originalPos.x, -8, originalPos.z);
 
         Vector3[] originalPositions = salesMovingParts.Select(t => t.localPosition).ToArray();
         duration = 0.15f;
@@ -380,7 +391,8 @@ public sealed class PurchaseBreakfastMinigame(nint ptr) : Minigame(ptr)
             {
                 originalPos = originalPositions[i];
 
-                salesMovingParts[i].localPosition = Vector3.Lerp(originalPos, new Vector3(originalPos.x, 5.5f, originalPos.z), t / duration);
+                salesMovingParts[i].localPosition =
+                    Vector3.Lerp(originalPos, new(originalPos.x, 5.5f, originalPos.z), t / duration);
             }
 
             yield return null;
@@ -390,7 +402,7 @@ public sealed class PurchaseBreakfastMinigame(nint ptr) : Minigame(ptr)
         {
             originalPos = originalPositions[i];
 
-            salesMovingParts[i].localPosition = new Vector3(originalPos.x, 5.5f, originalPos.z);
+            salesMovingParts[i].localPosition = new(originalPos.x, 5.5f, originalPos.z);
         }
 
         originalPositions = traysMovingParts.Select(t => t.localPosition).ToArray();
@@ -402,7 +414,8 @@ public sealed class PurchaseBreakfastMinigame(nint ptr) : Minigame(ptr)
             {
                 originalPos = originalPositions[i];
 
-                traysMovingParts[i].localPosition = Vector3.Lerp(originalPos, new Vector3(22.75f, originalPos.y, originalPos.z), t / duration);
+                traysMovingParts[i].localPosition =
+                    Vector3.Lerp(originalPos, new(22.75f, originalPos.y, originalPos.z), t / duration);
             }
 
             yield return null;
@@ -412,7 +425,7 @@ public sealed class PurchaseBreakfastMinigame(nint ptr) : Minigame(ptr)
         {
             originalPos = originalPositions[i];
 
-            traysMovingParts[i].localPosition = new Vector3(22.75f, originalPos.y, originalPos.z);
+            traysMovingParts[i].localPosition = new(22.75f, originalPos.y, originalPos.z);
         }
 
         for (int i = 0; i < 4; i++) billRenderers[i].sprite = moneySprites[currencyDenominations[i]];
@@ -456,7 +469,8 @@ public sealed class PurchaseBreakfastMinigame(nint ptr) : Minigame(ptr)
             {
                 originalPos = originalPositions[i];
 
-                traysMovingParts[i].localPosition = Vector3.Lerp(originalPos, new Vector3(0, originalPos.y, originalPos.z), t / duration);
+                traysMovingParts[i].localPosition =
+                    Vector3.Lerp(originalPos, new(0, originalPos.y, originalPos.z), t / duration);
             }
 
             yield return null;
@@ -466,7 +480,7 @@ public sealed class PurchaseBreakfastMinigame(nint ptr) : Minigame(ptr)
         {
             originalPos = originalPositions[i];
 
-            traysMovingParts[i].localPosition = new Vector3(0, originalPos.y, originalPos.z);
+            traysMovingParts[i].localPosition = new(0, originalPos.y, originalPos.z);
         }
 
         originalPositions = salesMovingParts.Select(t => t.localPosition).ToArray();
@@ -478,7 +492,8 @@ public sealed class PurchaseBreakfastMinigame(nint ptr) : Minigame(ptr)
             {
                 originalPos = originalPositions[i];
 
-                salesMovingParts[i].localPosition = Vector3.Lerp(originalPos, new Vector3(originalPos.x, -1.27f, originalPos.z), t / duration);
+                salesMovingParts[i].localPosition =
+                    Vector3.Lerp(originalPos, new(originalPos.x, -1.27f, originalPos.z), t / duration);
             }
 
             yield return null;
@@ -488,7 +503,7 @@ public sealed class PurchaseBreakfastMinigame(nint ptr) : Minigame(ptr)
         {
             originalPos = originalPositions[i];
 
-            salesMovingParts[i].localPosition = new Vector3(originalPos.x, -1.27f, originalPos.z);
+            salesMovingParts[i].localPosition = new(originalPos.x, -1.27f, originalPos.z);
         }
 
         originalPos = billTransforms[0].parent.localPosition;
@@ -496,12 +511,13 @@ public sealed class PurchaseBreakfastMinigame(nint ptr) : Minigame(ptr)
 
         for (float t = 0; t < duration; t += Time.deltaTime)
         {
-            billTransforms[0].parent.localPosition = Vector3.Lerp(originalPos, new Vector3(originalPos.x, -1.27f, originalPos.z), t / duration);
+            billTransforms[0].parent.localPosition =
+                Vector3.Lerp(originalPos, new(originalPos.x, -1.27f, originalPos.z), t / duration);
 
             yield return null;
         }
 
-        billTransforms[0].parent.localPosition = new Vector3(originalPos.x, -1.27f, originalPos.z);
+        billTransforms[0].parent.localPosition = new(originalPos.x, -1.27f, originalPos.z);
         _canComplete = true;
 
         if (_leftFailRenderer)
@@ -511,7 +527,7 @@ public sealed class PurchaseBreakfastMinigame(nint ptr) : Minigame(ptr)
         }
     }
 
-    public static List<T> ShuffleWithRandom<T>(List<T> list, SystemRandom random)
+    public static SCG.List<T> ShuffleWithRandom<T>(SCG.List<T> list, SystemRandom random)
     {
         int index = list.Count;
 
@@ -525,9 +541,9 @@ public sealed class PurchaseBreakfastMinigame(nint ptr) : Minigame(ptr)
         return list;
     }
 
-    public static List<T> ShuffleWithRandomCopy<T>(List<T> list, SystemRandom random)
+    public static SCG.List<T> ShuffleWithRandomCopy<T>(SCG.List<T> list, SystemRandom random)
     {
-        List<T> newList = [..list];
+        SCG.List<T> newList = [..list];
         int index = newList.Count;
 
         while (index > 1)

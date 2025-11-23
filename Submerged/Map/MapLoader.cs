@@ -8,11 +8,6 @@ namespace Submerged.Map;
 // TODO: Cache what we need and unload the rest
 public static class MapLoader
 {
-    private class Out<T>
-    {
-        public T Value { get; set; }
-    }
-
     public static ShipStatus Skeld { get; private set; }
     public static AirshipStatus Airship { get; private set; }
     public static FungleShipStatus Fungle { get; private set; }
@@ -60,5 +55,10 @@ public static class MapLoader
 
             shipStatus.Value = asset.Result.GetComponent<T>();
         }
+    }
+
+    private class Out<T>
+    {
+        public T Value { get; set; }
     }
 }

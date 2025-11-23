@@ -30,6 +30,6 @@ public sealed class WhaleSharkMapIcon(nint ptr) : MonoBehaviour(ptr)
 
     public void UpdateIcon()
     {
-        _icon.color = lastVisible ? new Color(1, 0.9216f, 0.0157f) : new Color(0.8f, 0.8f, 0.8f, 0.8f);
+        _icon.color = lastVisible ? new(1, 0.9216f, 0.0157f) : new Color(0.8f, 0.8f, 0.8f, 0.8f);
     }
 }

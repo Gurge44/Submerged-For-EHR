@@ -87,7 +87,8 @@ public static class ResourceEmbedderILInjected
         Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
         // resources have the same name as their belonging assembly, so find by name
-        string parentName = requestedAssemblyName.Name.Substring(0, requestedAssemblyName.Name.Length - ".resources".Length);
+        string parentName =
+            requestedAssemblyName.Name.Substring(0, requestedAssemblyName.Name.Length - ".resources".Length);
         // I'd love to use linq here, but Cecil starts fucking up when I do (null reference exception on assembly.Write)
         // without a Linq query it works fine, though
 
@@ -115,7 +116,8 @@ public static class ResourceEmbedderILInjected
 
     internal static Assembly LoadFromResource(AssemblyName requestedAssemblyName, Assembly requestingAssembly)
     {
-        if (requestedAssemblyName == null || requestedAssemblyName.CultureInfo == null) return null; // without a concrete culture we cannot load a resource assembly
+        if (requestedAssemblyName == null || requestedAssemblyName.CultureInfo == null)
+            return null; // without a concrete culture we cannot load a resource assembly
 
         // I haven't figured out how to add recursion to cecil (method cloner must know about the method itself already when copying it's instrutions)
         // so instead this is a loop with two possible exit points: localization found, or fallback route is depleted and we return null to let .Net locate the neutral resource
@@ -124,7 +126,8 @@ public static class ResourceEmbedderILInjected
             // requesting name in format: %assemblyname%.resources
             // rewrite to: %assemblyName%.%assemblyName%.%culture%.resources.dll
             //
-            string baseName = requestedAssemblyName.Name.Substring(0, requestedAssemblyName.Name.Length - ".resources".Length);
+            string baseName =
+                requestedAssemblyName.Name.Substring(0, requestedAssemblyName.Name.Length - ".resources".Length);
             string name = $"{baseName}.{requestedAssemblyName.CultureInfo.Name}.resources.dll";
 
             // by default for resources the requestingAssembly will be null
@@ -161,7 +164,8 @@ public static class ResourceEmbedderILInjected
             }
 
             string alteredAssemblyName = requestedAssemblyName.FullName;
-            alteredAssemblyName = alteredAssemblyName.Replace($"Culture={requestedAssemblyName.CultureInfo.Name}", $"Culture={fallback}");
+            alteredAssemblyName = alteredAssemblyName.Replace($"Culture={requestedAssemblyName.CultureInfo.Name}",
+                $"Culture={fallback}");
 
             requestedAssemblyName = new AssemblyName(alteredAssemblyName);
         }

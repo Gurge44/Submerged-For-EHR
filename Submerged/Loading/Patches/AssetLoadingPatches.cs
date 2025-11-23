@@ -23,15 +23,18 @@ public static class AssetLoadingPatches
         {
             AssetReference assetReference = new("Submerged");
             AmongUsClient.Instance.ShipPrefabs.Add(assetReference);
-            AmongUsClient.Instance.SpawnableObjects = AmongUsClient.Instance.SpawnableObjects.AddItem(assetReference).ToArray();
+            AmongUsClient.Instance.SpawnableObjects =
+                AmongUsClient.Instance.SpawnableObjects.AddItem(assetReference).ToArray();
         }
 
-        if (!Constants.MapNames.Contains("Submerged")) Constants.MapNames = Constants.MapNames.AddItem("Submerged").ToArray();
+        if (!Constants.MapNames.Contains("Submerged"))
+            Constants.MapNames = Constants.MapNames.AddItem("Submerged").ToArray();
     }
 
     [HarmonyPatch(typeof(AssetReference), nameof(AssetReference.InstantiateAsync), typeof(Transform), typeof(bool))]
     [HarmonyPrefix]
-    public static bool InstantiateMapPrefabPatch(AssetReference __instance, ref AsyncOperationHandle<GameObject> __result)
+    public static bool InstantiateMapPrefabPatch(AssetReference __instance,
+        ref AsyncOperationHandle<GameObject> __result)
     {
         if (__instance.m_AssetGUID != "Submerged") return true;
 
@@ -45,7 +48,7 @@ public static class AssetLoadingPatches
             m_Status = AsyncOperationStatus.Succeeded
         };
 
-        __result = new AsyncOperationHandle<GameObject>
+        __result = new()
         {
             m_InternalOp = operation,
             m_Version = operation.m_Version,

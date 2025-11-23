@@ -1,6 +1,4 @@
-using BepInEx.Unity.IL2CPP.Utils;
 using HarmonyLib;
-using Submerged.Enums;
 using Submerged.Extensions;
 using Submerged.Floors;
 using Submerged.Map;
@@ -12,7 +10,9 @@ namespace Submerged.Vents.Patches;
 [HarmonyPatch]
 public static class EngineVentPatches
 {
-    private static VentilationSystem VentSystem => ShipStatus.Instance ? SubmarineStatus.systems[SystemTypes.Ventilation].Cast<VentilationSystem>() : null;
+    private static VentilationSystem VentSystem => ShipStatus.Instance
+        ? SubmarineStatus.systems[SystemTypes.Ventilation].Cast<VentilationSystem>()
+        : null;
 
     [HarmonyPatch(typeof(VentilationSystem), nameof(VentilationSystem.IsVentCurrentlyBeingCleaned))]
     [HarmonyPostfix]
@@ -23,7 +23,9 @@ public static class EngineVentPatches
         if (id != ENGINE_ROOM_VENT_ID) return;
 
         if ((!PlayerControl.LocalPlayer.inVent && !FloorHandler.LocalPlayer.onUpper) || // Prevent entering directly
-            (Vent.currentVent && Vent.currentVent.Id != id && IsAlivePersonInsideVent(id))) // Prevent moving if another player is inside
+            (Vent.currentVent &&
+                Vent.currentVent.Id != id &&
+                IsAlivePersonInsideVent(id))) // Prevent moving if another player is inside
         {
             __result = true;
         }
@@ -31,7 +33,8 @@ public static class EngineVentPatches
 
     private static bool IsAlivePersonInsideVent(int targetVent)
     {
-        foreach (ICG.KeyValuePair<byte, byte> kvp in VentSystem.PlayersInsideVents) // can't deconstruct ICG.KVP<byte, byte> 😭
+        foreach (ICG.KeyValuePair<byte, byte> kvp in
+                 VentSystem.PlayersInsideVents) // can't deconstruct ICG.KVP<byte, byte> 😭
         {
             if (kvp.Value == targetVent)
             {
@@ -39,6 +42,7 @@ public static class EngineVentPatches
                 if (!player.IsDead && !player.Disconnected) return true;
             }
         }
+
         return false;
     }
 
@@ -52,8 +56,10 @@ public static class EngineVentPatches
         __instance.ResetMoveState();
         __instance.ResetAnimState();
 
-        PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(PlayerControl.LocalPlayer.transform.position + new Vector3(0, 0.4f));
+        PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(PlayerControl.LocalPlayer.transform.position +
+            new Vector3(0, 0.4f));
 
-        SoundManager.Instance.PlaySound(ShipStatus.Instance.VentMoveSounds.Random(), false).pitch = FloatRange.Next(0.8f, 1.2f);
+        SoundManager.Instance.PlaySound(ShipStatus.Instance.VentMoveSounds.Random(), false).pitch =
+            FloatRange.Next(0.8f, 1.2f);
     }
 }

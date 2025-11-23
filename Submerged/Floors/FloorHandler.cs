@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using HarmonyLib;
-using Hazel;
 using Il2CppInterop.Runtime;
 using Reactor.Networking.Attributes;
 using Reactor.Utilities.Attributes;
@@ -19,22 +15,22 @@ public sealed class FloorHandler(nint ptr) : MonoBehaviour(ptr)
     public const float MAP_OFFSET = 48.119f;
     public const float FLOOR_CUTOFF = -6.19f;
 
-    public static FloorHandler LocalPlayer => GetFloorHandler(PlayerControl.LocalPlayer);
-
-    private static readonly Dictionary<int, FloorHandler> _hashCodeToFloorHandler = new();
+    private static readonly SCG.Dictionary<int, FloorHandler> _hashCodeToFloorHandler = new();
     public int lastSid;
 
     public bool onUpper;
     public bool disable;
 
-    private bool? _overrideOnUpper;
-    private float? _overrideCameraX;
-
     private FollowerCamera _followerCam;
     private Transform _followerCamTransform;
+    private float? _overrideCameraX;
+
+    private bool? _overrideOnUpper;
 
     private PlayerControl _player;
     private Transform _transform;
+
+    public static FloorHandler LocalPlayer => GetFloorHandler(PlayerControl.LocalPlayer);
 
     private PlayerControl Player
     {
@@ -128,7 +124,7 @@ public sealed class FloorHandler(nint ptr) : MonoBehaviour(ptr)
                         Vector3 modifiedPos = _followerCam.centerPosition;
 
                         _followerCam.centerPosition = _followerCamTransform.position
-                            = new Vector3(_overrideCameraX.Value, modifiedPos.y, modifiedPos.z);
+                            = new(_overrideCameraX.Value, modifiedPos.y, modifiedPos.z);
 
                         _overrideCameraX = null;
                     }
@@ -189,19 +185,22 @@ public sealed class FloorHandler(nint ptr) : MonoBehaviour(ptr)
 
     public void RegisterFloorOverride(bool overrideFloor)
     {
-        if (!_player.AmOwner) throw new InvalidOperationException("Only the local player can override their floor state.");
+        if (!_player.AmOwner)
+            throw new InvalidOperationException("Only the local player can override their floor state.");
         _overrideOnUpper = overrideFloor;
     }
 
     public void RegisterCamXOverride(float overrideCamX)
     {
-        if (!_player.AmOwner) throw new InvalidOperationException("Only the local player can override their camera position.");
+        if (!_player.AmOwner)
+            throw new InvalidOperationException("Only the local player can override their camera position.");
         _overrideCameraX = overrideCamX;
     }
 
     public void ClearOverrides()
     {
-        if (!_player.AmOwner) throw new InvalidOperationException("Only the local player can use floor handler overrides.");
+        if (!_player.AmOwner)
+            throw new InvalidOperationException("Only the local player can use floor handler overrides.");
         _overrideOnUpper = null;
         _overrideCameraX = null;
     }
@@ -238,7 +237,8 @@ public sealed class FloorHandler(nint ptr) : MonoBehaviour(ptr)
 
         SubmarinePlayerFloorSystem floorSystem = SubmarinePlayerFloorSystem.Instance;
 
-        if (!floorSystem.playerFloorSids.ContainsKey(player.PlayerId) || floorSystem.playerFloorSids[player.PlayerId] <= sid)
+        if (!floorSystem.playerFloorSids.ContainsKey(player.PlayerId) ||
+            floorSystem.playerFloorSids[player.PlayerId] <= sid)
         {
             floorSystem.playerFloorSids[player.PlayerId] = sid;
             floorSystem!.ChangePlayerFloorState(player.PlayerId, toUpper);

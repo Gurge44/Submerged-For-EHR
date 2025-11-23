@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Submerged.Localization.Strings;
 
 namespace Submerged.Enums;
@@ -8,8 +7,8 @@ public readonly struct CustomStringNames
 {
     #region Struct implementation
 
-    public static List<CustomStringNames> All { get; } = [];
-    private static readonly Dictionary<StringNames, CustomStringNames> _mapping = new();
+    public static SCG.List<CustomStringNames> All { get; } = [];
+    private static readonly SCG.Dictionary<StringNames, CustomStringNames> _mapping = new();
 
     public readonly StringNames stringName;
     public readonly Func<string> getter;
@@ -25,7 +24,8 @@ public readonly struct CustomStringNames
 
     private CustomStringNames(int stringName, string constantValue) : this(stringName, () => constantValue) { }
 
-    public static bool TryGetFromStringName(StringNames stringName, out CustomStringNames result) => _mapping.TryGetValue(stringName, out result);
+    public static bool TryGetFromStringName(StringNames stringName, out CustomStringNames result) =>
+        _mapping.TryGetValue(stringName, out result);
 
     public static implicit operator StringNames(CustomStringNames customStringName) => customStringName.stringName;
 
@@ -77,7 +77,10 @@ public readonly struct CustomStringNames
     public static readonly CustomStringNames SortScubaGear = new(555_2_019, () => Tasks.SortScubaGear);
     public static readonly CustomStringNames CycleReactor = new(555_2_020, () => Tasks.CycleReactor);
     public static readonly CustomStringNames ResetBreakers = new(555_2_021, () => Tasks.ResetBreakers);
-    public static readonly CustomStringNames LocateVolcanicActivity = new(555_2_022, () => Tasks.LocateVolcanicActivity);
+
+    public static readonly CustomStringNames
+        LocateVolcanicActivity = new(555_2_022, () => Tasks.LocateVolcanicActivity);
+
     public static readonly CustomStringNames RetrieveOxygenMask = new(555_2_023, () => Tasks.RetrieveOxygenMask);
     public static readonly CustomStringNames StabilizeWaterLevels = new(555_2_024, () => Tasks.StabilizeWaterLevels);
 

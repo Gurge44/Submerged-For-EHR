@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using BepInEx.Unity.IL2CPP.Utils;
 using Il2CppInterop.Runtime.Attributes;
 using Reactor.Utilities.Attributes;
 using Submerged.Extensions;
+using Submerged.Localization.Strings;
 using Submerged.Minigames.CustomMinigames.LocateVolcanicActivity.MonoBehaviours;
 using Submerged.Minigames.MonoBehaviours;
-using Submerged.Localization.Strings;
 using TMPro;
 using UnityEngine;
 
@@ -23,7 +22,7 @@ public sealed class LocateVolcanicActivityMinigame(nint ptr) : Minigame(ptr)
     private MinigameProperties _minigameProperties;
     private int _targetAmount;
     private AudioClip _targetClick;
-    private List<SpriteRenderer> _targets;
+    private SCG.List<SpriteRenderer> _targets;
 
     public void Reset()
     {
@@ -89,7 +88,8 @@ public sealed class LocateVolcanicActivityMinigame(nint ptr) : Minigame(ptr)
 
         #endregion
 
-        transform.Find("NewText/EnabledText").GetComponent<TextMeshPro>().text = Tasks.LocateVolcanicActivity_Incomplete;
+        transform.Find("NewText/EnabledText").GetComponent<TextMeshPro>().text =
+            Tasks.LocateVolcanicActivity_Incomplete;
         transform.Find("NewText/DisabledText").GetComponent<TextMeshPro>().text = Tasks.LocateVolcanicActivity_Complete;
     }
 
@@ -158,6 +158,7 @@ public sealed class LocateVolcanicActivityMinigame(nint ptr) : Minigame(ptr)
         {
             MyNormTask.NextStep();
         }
+
         StartCoroutine(CoStartClose());
 
         transform.Find("NewText/EnabledText").gameObject.SetActive(false);
@@ -169,7 +170,7 @@ public sealed class LocateVolcanicActivityMinigame(nint ptr) : Minigame(ptr)
         for (float t = 0; t < DURATION; t += Time.deltaTime)
         {
             float lerpFloat = Mathf.Lerp(originalPosition.y, 0, t / DURATION);
-            _mask.localPosition = new Vector3(0, lerpFloat, 0);
+            _mask.localPosition = new(0, lerpFloat, 0);
 
             yield return null;
         }
@@ -178,7 +179,7 @@ public sealed class LocateVolcanicActivityMinigame(nint ptr) : Minigame(ptr)
     [HideFromIl2Cpp]
     public IEnumerator CoFlashScreen()
     {
-        _fullScreen.color = new Color(1f, 0f, 0f, 0.37254903f);
+        _fullScreen.color = new(1f, 0f, 0f, 0.37254903f);
         _fullScreen.enabled = !_fullScreen.enabled;
 
         yield return new WaitForSeconds(0.2f);

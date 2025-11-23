@@ -75,7 +75,10 @@ public sealed class AlignTelescopeMinigame(nint ptr) : Minigame(ptr)
     {
         while (this)
         {
-            for (float time = 0f; time < _blipDelay.Lerp(Vector2.Distance(_targetItem.transform.position, _reticle.transform.position) / 10f); time += Time.deltaTime)
+            for (float time = 0f;
+                 time <
+                 _blipDelay.Lerp(Vector2.Distance(_targetItem.transform.position, _reticle.transform.position) / 10f);
+                 time += Time.deltaTime)
             {
                 yield return null;
             }

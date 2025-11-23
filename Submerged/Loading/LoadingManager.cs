@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Reactor.Utilities.Attributes;
 using Reactor.Utilities.Extensions;
 using UnityEngine;
@@ -9,7 +8,7 @@ namespace Submerged.Loading;
 [RegisterInIl2Cpp]
 public sealed class LoadingManager(nint ptr) : MonoBehaviour(ptr)
 {
-    public static readonly List<string> loadingers = [];
+    public static readonly SCG.List<string> loadingers = [];
 
     public GameObject loadingScreen;
 

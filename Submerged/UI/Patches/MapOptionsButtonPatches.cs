@@ -9,7 +9,7 @@ namespace Submerged.UI.Patches;
 [HarmonyPatch]
 public static class MapOptionsButtonPatches
 {
-    private static readonly Lazy<MapIconByName> _optionsIcon = new(() => new MapIconByName
+    private static readonly Lazy<MapIconByName> _optionsIcon = new(() => new()
     {
         Name = CustomMapNames.Submerged,
         MapIcon = ResourceManager.spriteCache["OptionsIcon"],
@@ -17,7 +17,7 @@ public static class MapOptionsButtonPatches
         NameImage = ResourceManager.spriteCache["OptionsLogo"]
     });
 
-    private static readonly Lazy<MapIconByName> _gameIcon = new(() => new MapIconByName
+    private static readonly Lazy<MapIconByName> _gameIcon = new(() => new()
     {
         Name = CustomMapNames.Submerged,
         MapIcon = ResourceManager.spriteCache["Logo"]
@@ -49,4 +49,3 @@ public static class MapOptionsButtonPatches
         }
     }
 }
-

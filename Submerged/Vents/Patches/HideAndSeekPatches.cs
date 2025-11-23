@@ -9,7 +9,8 @@ public static class HideAndSeekPatches
 {
     [HarmonyPatch(typeof(LogicUsablesHnS), nameof(LogicUsablesHnS.CanUse))]
     [HarmonyPostfix]
-    public static void DisableCrossFloorVentsPatch(ref bool __result, [HarmonyArgument(0)] IUsable usable, [HarmonyArgument(1)] PlayerControl player)
+    public static void DisableCrossFloorVentsPatch(ref bool __result, [HarmonyArgument(0)] IUsable usable,
+        [HarmonyArgument(1)] PlayerControl player)
     {
         if (!ShipStatus.Instance.IsSubmerged()) return;
 

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Reactor.Utilities.Attributes;
 using Submerged.Enums;
 using Submerged.Extensions;
@@ -10,7 +9,7 @@ namespace Submerged.Minigames.CustomMinigames.PlugLeaks;
 [RegisterInIl2Cpp]
 public sealed class PlugLeaksTask(nint ptr) : NormalPlayerTask(ptr)
 {
-    public List<int> validConsoleIds;
+    public SCG.List<int> validConsoleIds;
 
     private void Awake()
     {
@@ -28,24 +27,26 @@ public sealed class PlugLeaksTask(nint ptr) : NormalPlayerTask(ptr)
 
     public override void Initialize()
     {
-        List<Console> consoles = ShipStatus.Instance.AllConsoles.Where(c => c.TaskTypes.Contains(CustomTaskTypes.PlugLeaks)).ToList();
+        SCG.List<Console> consoles = ShipStatus.Instance.AllConsoles
+            .Where(c => c.TaskTypes.Contains(CustomTaskTypes.PlugLeaks))
+            .ToList();
 
         if (GameManager.Instance.IsHideAndSeek())
         {
             if (SubmergedHnSManager.CurrentGameIsOnUpperDeck)
             {
                 consoles = consoles.Where(c =>
-                                              c.Room == CustomSystemTypes.Research ||
-                                              c.Room == CustomSystemTypes.UpperLobby)
-                                   .ToList();
+                        c.Room == CustomSystemTypes.Research ||
+                        c.Room == CustomSystemTypes.UpperLobby)
+                    .ToList();
                 MaxStep = 2;
             }
             else
             {
                 consoles = consoles.Where(c =>
-                                              c.Room is SystemTypes.Hallway or SystemTypes.Engine ||
-                                              c.Room == CustomSystemTypes.Ballast)
-                                   .ToList();
+                        c.Room is SystemTypes.Hallway or SystemTypes.Engine ||
+                        c.Room == CustomSystemTypes.Ballast)
+                    .ToList();
                 MaxStep = 3;
             }
         }
@@ -57,7 +58,8 @@ public sealed class PlugLeaksTask(nint ptr) : NormalPlayerTask(ptr)
         LocationDirty = true;
     }
 
-    public override bool ValidConsole(Console console) => console.TaskTypes.Contains(CustomTaskTypes.PlugLeaks) && validConsoleIds.Contains(console.ConsoleId);
+    public override bool ValidConsole(Console console) => console.TaskTypes.Contains(CustomTaskTypes.PlugLeaks) &&
+        validConsoleIds.Contains(console.ConsoleId);
 
     public override void UpdateArrowAndLocation()
     {
@@ -83,7 +85,8 @@ public sealed class PlugLeaksTask(nint ptr) : NormalPlayerTask(ptr)
                 Arrow.gameObject.SetActive(true);
             }
 
-            Console nextConsole = ShipStatus.Instance.AllConsoles.Where(ValidConsole).First(c => c.ConsoleId == validConsoleIds[0]);
+            Console nextConsole = ShipStatus.Instance.AllConsoles.Where(ValidConsole)
+                .First(c => c.ConsoleId == validConsoleIds[0]);
 
             Arrow.target = nextConsole.transform.position;
             StartAt = nextConsole.Room;

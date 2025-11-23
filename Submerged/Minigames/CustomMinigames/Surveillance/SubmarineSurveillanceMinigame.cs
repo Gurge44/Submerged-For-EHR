@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Reactor.Utilities.Attributes;
 using Submerged.BaseGame.Extensions;
-using Submerged.Minigames.MonoBehaviours;
 using Submerged.Localization.Strings;
 using Submerged.Map;
+using Submerged.Minigames.MonoBehaviours;
 using Submerged.Systems.SecuritySabotage;
 using TMPro;
 using UnityEngine;
@@ -20,7 +19,7 @@ public sealed class SubmarineSurvillanceMinigame(nint ptr) : Minigame(ptr)
     public Transform[] tabs;
     public ClickableSprite[] tabButtons;
 
-    public List<Transform> selectedTabs;
+    public SCG.List<Transform> selectedTabs;
     public int selectedCam;
 
     public int lastLower;
@@ -59,7 +58,8 @@ public sealed class SubmarineSurvillanceMinigame(nint ptr) : Minigame(ptr)
     {
         transform.Find("LowerWindow/Tabs/Lobby/Text").GetComponent<TextMeshPro>().text = Locations.Lobby.ToUpper();
         transform.Find("UpperWindow/Tabs/Lobby/Text").GetComponent<TextMeshPro>().text = Locations.Lobby.ToUpper();
-        transform.Find("UpperWindow/Tabs/Y.Hallway/Text").GetComponent<TextMeshPro>().text = Locations.Central.ToUpper();
+        transform.Find("UpperWindow/Tabs/Y.Hallway/Text").GetComponent<TextMeshPro>().text =
+            Locations.Central.ToUpper();
 
         transform.Find("LowerWindow/Text").GetComponent<TextMeshPro>().text = Locations.Deck_Lower.ToUpper();
         transform.Find("UpperWindow/Text").GetComponent<TextMeshPro>().text = Locations.Deck_Upper.ToUpper();
@@ -120,9 +120,9 @@ public sealed class SubmarineSurvillanceMinigame(nint ptr) : Minigame(ptr)
         upperStatic.SetActive(true);
 
         _switchSound = MapLoader.Airship.GetComponentsInChildren<SystemConsole>()
-                                .Select(c => c.MinigamePrefab.GetComponent<PlanetSurveillanceMinigame>())
-                                .First(t => t != null)
-                                .ChangeSound;
+            .Select(c => c.MinigamePrefab.GetComponent<PlanetSurveillanceMinigame>())
+            .First(t => t != null)
+            .ChangeSound;
 
         ClickTab(3);
         ClickTab(0);
@@ -168,7 +168,8 @@ public sealed class SubmarineSurvillanceMinigame(nint ptr) : Minigame(ptr)
      U_Lobby -> 6
     */
 
-    private bool IsCamActive(int cameraIndex) => !SubmarineSecuritySabotageSystem.Instance.IsSabotaged((byte) cameraIndex);
+    private bool IsCamActive(int cameraIndex) =>
+        !SubmarineSecuritySabotageSystem.Instance.IsSabotaged((byte) cameraIndex);
 
     private bool IsCommsActive() => PlayerTask.PlayerHasTaskOfType<IHudOverrideTask>(PlayerControl.LocalPlayer);
 
@@ -195,33 +196,39 @@ public sealed class SubmarineSurvillanceMinigame(nint ptr) : Minigame(ptr)
                 selectedTabs.Insert(0, tabs[0]);
 
                 break;
+
             case 1:
                 selectedTabs.Insert(0, tabs[1]);
 
                 break;
+
             case 2:
                 selectedTabs.Insert(0, tabs[1]);
                 selectedTabs.Insert(0, tabs[2]);
 
                 break;
+
             case 3:
                 selectedTabs.Insert(0, tabs[5]);
                 selectedTabs.Insert(0, tabs[4]);
                 selectedTabs.Insert(0, tabs[3]);
 
                 break;
+
             case 4:
                 selectedTabs.Insert(0, tabs[5]);
                 selectedTabs.Insert(0, tabs[3]);
                 selectedTabs.Insert(0, tabs[4]);
 
                 break;
+
             case 5:
                 selectedTabs.Insert(0, tabs[4]);
                 selectedTabs.Insert(0, tabs[6]);
                 selectedTabs.Insert(0, tabs[5]);
 
                 break;
+
             case 6:
                 selectedTabs.Insert(0, tabs[4]);
                 selectedTabs.Insert(0, tabs[5]);
